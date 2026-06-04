@@ -1,0 +1,180 @@
+/* stock_out.css — LionTech Business Manager */
+:root{
+  --navy:#0B1F3A;
+  --navy2:#102B4E;
+  --gold:#D4AF37;
+  --teal:#0EA5A3;
+  --green:#16A34A;
+  --red:#DC2626;
+  --orange:#F59E0B;
+  --bg:#F5F7FB;
+  --card:#FFFFFF;
+  --text:#1F2937;
+  --muted:#6B7280;
+  --border:#E5E7EB;
+  --shadow:0 18px 45px rgba(11,31,58,.10);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.lt-app{display:flex;min-height:100vh}
+.lt-sidebar{
+  width:270px;
+  background:linear-gradient(180deg,var(--navy),#071527);
+  color:#fff;
+  padding:22px;
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+.lt-brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.lt-logo{
+  width:45px;height:45px;border-radius:14px;
+  background:rgba(212,175,55,.18);
+  display:grid;place-items:center;font-size:24px;
+}
+.lt-brand h2{margin:0;font-size:20px}
+.lt-brand p{margin:2px 0 0;color:#C9D4E5;font-size:12px}
+.lt-nav{display:flex;flex-direction:column;gap:8px}
+.lt-nav a{
+  color:#EAF0F8;text-decoration:none;
+  padding:12px 14px;border-radius:12px;
+  display:flex;gap:10px;align-items:center;
+  font-size:14px;
+}
+.lt-nav a:hover,.lt-nav a.active{background:rgba(255,255,255,.12)}
+.lt-main{flex:1;padding:28px;max-width:1400px;margin:0 auto;width:100%}
+.lt-topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;gap:16px;
+}
+.lt-topbar h1{margin:0;color:var(--navy);font-size:30px}
+.lt-topbar p{margin:6px 0 0;color:var(--muted)}
+.lt-lang{
+  border:1px solid var(--border);
+  background:#fff;border-radius:12px;padding:10px 14px;
+  font-weight:700;color:var(--navy);cursor:pointer;
+}
+.lt-warning{
+  background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;
+  padding:14px 16px;border-radius:14px;margin-bottom:16px;
+}
+.lt-alert{padding:14px 16px;border-radius:14px;margin-bottom:16px}
+.lt-alert.success{background:#ECFDF5;color:#065F46;border:1px solid #A7F3D0}
+.lt-alert.error{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}
+.lt-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);
+  gap:18px;
+  margin-bottom:18px;
+}
+.lt-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  padding:22px;
+}
+.lt-card h2{margin:0 0 16px;color:var(--navy)}
+form label{
+  display:block;
+  font-weight:700;
+  margin:14px 0 7px;
+  color:#24364D;
+}
+input,select,textarea{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:12px 13px;
+  font:inherit;
+  background:#fff;
+  outline:none;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--teal);
+  box-shadow:0 0 0 4px rgba(14,165,163,.12);
+}
+.stock-info{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:14px;
+  padding:10px 12px;
+  background:#F8FAFC;
+  border-radius:12px;
+}
+.lt-primary{
+  margin-top:18px;
+  width:100%;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--teal),var(--navy));
+  color:#fff;
+  padding:14px 18px;
+  font-weight:800;
+  cursor:pointer;
+}
+.lt-primary:hover{filter:brightness(.96)}
+.help-card{
+  background:linear-gradient(180deg,#fff,#F8FBFF);
+}
+.help-card p{color:var(--muted);line-height:1.5}
+.help-card ul{padding-left:20px;color:#374151;line-height:1.8}
+.history-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+.history-head input{max-width:300px}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{
+  text-align:left;
+  padding:13px 12px;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+th{color:var(--navy);background:#F8FAFC}
+.empty{text-align:center;color:var(--muted);padding:28px}
+.badge{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  text-transform:capitalize;
+}
+.badge.approved{background:#DCFCE7;color:#166534}
+.badge.pending{background:#FEF3C7;color:#92400E}
+.badge.rejected{background:#FEE2E2;color:#991B1B}
+
+@media(max-width:950px){
+  .lt-app{display:block}
+  .lt-sidebar{
+    width:100%;
+    height:auto;
+    position:relative;
+    border-radius:0 0 22px 22px;
+  }
+  .lt-nav{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .lt-main{padding:18px}
+  .lt-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .lt-topbar{align-items:flex-start;flex-direction:column}
+  .lt-topbar h1{font-size:24px}
+  .lt-nav{grid-template-columns:1fr}
+  .lt-card{padding:16px;border-radius:18px}
+  .history-head{flex-direction:column;align-items:stretch}
+  .history-head input{max-width:100%}
+}
