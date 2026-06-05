@@ -235,7 +235,7 @@ function saIcon(string $name, int $size=18): string {
       <span data-i18n="nav_dashboard">Dashboard</span>
     </button>
 
-    <a class="sa-nav-item" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">
+    <a class="sa-nav-item" href="<?= $url ?>/LionTech_Add_Business_Page/add_business.php">
       <span class="sa-nav-icon"><?= saIcon('plus') ?></span>
       <span data-i18n="nav_add_business">Ajouter Business</span>
     </a>
@@ -264,7 +264,7 @@ function saIcon(string $name, int $size=18): string {
     <button class="sa-nav-item" data-panel="subscriptions">
       <span class="sa-nav-icon"><?= saIcon('refresh') ?></span>
       <span data-i18n="nav_subscriptions">Abonnements</span>
-      <span class="sa-nav-badge"><?= $stats['expired'] ?></span>
+      <span class="sa-nav-badge"><?= count($subscriptions) ?></span>
     </button>
 
     <button class="sa-nav-item" data-panel="users">
@@ -374,7 +374,7 @@ function saIcon(string $name, int $size=18): string {
         </a>
         <?php endif; ?>
         <a class="sa-btn sa-btn-outline" href="<?= $url ?>/SuperAdmin/payment_settings.php"><?= saIcon('credit-card') ?> <span data-i18n="nav_payment_numbers">Numéros Paiement</span></a>
-        <a class="sa-btn sa-btn-primary" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php"><?= saIcon('plus') ?> <span data-i18n="nav_add_business">Nouveau Business</span></a>
+        <a class="sa-btn sa-btn-primary" href="<?= $url ?>/LionTech_Add_Business_Page/add_business.php"><?= saIcon('plus') ?> <span data-i18n="nav_add_business">Nouveau Business</span></a>
       </div>
     </div>
 
@@ -481,7 +481,7 @@ function saIcon(string $name, int $size=18): string {
         <p class="sa-page-sub" id="biz-table-count">Affichage de <?= count($businesses) ?> business(es)</p>
       </div>
       <div class="sa-page-actions">
-        <a class="sa-btn sa-btn-primary" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php"><?= saIcon('plus') ?> <span data-i18n="nav_add_business">Nouveau Business</span></a>
+        <a class="sa-btn sa-btn-primary" href="<?= $url ?>/LionTech_Add_Business_Page/add_business.php"><?= saIcon('plus') ?> <span data-i18n="nav_add_business">Nouveau Business</span></a>
       </div>
     </div>
 
@@ -560,7 +560,7 @@ function saIcon(string $name, int $size=18): string {
           </tr>
           <?php endforeach; ?>
           <?php if(empty($businesses)): ?>
-          <tr><td colspan="8" style="text-align:center;padding:28px;color:#6B7280" data-i18n="no_businesses">Aucun business. <a href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">Ajouter le premier →</a></td></tr>
+          <tr><td colspan="8" style="text-align:center;padding:28px;color:#6B7280" data-i18n="no_businesses">Aucun business. <a href="<?= $url ?>/LionTech_Add_Business_Page/add_business.php">Ajouter le premier →</a></td></tr>
           <?php endif; ?>
           </tbody>
         </table>

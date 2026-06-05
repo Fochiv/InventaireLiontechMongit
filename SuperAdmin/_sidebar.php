@@ -71,7 +71,7 @@ $saUrl = $url ?? APP_URL;
     </a>
 
     <a class="sa-nav-item <?= $saCurrentPage === 'add_business.php' ? 'active' : '' ?>"
-       href="<?= $saUrl ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">
+       href="<?= $saUrl ?>/LionTech_Add_Business_Page/add_business.php">
       <span class="sa-nav-icon"><?= saIcon('plus') ?></span>
       <span>Ajouter Business</span>
     </a>

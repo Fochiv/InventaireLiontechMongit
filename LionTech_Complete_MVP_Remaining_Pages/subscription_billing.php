@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
                     if (!is_dir($dir)) @mkdir($dir, 0775, true);
                     $fname = 'pay_'.date('Ymd_His').'_'.bin2hex(random_bytes(4)).'.'.$allowed[$mime];
                     if (move_uploaded_file($_FILES['proof_image']['tmp_name'], $dir.$fname)) {
-                        $proofUrl = 'LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/uploads/payments/'.$fname;
+                        $proofUrl = 'LionTech_Complete_MVP_Remaining_Pages/uploads/payments/'.$fname;
                     }
                 }
             }
@@ -171,7 +171,7 @@ $methodLabels = [
 </head>
 <body>
 <div class="od-layout">
-  <?php include __DIR__ . '/../../LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php'; ?>
+  <?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <main class="od-main">
     <header class="od-topbar">

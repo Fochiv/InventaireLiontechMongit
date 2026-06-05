@@ -181,7 +181,7 @@ $initials = substr($initials, 0, 2);
 <body>
 <div class="em-layout">
   
-<?php include __DIR__ . '/../../LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php'; ?>
+<?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <div class="em-overlay" id="em-overlay"></div>
 

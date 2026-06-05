@@ -213,7 +213,7 @@ $initials = substr($initials ?: 'O', 0, 2);
 <body>
 <div class="rp-layout">
 
-<?php include __DIR__ . '/../../LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php'; ?>
+<?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <main class="rp-main">
     <header class="rp-topbar">

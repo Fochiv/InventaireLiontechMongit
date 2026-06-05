@@ -8,13 +8,13 @@ const I18N = {
     title:'Employee Dashboard',sub_expired:'The business subscription is expired. Actions are limited.',pin_warning:'You are still using a temporary PIN. Change your PIN in your profile.',welcome_back:'Welcome back',hero_text:'Manage your attendance, tasks, and inventory actions from your phone.',status:'Status',today_records:'Today attendance records',visible_products:'Visible products',open_tasks:'Open tasks',pending_actions:'Pending actions',clock_title:'Clock In / Clock Out',clock_sub:'The system uses server time. Employees cannot edit the time.',clock_in:'Clock In',clock_out:'Clock Out',gps_note:'If GPS is slightly outside the zone, the action may be marked for approval.',quick_actions:'Quick actions',add_stock_in:'Add stock in',add_stock_out:'Add stock out',view_products:'View products',change_pin:'Change PIN',tasks_title:'My tasks',tasks_sub:'Tasks assigned by the manager or owner.',products_title:'Visible products',products_sub:'Read-only. Employees cannot edit products.',history_title:'Attendance history',profile_title:'Profile & PIN',profile_sub:'Employees can change their PIN, but cannot edit attendance times.'
   }
 };
-let currentLang = localStorage.getItem('lt_emp_lang') || 'fr';
+let currentLang = localStorage.getItem('lt_lang') || 'fr';
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(I18N[currentLang][k]) el.textContent=I18N[currentLang][k]; });
   const btn=document.getElementById('lang-btn'); if(btn) btn.textContent=currentLang==='fr'?'EN':'FR';
   document.documentElement.lang=currentLang;
 }
-document.getElementById('lang-btn')?.addEventListener('click',()=>{ currentLang=currentLang==='fr'?'en':'fr'; localStorage.setItem('lt_emp_lang',currentLang); applyLang(); });
+document.getElementById('lang-btn')?.addEventListener('click',()=>{ currentLang=currentLang==='fr'?'en':'fr'; localStorage.setItem('lt_lang',currentLang); applyLang(); });
 applyLang();
 
 document.getElementById('menu-btn')?.addEventListener('click',()=>document.body.classList.toggle('sidebar-open'));

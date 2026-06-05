@@ -6,14 +6,41 @@ description: Stack, conventions, and non-obvious fixes for this PHP/MySQL invent
 ## Stack
 PHP 8.2, MySQL/MariaDB, vanilla JS — no Composer, no build tools.
 DB: `InventaireLiontech_db`. Super admin login: `InvenAdmin26`.
+PHP dev server: `php -S 0.0.0.0:5000 -t .` (workflow "Start application").
+Entry point: `index.php` at root → redirects to `/Logininventory/login.php`.
 
 ## Unified language key
-All JS files use `localStorage.getItem('lt_lang')` (was `ownerLang` in older code). Always use `lt_lang`.
+All JS files use `localStorage.getItem('lt_lang')` (was `ownerLang`, `em_lang`, `pr_lang`, `si_lang`, `lt_emp_lang` in older code). Always use `lt_lang`.
 
-**Why:** Sidebar.php, owner_dashboard.js, super_admin.js, reports.js must share one key or lang toggle breaks across pages.
+**Why:** Sidebar.php, owner_dashboard.js, super_admin.js, reports.js, employees.js, products.js, stock_in.js, employee_dashboard.js must share one key or lang toggle breaks across pages. All files fixed to use `lt_lang` and default to `'fr'`.
+
+## Flat file structure (no nested subdirectories)
+Files are directly in their module folder — no subdirectory inside a module folder.
+
+**Canonical paths (no nesting):**
+- Sidebar: `LionTech_Owner_Dashboard/Sidebar.php`
+- Owner dashboard: `LionTech_Owner_Dashboard/owner_dashboard.php`
+- Employee dashboard: `LionTech_Employee_Dashboard/employee_dashboard.php`
+- Add business: `LionTech_Add_Business_Page/add_business.php`
+- Reports: `LionTech_Complete_MVP_Remaining_Pages/reports.php`
+- Notifications: `LionTech_Complete_MVP_Remaining_Pages/notifications.php`
+- Settings: `LionTech_Complete_MVP_Remaining_Pages/settings.php`
+- Subscription billing: `LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php`
+- Approval center: `LionTech_Complete_MVP_Remaining_Pages/approval_center.php`
+- Activity logs: `LionTech_Complete_MVP_Remaining_Pages/activity_logs.php`
+- mvp_helpers: `LionTech_Complete_MVP_Remaining_Pages/mvp_helpers.php`
+- Uploads: `LionTech_Complete_MVP_Remaining_Pages/uploads/`
+
+**Why:** Old code had nested subdirs (liontech_owner_dashboard, LionTech_MVP_Complete, etc.) that have been removed. Any new file or include must follow flat structure above.
+
+**Include path from a module folder (e.g. Produit/):**
+`__DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'`  (one `../` to root, then into module)
+
+**Include path from root-level file (e.g. change_pin.php):**
+`__DIR__ . '/LionTech_Owner_Dashboard/Sidebar.php'`
 
 ## Sidebar
-- Shared sidebar is at `LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php`.
+- Shared sidebar is at `LionTech_Owner_Dashboard/Sidebar.php`.
 - It generates `<aside class="od-sidebar" id="od-sidebar">` — NOT `rp-sidebar`.
 - Sidebar.php does NOT output `od-menu-btn`; each page must add its own hamburger `id="rp-menu-btn"` (reports) or `id="od-menu-btn"` (other pages).
 - Sidebar.php JS binds to `od-menu-btn` for open and `od-sidebar-close` for close.
@@ -23,11 +50,18 @@ All JS files use `localStorage.getItem('lt_lang')` (was `ownerLang` in older cod
 **Why:** Sidebar.php was rewritten to use shared od-* classes; pages that had their own rp-sidebar must reference od-sidebar.
 
 ## Reports page
-- Canonical file used by Sidebar.php links: `LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/reports.php`
-- Other copy at `LionTech_Reports_Page/liontech_reports_page/reports.php` is legacy.
+- Canonical file used by Sidebar.php links: `LionTech_Complete_MVP_Remaining_Pages/reports.php`
+- Other copy at `LionTech_Reports_Page/reports.php` is legacy.
 - reports.php loads `owner_dashboard.css` (not reports.css) since it uses od-* classes from Sidebar.php.
 - Quick filter buttons: `id="quick-today"`, `id="quick-month"`, `id="quick-year"` — all three required.
 - `setRange('year')` sets from = Jan 1 of current year.
+
+## Super Admin — subscriptions badge
+- The sidebar badge for "Abonnements" shows `count($subscriptions)` (total count).
+- `$stats['expired']` is used on the dashboard stat card (red card) only.
+- `$stats['active']` = businesses with subscription_status='active'.
+
+**Why:** Badge showed $stats['expired'] which was 0 for a new active business, confusing the user.
 
 ## DB schema quirks
 - Attendance: `employee_attendance` has `clock_in_at`/`clock_out_at`; `attendance` has `clock_in`/`clock_out` (fallback).

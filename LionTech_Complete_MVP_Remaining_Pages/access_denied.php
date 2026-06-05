@@ -24,7 +24,7 @@ $dashUrl = APP_URL . '/' . ($routes[$role] ?? 'Logininventory/login.php');
   <?php
   /* Only include sidebar if user is logged in */
   if (isset($_SESSION['user_id'])) {
-      include __DIR__ . '/../../LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php';
+      include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php';
   }
   ?>
 

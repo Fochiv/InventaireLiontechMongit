@@ -121,13 +121,13 @@ $products_url      = $url . '/Produit/products.php';
 $stock_in_url      = $url . '/LionTech_Stock_In_Page/liontech_stock_in_page/stock_in.php';
 $stock_out_url     = $url . '/stockout_stockfinis/stock_out.php';
 $employees_url     = $url . '/LionTech_Employee_Management/liontech_employee_management/employees.php';
-$employee_dash_url = $url . '/LionTech_Employee_Dashboard/liontech_employee_dashboard/employee_dashboard.php';
-$reports_url       = $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/reports.php';
-$notifications_url = $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/notifications.php';
-$settings_url      = $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/settings.php';
-$billing_url       = $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/subscription_billing.php';
+$employee_dash_url = $url . '/LionTech_Employee_Dashboard/employee_dashboard.php';
+$reports_url       = $url . '/LionTech_Complete_MVP_Remaining_Pages/reports.php';
+$notifications_url = $url . '/LionTech_Complete_MVP_Remaining_Pages/notifications.php';
+$settings_url      = $url . '/LionTech_Complete_MVP_Remaining_Pages/settings.php';
+$billing_url       = $url . '/LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php';
 $logout_url        = $url . '/Logininventory/logout.php';
-$dashboard_url     = $url . '/LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.php';
+$dashboard_url     = $url . '/LionTech_Owner_Dashboard/owner_dashboard.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">

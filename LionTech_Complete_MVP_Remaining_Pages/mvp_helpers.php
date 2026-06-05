@@ -58,18 +58,18 @@ function lt_subscription_expired(): bool {
 function lt_sidebar(string $active = 'dashboard'): void {
     $base  = APP_URL;
     $links = [
-        [$base . '/LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.php',               '🏠', 'Dashboard',     'dashboard'],
+        [$base . '/LionTech_Owner_Dashboard/owner_dashboard.php',               '🏠', 'Dashboard',     'dashboard'],
         [$base . '/LionTech_Employee_Management/liontech_employee_management/employees.php',              '👥', 'Employés',      'employees'],
         [$base . '/Produit/products.php',                                                                 '📦', 'Produits',      'products'],
         [$base . '/LionTech_Stock_In_Page/liontech_stock_in_page/stock_in.php',                          '📥', 'Stock entrant', 'stock_in'],
         [$base . '/stockout_stockfinis/stock_out.php',                                                    '📤', 'Stock sortant', 'stock_out'],
         [$base . '/Attendance_presenceemployer/clock_attendance.php',                                     '⏱️', 'Présence',      'attendance'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/approval_center.php',      '✅', 'Validations',   'approval'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/reports.php',              '📊', 'Rapports',      'reports'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/notifications.php',        '🔔', 'Notifications', 'notifications'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/activity_logs.php',        '🧾', 'Activité',      'logs'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/subscription_billing.php', '💳', 'Abonnement',    'subscription'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/settings.php',             '⚙️', 'Paramètres',    'settings'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/approval_center.php',      '✅', 'Validations',   'approval'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/reports.php',              '📊', 'Rapports',      'reports'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/notifications.php',        '🔔', 'Notifications', 'notifications'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/activity_logs.php',        '🧾', 'Activité',      'logs'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php', '💳', 'Abonnement',    'subscription'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/settings.php',             '⚙️', 'Paramètres',    'settings'],
     ];
 
     $u        = lt_user();

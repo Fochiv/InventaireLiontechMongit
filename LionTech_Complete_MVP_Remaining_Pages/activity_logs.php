@@ -81,7 +81,7 @@ try {
   <meta name="robots" content="noindex,nofollow"/>
   <title>Journal d'Activité — LionTech</title>
   <link rel="icon" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
-  <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.css"/>
+  <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <style>
     .al-menu-btn{display:none;border:1.5px solid #E5E7EB;background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;color:#0B1F3A}
     @media(max-width:1050px){.al-menu-btn{display:flex;align-items:center}}
@@ -109,7 +109,7 @@ try {
 <body>
 <div class="od-layout">
 
-  <?php include __DIR__ . '/../../LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php'; ?>
+  <?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <main class="od-main">
     <header class="od-topbar">

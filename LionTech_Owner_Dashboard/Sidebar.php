@@ -13,21 +13,21 @@ $isOwnerOrMgr    = ($isOwner || $isManager);
 $url             = defined('APP_URL') ? APP_URL : '';
 
 $L = [
-    'employee_dash' => $url . '/LionTech_Employee_Dashboard/liontech_employee_dashboard/employee_dashboard.php',
-    'owner_dash'    => $url . '/LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.php',
+    'employee_dash' => $url . '/LionTech_Employee_Dashboard/employee_dashboard.php',
+    'owner_dash'    => $url . '/LionTech_Owner_Dashboard/owner_dashboard.php',
     'products'      => $url . '/Produit/products.php',
     'stock_in'      => $url . '/LionTech_Stock_In_Page/liontech_stock_in_page/stock_in.php',
     'stock_out'     => $url . '/stockout_stockfinis/stock_out.php',
     'attendance'    => $url . '/Attendance_presenceemployer/clock_attendance.php',
-    'notifications' => $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/notifications.php',
+    'notifications' => $url . '/LionTech_Complete_MVP_Remaining_Pages/notifications.php',
     'change_pin'    => $url . '/change_pin.php',
     'logout'        => $url . '/Logininventory/logout.php',
     'employees'     => $url . '/LionTech_Employee_Management/liontech_employee_management/employees.php',
-    'validations'   => $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/approval_center.php',
-    'reports'       => $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/reports.php',
-    'activity'      => $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/activity_logs.php',
-    'subscription'  => $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/subscription_billing.php',
-    'settings'      => $url . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/settings.php',
+    'validations'   => $url . '/LionTech_Complete_MVP_Remaining_Pages/approval_center.php',
+    'reports'       => $url . '/LionTech_Complete_MVP_Remaining_Pages/reports.php',
+    'activity'      => $url . '/LionTech_Complete_MVP_Remaining_Pages/activity_logs.php',
+    'subscription'  => $url . '/LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php',
+    'settings'      => $url . '/LionTech_Complete_MVP_Remaining_Pages/settings.php',
 ];
 
 $sidebarUser     = function_exists('currentUser') ? currentUser() : [];
@@ -64,7 +64,7 @@ function sbIcon(string $name): string {
 }
 ?>
 
-<link rel="stylesheet" href="<?= $url ?>/LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.css"/>
+<link rel="stylesheet" href="<?= $url ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 
 <div id="od-overlay" style="display:none;position:fixed;inset:0;z-index:29;background:rgba(11,31,58,.52);backdrop-filter:blur(3px)"></div>
 

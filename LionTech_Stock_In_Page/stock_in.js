@@ -3,7 +3,7 @@ const translations={
   fr:{nav_main:'Menu',nav_dashboard:'Tableau de bord',nav_employees:'Employés',nav_products:'Produits',nav_stock_in:'Entrée Stock',nav_stock_out:'Sortie Stock',nav_reports:'Rapports',nav_settings:'Paramètres',nav_logout:'Déconnexion',page_title:'Entrée Stock',page_subtitle:'Enregistrer les produits qui entrent dans l’inventaire.',add_stock_in:'Ajouter une entrée',feature_locked_title:'Fonction inventaire non active',feature_locked_text:'Contactez LionTech pour activer l’inventaire pour ce business.',expired_warning:'Abonnement expiré. Vous pouvez voir l’historique, mais les actions sont désactivées.',no_products_warning:'Aucun produit trouvé. Ajoutez d’abord des produits avant d’enregistrer une entrée de stock.',pending_requests:'Demandes en attente',approved_today:'Approuvées aujourd’hui',active_products:'Produits actifs',pending_quantity:'Quantité en attente',how_title:'Comment fonctionne l’entrée de stock',how_text:'Les employés ou responsables stock soumettent les quantités livrées. Le propriétaire ou manager vérifie et approuve. La quantité du produit change seulement après approbation.',history_title:'Demandes d’entrée de stock',history_subtitle:'Vérifiez les livraisons, validations et entrées en attente.',search_ph:'Rechercher produit/fournisseur...',filter_all:'Tous',filter_pending:'En attente',filter_approved:'Approuvé',filter_rejected:'Rejeté',th_product:'Produit',th_quantity:'Quantité',th_supplier:'Fournisseur',th_date:'Date',th_by:'Entré par',th_status:'Statut',th_proof:'Preuve',th_actions:'Actions',approve:'Approuver',reject:'Rejeter',waiting:'En attente',empty:'Aucune entrée de stock pour le moment.',modal_title:'Ajouter une entrée de stock',product_label:'Produit',choose_product:'Choisir un produit',quantity_label:'Quantité reçue',supplier_label:'Fournisseur / Livré par',delivery_date_label:'Date de livraison',proof_label:'Preuve de livraison / photo facture',note_label:'Note',approval_note:'Cette entrée attendra la validation du propriétaire/manager avant de changer la quantité.',cancel:'Annuler',submit_request:'Soumettre'}
 };
 
-let lang=localStorage.getItem('si_lang')||'en';
+let lang=localStorage.getItem('lt_lang')||'fr';
 
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.getElementById('si-lang')?.addEventListener('click',()=>{
     lang=lang==='en'?'fr':'en';
-    localStorage.setItem('si_lang',lang);
+    localStorage.setItem('lt_lang',lang);
     applyLang();
   });
 

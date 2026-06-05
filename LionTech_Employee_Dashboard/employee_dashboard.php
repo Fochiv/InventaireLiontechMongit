@@ -254,7 +254,7 @@ $initials = substr($initials ?: 'E',0,2);
 <body>
 <div class="ed-layout">
  
-<?php include __DIR__ . '/../../LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php'; ?>
+<?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <main class="ed-main">
     <header class="ed-topbar">

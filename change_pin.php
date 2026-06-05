@@ -4,7 +4,7 @@
    FIXED: all roles can change their own PIN
    Path: C:\Xampp\htdocs\InventoryLiontech\change_pin.php
    ============================================================ */
-require_once __DIR__ . '/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/mvp_helpers.php';
+require_once __DIR__ . '/LionTech_Complete_MVP_Remaining_Pages/mvp_helpers.php';
 
 /* All roles can change their PIN — not just owner */
 requireLogin();
@@ -75,7 +75,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 <body>
 <div class="od-layout">
 
-  <?php include __DIR__ . '/LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php'; ?>
+  <?php include __DIR__ . '/LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <main class="od-main">
 

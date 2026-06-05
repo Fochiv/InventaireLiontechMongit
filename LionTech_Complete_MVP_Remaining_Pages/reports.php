@@ -89,7 +89,7 @@ $initials=substr($initials?:'O',0,2);
   <meta name="robots" content="noindex,nofollow"/>
   <title>Rapports — LionTech</title>
   <link rel="icon" type="image/jpeg" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
-  <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.css"/>
+  <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>window.REPORT_CHARTS = <?= json_encode($chartData) ?>;</script>
   <style>
@@ -99,7 +99,7 @@ $initials=substr($initials?:'O',0,2);
 </head>
 <body>
 <div class="od-layout">
-  <?php include __DIR__ . '/../../LionTech_Owner_Dashboard/liontech_owner_dashboard/Sidebar.php'; ?>
+  <?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <main class="od-main">
     <header class="od-topbar">
@@ -264,6 +264,6 @@ function setRange(type) {
     document.querySelector('[name=to]').value   = to;
 }
 </script>
-<script src="<?= APP_URL ?>/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/reports.js"></script>
+<script src="<?= APP_URL ?>/LionTech_Complete_MVP_Remaining_Pages/reports.js"></script>
 </body>
 </html>

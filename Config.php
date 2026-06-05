@@ -47,9 +47,9 @@ define('SUB_TRIAL',   'trial');
 /* ── Dashboard redirect map ── */
 define('DASHBOARD_ROUTES', json_encode([
     ROLE_SUPER_ADMIN    => 'SuperAdmin/super_admin.php',
-    ROLE_BUSINESS_OWNER => 'LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.php',
-    ROLE_MANAGER        => 'LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.php',
-    ROLE_EMPLOYEE       => 'LionTech_Employee_Dashboard/liontech_employee_dashboard/employee_dashboard.php',
+    ROLE_BUSINESS_OWNER => 'LionTech_Owner_Dashboard/owner_dashboard.php',
+    ROLE_MANAGER        => 'LionTech_Owner_Dashboard/owner_dashboard.php',
+    ROLE_EMPLOYEE       => 'LionTech_Employee_Dashboard/employee_dashboard.php',
 ]));
 
 /* ============================================================

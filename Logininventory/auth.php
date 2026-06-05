@@ -69,7 +69,7 @@ if ($user['role'] !== ROLE_SUPER_ADMIN) {
     $subStatus = $user['subscription_status'] ?? null;
     if ($subStatus === 'expired') {
         if ($user['role'] === ROLE_BUSINESS_OWNER) {
-            exit(json_encode(['success'=>false,'message'=>'Votre abonnement est expiré. Veuillez renouveler.','code'=>'subscription_expired','redirect'=>APP_URL.'/LionTech_Owner_Dashboard/liontech_owner_dashboard/subscription.php']));
+            exit(json_encode(['success'=>false,'message'=>'Votre abonnement est expiré. Veuillez renouveler.','code'=>'subscription_expired','redirect'=>APP_URL.'/LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php']));
         } else {
             exit(json_encode(['success'=>false,'message'=>'L\'abonnement de votre business est expiré. Contactez votre propriétaire.','code'=>'subscription_expired']));
         }
