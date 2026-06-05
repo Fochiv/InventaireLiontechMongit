@@ -78,8 +78,9 @@ function initPanels() {
     on(item, 'click', () => showPanel(item.dataset.panel));
   });
 
-  /* Default: show dashboard */
-  showPanel('dashboard');
+  /* Read ?panel=xxx from URL to navigate directly to a panel */
+  const urlPanel = new URLSearchParams(window.location.search).get('panel');
+  showPanel(urlPanel && PANELS.includes(urlPanel) ? urlPanel : 'dashboard');
 }
 
 /* ══════════════════════════════════════════

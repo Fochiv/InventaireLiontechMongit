@@ -40,11 +40,26 @@ if (!function_exists('saIcon')) {
     }
 }
 
-/* Nombre de paiements en attente */
+/* Compteurs sidebar — mêmes données que le Dashboard */
 if (!isset($saPendingCount)) {
     $saPendingCount = 0;
     try {
         $saPendingCount = (int)getDB()->query("SELECT COUNT(*) FROM liontech_payments WHERE status='pending'")->fetchColumn();
+    } catch (Throwable $_e) {}
+}
+if (!isset($saStatTotal)) {
+    $saStatTotal = 0;
+    $saStatSubs  = 0;
+    $saStatUsers = 0;
+    try {
+        $pdo2 = getDB();
+        $saStatTotal = (int)$pdo2->query("SELECT COUNT(*) FROM businesses")->fetchColumn();
+        $saStatUsers = (int)$pdo2->query("SELECT COUNT(*) FROM users WHERE role!='super_admin'")->fetchColumn();
+        try {
+            $saStatSubs = (int)$pdo2->query("SELECT COUNT(*) FROM subscriptions")->fetchColumn();
+        } catch (Throwable $_e2) {
+            $saStatSubs = $saStatTotal;
+        }
     } catch (Throwable $_e) {}
 }
 
@@ -76,10 +91,10 @@ $saUrl = $url ?? APP_URL;
       <span data-i18n="nav_add_business">Ajouter Business</span>
     </a>
 
-    <a class="sa-nav-item <?= $saCurrentPage === 'super_admin.php' && !$saTab ? 'active' : '' ?>"
-       href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
+    <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php?panel=businesses">
       <span class="sa-nav-icon"><?= saIcon('building') ?></span>
       <span data-i18n="nav_businesses">Businesses</span>
+      <?php if ($saStatTotal > 0): ?><span class="sa-nav-badge"><?= $saStatTotal ?></span><?php endif; ?>
     </a>
 
     <div class="sa-nav-section" data-i18n="nav_section_payments">Paiements</div>
@@ -101,14 +116,16 @@ $saUrl = $url ?? APP_URL;
 
     <div class="sa-nav-section" data-i18n="nav_section_platform">Plateforme</div>
 
-    <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
+    <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php?panel=subscriptions">
       <span class="sa-nav-icon"><?= saIcon('refresh') ?></span>
       <span data-i18n="nav_subscriptions">Abonnements</span>
+      <?php if ($saStatSubs > 0): ?><span class="sa-nav-badge"><?= $saStatSubs ?></span><?php endif; ?>
     </a>
 
-    <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
+    <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php?panel=users">
       <span class="sa-nav-icon"><?= saIcon('users') ?></span>
       <span data-i18n="nav_users">Utilisateurs</span>
+      <?php if ($saStatUsers > 0): ?><span class="sa-nav-badge"><?= $saStatUsers ?></span><?php endif; ?>
     </a>
 
     <a class="sa-nav-item <?= $saCurrentPage === 'super_admin_reports.php' ? 'active' : '' ?>"
