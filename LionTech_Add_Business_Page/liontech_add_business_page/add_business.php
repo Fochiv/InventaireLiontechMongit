@@ -196,15 +196,19 @@ $initials=substr($initials,0,2);
   </div>
   <nav class="ab-nav">
     <div class="ab-nav-section">Principal</div>
-    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon">📊</span><span>Dashboard</span></a>
-    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon">🏢</span><span>Business</span></a>
-    <a class="ab-nav-item active" href="add_business.php"><span class="ab-nav-icon">➕</span><span>Ajouter business</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>Dashboard</span></a>
+    <a class="ab-nav-item active" href="add_business.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span><span>Ajouter Business</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="18" height="20" rx="1"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="12" width="6" height="10"/></svg></span><span>Businesses</span></a>
+    <div class="ab-nav-section">Paiements</div>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/payment_review.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><span>Valider Paiements</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/payment_settings.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><span>Numéros Paiement</span></a>
     <div class="ab-nav-section">Plateforme</div>
-    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon">🔄</span><span>Abonnements</span></a>
-    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon">👥</span><span>Utilisateurs</span></a>
-    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon">📈</span><span>Rapports</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span><span>Abonnements</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Utilisateurs</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/super_admin_reports.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span>Rapports</span></a>
     <div class="ab-nav-section">Système</div>
-    <a class="ab-nav-item" href="<?=APP_URL?>/Logininventory/logout.php"><span class="ab-nav-icon">🚪</span><span>Déconnexion</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/SuperAdmin/payment_settings.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span>Paramètres</span></a>
+    <a class="ab-nav-item" href="<?=APP_URL?>/Logininventory/logout.php"><span class="ab-nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span><span>Déconnexion</span></a>
   </nav>
   <div class="ab-sidebar-footer">
     <div class="ab-avatar"><?=e($initials)?></div>
@@ -215,7 +219,7 @@ $initials=substr($initials,0,2);
 
 <div class="ab-main">
 <header class="ab-topbar">
-  <button class="ab-hamburger" id="ab-hamburger">☰</button>
+  <button class="ab-hamburger" id="ab-hamburger"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   <div class="ab-title-sm">Ajouter un nouveau business</div>
   <div class="ab-user">
     <div class="ab-avatar" style="width:34px;height:34px"><?=e($initials)?></div>
@@ -236,7 +240,7 @@ $initials=substr($initials,0,2);
 
   <?php if ($errors): ?>
   <div class="ab-alert error" style="margin-bottom:20px">
-    <span>⚠️</span>
+    <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
     <ul style="margin:0;padding-left:18px">
       <?php foreach($errors as $err): ?><li><?=e($err)?></li><?php endforeach; ?>
     </ul>
@@ -253,7 +257,7 @@ $initials=substr($initials,0,2);
         <div class="ab-card-body">
 
           <section class="ab-section">
-            <div class="ab-section-title"><span>🏢</span> Business</div>
+            <div class="ab-section-title"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="2" width="18" height="20" rx="1"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/><rect x="9" y="12" width="6" height="10"/></svg></span> Business</div>
             <div class="ab-form-grid">
               <div class="ab-field">
                 <label class="ab-label">Nom du business <b class="ab-required">*</b></label>
@@ -288,7 +292,7 @@ $initials=substr($initials,0,2);
           </section>
 
           <section class="ab-section">
-            <div class="ab-section-title"><span>👤</span> Propriétaire</div>
+            <div class="ab-section-title"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Propriétaire</div>
             <div class="ab-form-grid">
               <div class="ab-field">
                 <label class="ab-label">Nom complet <b class="ab-required">*</b></label>
@@ -314,7 +318,7 @@ $initials=substr($initials,0,2);
           </section>
 
           <section class="ab-section">
-            <div class="ab-section-title"><span>🔄</span> Abonnement</div>
+            <div class="ab-section-title"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span> Abonnement</div>
             <div class="ab-form-grid">
               <div class="ab-field">
                 <label class="ab-label">Plan <b class="ab-required">*</b></label>
@@ -348,7 +352,7 @@ $initials=substr($initials,0,2);
           </section>
 
           <section class="ab-section">
-            <div class="ab-section-title"><span>⚙️</span> Modules activés</div>
+            <div class="ab-section-title"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Modules activés</div>
             <div class="ab-checks">
               <label class="ab-check"><input type="checkbox" name="features[]" value="inventory_management" <?=checkedFeature($old,'inventory_management')?>><div><strong>Inventaire</strong><small>Produits, stock entrant/sortant</small></div></label>
               <label class="ab-check"><input type="checkbox" name="features[]" value="employee_attendance" <?=checkedFeature($old,'employee_attendance')?>><div><strong>Présence employés</strong><small>Clock in / clock out</small></div></label>
@@ -362,7 +366,7 @@ $initials=substr($initials,0,2);
         </div>
         <div class="ab-footer-actions">
           <a class="ab-btn ab-btn-outline" href="<?=APP_URL?>/SuperAdmin/super_admin.php">Annuler</a>
-          <button class="ab-btn ab-btn-primary" id="btn-create-business" type="submit">✅ Créer le business</button>
+          <button class="ab-btn ab-btn-primary" id="btn-create-business" type="submit">Créer le business</button>
         </div>
       </div>
 

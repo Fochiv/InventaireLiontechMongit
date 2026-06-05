@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $waMsg       = urlencode("✅ Bonjour {$ownerName},\n\nVotre paiement LionTech a été *approuvé* pour *{$bizName}*.\n\n📅 Abonnement valide jusqu'au: *{$newExpiryFmt}*\n💳 Montant: " . number_format((float)$payment['amount'], 0, '.', ' ') . " XAF\n\nMerci pour votre confiance. 🦁\n— LionTech Business Manager");
                 $waUrl = "https://wa.me/{$ownerPhone}?text={$waMsg}";
 
-                $message    = "✅ Paiement approuvé. Abonnement étendu jusqu'au {$newExpiryFmt}.";
+                $message    = "Paiement approuvé. Abonnement étendu jusqu'au {$newExpiryFmt}.";
                 $messageType= 'success';
                 $_SESSION['wa_notify_url']  = $waUrl;
                 $_SESSION['wa_notify_name'] = $ownerName;
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $waMsg      = urlencode("❌ Bonjour {$ownerName},\n\nVotre paiement LionTech pour *{$bizName}* a été *rejeté*.\n\n📋 Raison: {$fullReason}\n\nVeuillez soumettre un nouveau paiement ou nous contacter.\n— LionTech Business Manager");
             $waUrl      = "https://wa.me/{$ownerPhone}?text={$waMsg}";
 
-            $message    = '❌ Paiement rejeté.';
+            $message    = 'Paiement rejeté.';
             $messageType= 'success';
             $_SESSION['wa_notify_url']  = $waUrl;
             $_SESSION['wa_notify_name'] = $ownerName;
@@ -141,10 +141,10 @@ foreach (explode(' ', $user['full_name'] ?: 'Admin') as $w) $initials .= strtoup
 $initials = substr($initials, 0, 2);
 
 $methodLabels = [
-    'orange_money'  => '🟠 Orange Money',
-    'mtn_momo'      => '🟡 MTN MoMo',
-    'bank_transfer' => '🏦 Virement Bancaire',
-    'cash'          => '💵 Espèces',
+    'orange_money'  => 'Orange Money',
+    'mtn_momo'      => 'MTN MoMo',
+    'bank_transfer' => 'Virement Bancaire',
+    'cash'          => 'Espèces',
 ];
 ?>
 <!DOCTYPE html>
@@ -158,44 +158,11 @@ $methodLabels = [
 <body>
 <div class="sa-layout">
 
-  <aside class="sa-sidebar" id="sa-sidebar">
-    <div class="sa-sidebar-header">
-      <div class="sa-logo">
-         <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
-        <div><div class="sa-logo-name">LionTech</div><div class="sa-logo-tag">Super Admin</div></div>
-      </div>
-    </div>
-    <nav class="sa-nav">
-      <?php foreach ([
-        ['super_admin.php',      '📊','Dashboard'],
-        ['payment_settings.php', '💳','Paramètres Paiement'],
-        ['payment_review.php',   '✅','Valider Paiements'],
-      ] as [$href,$icon,$label]): ?>
-      <a class="sa-nav-item <?= basename($_SERVER['PHP_SELF'])===$href?'active':'' ?>"
-         href="<?= APP_URL ?>/SuperAdmin/<?= $href ?>">
-        <span class="sa-nav-icon"><?= $icon ?></span><span><?= $label ?></span>
-        <?php if ($href==='payment_review.php' && count($pending)>0): ?>
-        <span class="sa-nav-badge"><?= count($pending) ?></span>
-        <?php endif; ?>
-      </a>
-      <?php endforeach; ?>
-      <div class="sa-nav-section">Système</div>
-      <a class="sa-nav-item sa-nav-logout" href="<?= APP_URL ?>/Logininventory/logout.php">
-        <span class="sa-nav-icon">🚪</span><span>Déconnexion</span>
-      </a>
-    </nav>
-    <div class="sa-sidebar-footer">
-      <div class="sa-sidebar-avatar"><?= e($initials) ?></div>
-      <div>
-        <div class="sa-sidebar-name"><?= e($user['full_name']) ?></div>
-        <div class="sa-sidebar-role">Super Admin</div>
-      </div>
-    </div>
-  </aside>
+  <?php $url = APP_URL; include __DIR__ . '/_sidebar.php'; ?>
 
   <div class="sa-main">
     <header class="sa-topbar">
-      <button class="sa-hamburger" id="sa-hamburger">☰</button>
+      <button class="sa-hamburger" id="sa-hamburger"><?= saIcon('menu') ?></button>
       <div style="font-size:16px;font-weight:700;color:#0B1F3A">Validation des Paiements</div>
       <div class="sa-topbar-right">
         <?php if (count($pending) > 0): ?>
@@ -215,14 +182,14 @@ $methodLabels = [
       <?php if ($waUrl): ?>
       <!-- WhatsApp notification prompt -->
       <div style="background:#ECFDF5;border:2px solid #1A9E7A;border-radius:14px;padding:18px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px">
-        <span style="font-size:28px">💬</span>
+        <span style="display:flex;align-items:center;color:#1A9E7A"><?= saIcon('message', 28) ?></span>
         <div style="flex:1">
           <div style="font-size:14px;font-weight:700;color:#0B1F3A">Notifier <?= e($waName) ?> sur WhatsApp</div>
           <div style="font-size:13px;color:#6B7280;margin-top:3px">Cliquez pour envoyer la notification au propriétaire.</div>
         </div>
         <a href="<?= $waUrl ?>" target="_blank" rel="noopener noreferrer"
           style="background:#25D366;color:#fff;padding:11px 20px;border-radius:10px;text-decoration:none;font-size:13.5px;font-weight:700;white-space:nowrap">
-          📲 Envoyer WhatsApp
+          Envoyer WhatsApp
         </a>
       </div>
       <?php endif; ?>
@@ -230,12 +197,12 @@ $methodLabels = [
       <!-- Pending payments -->
       <div class="sa-card" style="margin-bottom:20px">
         <div class="sa-card-header">
-          <div><div class="sa-card-title">⏳ Paiements en attente de validation</div><div class="sa-card-sub">Vérifiez chaque preuve avant d'approuver</div></div>
+          <div><div class="sa-card-title">Paiements en attente de validation</div><div class="sa-card-sub">Vérifiez chaque preuve avant d'approuver</div></div>
           <span style="background:#FEF2F2;color:#DC2626;font-size:11px;font-weight:700;border-radius:50px;padding:3px 10px"><?= count($pending) ?> en attente</span>
         </div>
 
         <?php if (!$pending): ?>
-        <div style="padding:32px;text-align:center;color:#6B7280;font-size:14px">✅ Aucun paiement en attente.</div>
+        <div style="padding:32px;text-align:center;color:#6B7280;font-size:14px">Aucun paiement en attente.</div>
         <?php else: foreach ($pending as $p): ?>
         <div style="border:1.5px solid #E5E7EB;border-radius:14px;margin:16px;padding:20px">
 
@@ -274,14 +241,14 @@ $methodLabels = [
             <div style="font-size:11px;color:#6B7280;margin-top:4px">Cliquez sur l'image pour l'agrandir</div>
           </div>
           <?php else: ?>
-          <div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:10px;padding:10px 14px;font-size:13px;color:#92400E;margin-bottom:16px">
-            ⚠️ Aucune preuve uploadée — paiement en espèces ou preuve manquante
+          <div style="display:flex;align-items:center;gap:8px;background:#FEF3C7;border:1px solid #FDE68A;border-radius:10px;padding:10px 14px;font-size:13px;color:#92400E;margin-bottom:16px">
+            <?= saIcon('warning') ?> Aucune preuve uploadée — paiement en espèces ou preuve manquante
           </div>
           <?php endif; ?>
 
           <!-- Admin checklist -->
           <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:14px;margin-bottom:16px">
-            <div style="font-size:12px;font-weight:700;color:#1E40AF;margin-bottom:8px">✅ Checklist de vérification</div>
+            <div style="font-size:12px;font-weight:700;color:#1E40AF;margin-bottom:8px">Checklist de vérification</div>
             <div style="display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:#1E40AF">
               <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox"/> Montant sur screenshot = <?= number_format((float)$p['amount'],0,'.',' ') ?> XAF</label>
               <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox"/> Numéro de transaction correspond</label>
@@ -301,7 +268,7 @@ $methodLabels = [
               <button type="submit"
                 onclick="return confirm('Confirmer l\'approbation de ce paiement?')"
                 style="width:100%;padding:13px;background:#166534;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">
-                ✅ Approuver — Activer abonnement
+                Approuver — Activer abonnement
               </button>
             </form>
 
@@ -323,7 +290,7 @@ $methodLabels = [
                 <button type="submit"
                   onclick="return confirm('Rejeter ce paiement?')"
                   style="width:100%;padding:11px;background:#FEF2F2;color:#991B1B;border:1.5px solid #FECACA;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">
-                  ❌ Rejeter
+                  Rejeter
                 </button>
               </div>
             </form>
@@ -336,7 +303,7 @@ $methodLabels = [
       <!-- Reviewed payments history -->
       <div class="sa-card" style="padding:0;overflow:hidden">
         <div style="padding:14px 18px;border-bottom:1px solid #F1F5F9">
-          <div class="sa-card-title">📋 Historique des validations</div>
+          <div class="sa-card-title">Historique des validations</div>
         </div>
         <div style="overflow-x:auto">
           <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -358,7 +325,7 @@ $methodLabels = [
               <td style="padding:10px 14px"><?= e($methodLabels[$r['payment_method']] ?? $r['payment_method']) ?></td>
               <td style="padding:10px 14px">
                 <span style="padding:4px 10px;border-radius:50px;font-size:11px;font-weight:700;background:<?= $r['status']==='approved'?'#DCFCE7':'#FEE2E2' ?>;color:<?= $r['status']==='approved'?'#166534':'#991B1B' ?>">
-                  <?= $r['status']==='approved'?'✅ Approuvé':'❌ Rejeté' ?>
+                  <?= $r['status']==='approved'?'Approuvé':'Rejeté' ?>
                 </span>
               </td>
               <td style="padding:10px 14px;color:#6B7280"><?= e($r['approved_by_name'] ?? '—') ?></td>
@@ -375,5 +342,16 @@ $methodLabels = [
     </main>
   </div>
 </div>
+<script>
+const _sa_sidebar  = document.getElementById('sa-sidebar');
+const _sa_overlay  = document.getElementById('sa-overlay');
+const _sa_hamburger = document.getElementById('sa-hamburger');
+const _sa_close    = document.getElementById('sa-sidebar-close');
+function _sa_open()  { _sa_sidebar.classList.add('open');    _sa_overlay.classList.add('show'); }
+function _sa_close_fn() { _sa_sidebar.classList.remove('open'); _sa_overlay.classList.remove('show'); }
+if (_sa_hamburger) _sa_hamburger.addEventListener('click', _sa_open);
+if (_sa_close)     _sa_close.addEventListener('click', _sa_close_fn);
+if (_sa_overlay)   _sa_overlay.addEventListener('click', _sa_close_fn);
+</script>
 </body>
 </html>

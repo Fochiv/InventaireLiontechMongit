@@ -69,10 +69,10 @@ $initials = substr($initials,0,2);
 $url = APP_URL;
 
 $methodLabels = [
-    'orange_money'  => '🟠 Orange Money',
-    'mtn_momo'      => '🟡 MTN MoMo',
-    'bank_transfer' => '🏦 Virement Bancaire',
-    'cash'          => '💵 Espèces',
+    'orange_money'  => 'Orange Money',
+    'mtn_momo'      => 'MTN MoMo',
+    'bank_transfer' => 'Virement Bancaire',
+    'cash'          => 'Espèces',
 ];
 ?>
 <!DOCTYPE html>
@@ -86,47 +86,17 @@ $methodLabels = [
 <body>
 <div class="sa-layout">
 
-<!-- ══ SIDEBAR ══ -->
-<aside class="sa-sidebar" id="sa-sidebar">
-  <div class="sa-sidebar-header">
-    <div class="sa-logo">
-       <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
-      <div><div class="sa-logo-name">LionTech</div><div class="sa-logo-tag">Super Admin</div></div>
-    </div>
-    <button class="sa-sidebar-close" id="sa-sidebar-close">✕</button>
-  </div>
-  <nav class="sa-nav">
-    <div class="sa-nav-section">Principal</div>
-    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/super_admin.php"><span class="sa-nav-icon">📊</span><span>Dashboard</span></a>
-    <a class="sa-nav-item" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php"><span class="sa-nav-icon">➕</span><span>Add Business</span></a>
-    <div class="sa-nav-section">Paiements</div>
-    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/payment_review.php"><span class="sa-nav-icon">✅</span><span>Valider Paiements</span></a>
-    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/payment_settings.php"><span class="sa-nav-icon">💳</span><span>Numéros de Paiement</span></a>
-    <div class="sa-nav-section">Plateforme</div>
-    <a class="sa-nav-item active" href="<?= $url ?>/SuperAdmin/super_admin_reports.php"><span class="sa-nav-icon">📈</span><span>Reports</span></a>
-    <div class="sa-nav-section">Système</div>
-    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/payment_settings.php"><span class="sa-nav-icon">⚙️</span><span>Settings</span></a>
-    <a class="sa-nav-item sa-nav-logout" href="<?= $url ?>/Logininventory/logout.php"><span class="sa-nav-icon">🚪</span><span>Logout</span></a>
-  </nav>
-  <div class="sa-sidebar-footer">
-    <div class="sa-sidebar-avatar"><?= e($initials) ?></div>
-    <div>
-      <div class="sa-sidebar-name"><?= e($user['full_name']) ?></div>
-      <div class="sa-sidebar-role">Super Admin</div>
-    </div>
-  </div>
-</aside>
-<div class="sa-overlay" id="sa-overlay"></div>
+<?php include __DIR__ . '/_sidebar.php'; ?>
 
 <!-- ══ MAIN ══ -->
 <div class="sa-main">
   <header class="sa-topbar">
-    <button class="sa-hamburger" id="sa-hamburger">☰</button>
+    <button class="sa-hamburger" id="sa-hamburger"><?= saIcon('menu') ?></button>
     <div style="font-size:16px;font-weight:700;color:#0B1F3A">Rapports Plateforme</div>
     <div class="sa-topbar-right">
       <button onclick="window.print()"
-        style="background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit">
-        🖨️ Imprimer
+        style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit">
+        <?= saIcon('printer') ?> Imprimer
       </button>
     </div>
   </header>
@@ -172,21 +142,21 @@ $methodLabels = [
     <!-- Stat cards -->
     <div class="sa-cards-grid" style="margin-bottom:20px">
       <div class="sa-stat-card green">
-        <div class="sa-stat-icon green">💰</div>
+        <div class="sa-stat-icon green"><?= saIcon('money', 22) ?></div>
         <div>
           <div class="sa-stat-val"><?= number_format($totalRevenue,0,'.',',') ?></div>
           <div class="sa-stat-label">Revenu XAF (période)</div>
         </div>
       </div>
       <div class="sa-stat-card navy">
-        <div class="sa-stat-icon navy">✅</div>
+        <div class="sa-stat-icon navy"><?= saIcon('check', 22) ?></div>
         <div>
           <div class="sa-stat-val"><?= $approvedCount ?></div>
           <div class="sa-stat-label">Paiements approuvés</div>
         </div>
       </div>
       <div class="sa-stat-card amber">
-        <div class="sa-stat-icon amber">⏳</div>
+        <div class="sa-stat-icon amber"><?= saIcon('clock', 22) ?></div>
         <div>
           <div class="sa-stat-val"><?= $pendingCount ?></div>
           <div class="sa-stat-label">En attente</div>
@@ -196,21 +166,21 @@ $methodLabels = [
         </div>
       </div>
       <div class="sa-stat-card red">
-        <div class="sa-stat-icon red">❌</div>
+        <div class="sa-stat-icon red"><?= saIcon('x-circle', 22) ?></div>
         <div>
           <div class="sa-stat-val"><?= $rejectedCount ?></div>
           <div class="sa-stat-label">Paiements rejetés</div>
         </div>
       </div>
       <div class="sa-stat-card teal">
-        <div class="sa-stat-icon teal">🏢</div>
+        <div class="sa-stat-icon teal"><?= saIcon('building', 22) ?></div>
         <div>
           <div class="sa-stat-val"><?= $activeBusinesses ?> / <?= $totalBusinesses ?></div>
           <div class="sa-stat-label">Businesses actifs</div>
         </div>
       </div>
       <div class="sa-stat-card blue">
-        <div class="sa-stat-icon blue">👥</div>
+        <div class="sa-stat-icon blue"><?= saIcon('users', 22) ?></div>
         <div>
           <div class="sa-stat-val"><?= $totalUsers ?></div>
           <div class="sa-stat-label">Total utilisateurs</div>
@@ -263,7 +233,7 @@ $methodLabels = [
             </div>
           </div>
           <?php endforeach; else: ?>
-          <div style="padding:28px;text-align:center;color:#6B7280;font-size:13px">✅ Aucun abonnement n'expire bientôt.</div>
+          <div style="padding:28px;text-align:center;color:#6B7280;font-size:13px">Aucun abonnement n'expire bientôt.</div>
           <?php endif; ?>
         </div>
       </div>
@@ -278,8 +248,8 @@ $methodLabels = [
           <div class="sa-card-sub"><?= count($payments) ?> paiement(s) sur la période</div>
         </div>
         <button onclick="exportCSV()"
-          style="background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit">
-          📄 Export CSV
+          style="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit">
+          <?= saIcon('download') ?> Export CSV
         </button>
       </div>
       <div style="overflow-x:auto">
@@ -310,7 +280,7 @@ $methodLabels = [
               <span style="padding:4px 10px;border-radius:50px;font-size:11px;font-weight:700;
                 background:<?= $p['status']==='approved'?'#DCFCE7':($p['status']==='pending'?'#FEF3C7':'#FEE2E2') ?>;
                 color:<?= $p['status']==='approved'?'#166534':($p['status']==='pending'?'#92400E':'#991B1B') ?>">
-                <?= $p['status']==='approved'?'✅ Approuvé':($p['status']==='pending'?'⏳ En attente':'❌ Rejeté') ?>
+                <?= $p['status']==='approved'?'Approuvé':($p['status']==='pending'?'En attente':'Rejeté') ?>
               </span>
             </td>
           </tr>

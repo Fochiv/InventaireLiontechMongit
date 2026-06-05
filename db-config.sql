@@ -285,7 +285,7 @@ ORDER BY month ASC;
 -- Login ID : InvenAdmin26
 -- Mot de passe : Inventory#Admin126
 -- ------------------------------------------------------------
-INSERT INTO `users`
+INSERT IGNORE INTO `users`
   (`business_id`, `full_name`, `login_id`, `email`, `password_hash`, `role`, `status`, `pin_must_change`)
 VALUES (
   NULL,

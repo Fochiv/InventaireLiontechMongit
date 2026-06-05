@@ -109,8 +109,8 @@ try {
     $pinMustChange = $row ? (bool)$row['pin_must_change'] : false;
 } catch (Throwable $e) {}
 
-/* ── Redirect to setup if first login or no security questions ── */
-if (!$hasQuestions || $pinMustChange) {
+/* ── Redirect to setup if first login or no security questions (skip pour super_admin) ── */
+if ($user['role'] !== ROLE_SUPER_ADMIN && (!$hasQuestions || $pinMustChange)) {
     exit(json_encode([
         'success'  => true,
         'redirect' => APP_URL . '/Logininventory/setup_security.php',

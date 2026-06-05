@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->query('SELECT * FROM payment_settings_log ORDER BY created_at DESC LIMIT 20');
             $logs = $stmt->fetchAll();
 
-            $success = "✅ Paramètres sauvegardés par {$confirmedName}.";
+            $success = "Paramètres sauvegardés par {$confirmedName}.";
         } catch (Throwable $ex) {
             $error = 'Erreur: ' . $ex->getMessage();
         }
@@ -114,45 +114,11 @@ $initials = substr($initials, 0, 2);
 <body>
 <div class="sa-layout">
 
-  <?php
-  /* Inline mini sidebar for super admin */
-  $sidebarLinks = [
-    ['super_admin.php',        '📊', 'Dashboard'],
-    ['payment_settings.php',   '💳', 'Paramètres Paiement'],
-    ['payment_review.php',     '✅', 'Valider Paiements'],
-  ];
-  ?>
-  <aside class="sa-sidebar" id="sa-sidebar">
-    <div class="sa-sidebar-header">
-      <div class="sa-logo">
-         <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
-        <div><div class="sa-logo-name">LionTech</div><div class="sa-logo-tag">Super Admin</div></div>
-      </div>
-    </div>
-    <nav class="sa-nav">
-      <?php foreach ($sidebarLinks as [$href, $icon, $label]): ?>
-      <a class="sa-nav-item <?= basename($_SERVER['PHP_SELF']) === $href ? 'active' : '' ?>"
-         href="<?= APP_URL ?>/SuperAdmin/<?= $href ?>">
-        <span class="sa-nav-icon"><?= $icon ?></span><span><?= $label ?></span>
-      </a>
-      <?php endforeach; ?>
-      <div class="sa-nav-section">Système</div>
-      <a class="sa-nav-item sa-nav-logout" href="<?= APP_URL ?>/Logininventory/logout.php">
-        <span class="sa-nav-icon">🚪</span><span>Déconnexion</span>
-      </a>
-    </nav>
-    <div class="sa-sidebar-footer">
-      <div class="sa-sidebar-avatar"><?= e($initials) ?></div>
-      <div>
-        <div class="sa-sidebar-name"><?= e($user['full_name']) ?></div>
-        <div class="sa-sidebar-role">Super Admin</div>
-      </div>
-    </div>
-  </aside>
+  <?php $url = APP_URL; include __DIR__ . '/_sidebar.php'; ?>
 
   <div class="sa-main">
     <header class="sa-topbar">
-      <button class="sa-hamburger" id="sa-hamburger">☰</button>
+      <button class="sa-hamburger" id="sa-hamburger"><?= saIcon('menu') ?></button>
       <div style="font-size:16px;font-weight:700;color:#0B1F3A">Paramètres de Paiement</div>
       <div class="sa-topbar-right">
         <div class="sa-profile-av"><?= e($initials) ?></div>
@@ -167,8 +133,8 @@ $initials = substr($initials, 0, 2);
       </div>
       <?php endif; ?>
       <?php if ($error): ?>
-      <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:13px 18px;margin-bottom:20px;font-size:13.5px;color:#991B1B">
-        ⚠️ <?= e($error) ?>
+      <div style="display:flex;align-items:center;gap:8px;background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:13px 18px;margin-bottom:20px;font-size:13.5px;color:#991B1B">
+        <?= saIcon('warning') ?> <?= e($error) ?>
       </div>
       <?php endif; ?>
 
@@ -179,7 +145,7 @@ $initials = substr($initials, 0, 2);
           <div class="sa-card">
             <div class="sa-card-header">
               <div>
-                <div class="sa-card-title">🟠 Orange Money</div>
+                <div class="sa-card-title">Orange Money</div>
                 <div class="sa-card-sub">Numéro Orange Money de LionTech</div>
               </div>
             </div>
@@ -205,7 +171,7 @@ $initials = substr($initials, 0, 2);
           <div class="sa-card">
             <div class="sa-card-header">
               <div>
-                <div class="sa-card-title">🟡 MTN Mobile Money</div>
+                <div class="sa-card-title">MTN Mobile Money</div>
                 <div class="sa-card-sub">Numéro MTN MoMo de LionTech</div>
               </div>
             </div>
@@ -231,7 +197,7 @@ $initials = substr($initials, 0, 2);
           <div class="sa-card" style="grid-column:1/-1">
             <div class="sa-card-header">
               <div>
-                <div class="sa-card-title">🏦 Virement Bancaire</div>
+                <div class="sa-card-title">Virement Bancaire</div>
                 <div class="sa-card-sub">Coordonnées bancaires de LionTech</div>
               </div>
             </div>
@@ -273,7 +239,7 @@ $initials = substr($initials, 0, 2);
         <div class="sa-card" style="margin-top:20px;border:2px solid #D4A017">
           <div class="sa-card-header" style="background:#FFFBEB">
             <div>
-              <div class="sa-card-title" style="color:#92400E">🔐 Confirmation requise</div>
+              <div class="sa-card-title" style="color:#92400E;display:flex;align-items:center;gap:6px"><?= saIcon('lock') ?> Confirmation requise</div>
               <div class="sa-card-sub">Entrez votre nom complet pour valider les modifications. Ceci sera enregistré dans le journal d'audit.</div>
             </div>
           </div>
@@ -286,7 +252,7 @@ $initials = substr($initials, 0, 2);
             </div>
             <button type="submit"
               style="padding:12px 28px;background:#0B1F3A;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap">
-              💾 Sauvegarder les modifications
+              Sauvegarder les modifications
             </button>
           </div>
         </div>
@@ -297,7 +263,7 @@ $initials = substr($initials, 0, 2);
       <?php if ($logs): ?>
       <div class="sa-card" style="margin-top:20px;padding:0;overflow:hidden">
         <div style="padding:14px 18px;border-bottom:1px solid #F1F5F9">
-          <div class="sa-card-title">📋 Journal des modifications</div>
+          <div class="sa-card-title">Journal des modifications</div>
           <div class="sa-card-sub">Historique des changements de paramètres de paiement</div>
         </div>
         <div style="overflow-x:auto">
@@ -330,5 +296,16 @@ $initials = substr($initials, 0, 2);
     </main>
   </div>
 </div>
+<script>
+const _sa_sidebar   = document.getElementById('sa-sidebar');
+const _sa_overlay   = document.getElementById('sa-overlay');
+const _sa_hamburger = document.getElementById('sa-hamburger');
+const _sa_close     = document.getElementById('sa-sidebar-close');
+function _sa_open()     { _sa_sidebar.classList.add('open');    _sa_overlay.classList.add('show'); }
+function _sa_close_fn() { _sa_sidebar.classList.remove('open'); _sa_overlay.classList.remove('show'); }
+if (_sa_hamburger) _sa_hamburger.addEventListener('click', _sa_open);
+if (_sa_close)     _sa_close.addEventListener('click', _sa_close_fn);
+if (_sa_overlay)   _sa_overlay.addEventListener('click', _sa_close_fn);
+</script>
 </body>
 </html>
