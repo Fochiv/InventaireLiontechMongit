@@ -1,7 +1,7 @@
 <?php
 /* ============================================================
    super_admin.php — LionTech Super Admin Dashboard
-   Role: super_admin only. All others → redirect.
+   Role: super_admin only.
    ============================================================ */
 require_once __DIR__ . '/../Config.php';
 requireRole([ROLE_SUPER_ADMIN]);
@@ -16,7 +16,7 @@ try {
     $stats['expired']  = (int)$pdo->query("SELECT COUNT(*) FROM businesses WHERE subscription_status IN('expired','suspended')")->fetchColumn();
     $stats['users']    = (int)$pdo->query("SELECT COUNT(*) FROM users WHERE role!='super_admin'")->fetchColumn();
     $stats['activity'] = (int)$pdo->query("SELECT COUNT(*) FROM activity_logs WHERE DATE(created_at)=CURDATE()")->fetchColumn();
-    try { $stats['pending'] = (int)$pdo->query("SELECT COUNT(*) FROM liontech_payments WHERE status='pending'")->fetchColumn(); } catch(Throwable $e){}
+    try { $stats['pending'] = (int)$pdo->query("SELECT COUNT(*) FROM payments WHERE status='pending'")->fetchColumn(); } catch(Throwable $e){}
 } catch(Throwable $e){}
 
 /* ── BUSINESSES ── */
@@ -25,11 +25,54 @@ try {
     $businesses = $pdo->query("
         SELECT b.business_id AS id, b.business_name AS name, b.business_type AS type,
                b.phone, b.city, b.subscription_status AS status, b.created_at AS created,
-               u.full_name AS owner, u.login_id AS owner_username, u.temporary_pin_plain AS temporary_pin
+               u.full_name AS owner, u.login_id AS owner_username,
+               u.email AS owner_email
         FROM businesses b
         LEFT JOIN users u ON u.business_id=b.business_id AND u.role='business_owner'
         ORDER BY b.created_at DESC")->fetchAll();
 } catch(Throwable $e){}
+
+/* ── USERS ── */
+$allUsers = [];
+try {
+    $allUsers = $pdo->query("
+        SELECT u.user_id, u.full_name, u.login_id, u.email, u.phone, u.role, u.status, u.created_at,
+               b.business_name
+        FROM users u
+        LEFT JOIN businesses b ON b.business_id = u.business_id
+        WHERE u.role != 'super_admin'
+        ORDER BY u.created_at DESC
+        LIMIT 300")->fetchAll();
+} catch(Throwable $e){}
+
+/* ── SUBSCRIPTIONS ── */
+$subscriptions = [];
+try {
+    $subscriptions = $pdo->query("
+        SELECT s.subscription_id, s.plan_name, s.amount, s.currency, s.start_date, s.end_date,
+               s.status, s.created_at,
+               b.business_name, b.subscription_status AS biz_status,
+               u.full_name AS owner_name
+        FROM subscriptions s
+        JOIN businesses b ON b.business_id = s.business_id
+        LEFT JOIN users u ON u.business_id = s.business_id AND u.role = 'business_owner'
+        ORDER BY s.created_at DESC
+        LIMIT 200")->fetchAll();
+} catch(Throwable $e){
+    /* If subscriptions table doesn't exist, build from businesses */
+    try {
+        $subscriptions = $pdo->query("
+            SELECT b.business_id AS subscription_id, 'Standard' AS plan_name,
+                   10000 AS amount, 'XAF' AS currency,
+                   b.created_at AS start_date, b.subscription_expires_at AS end_date,
+                   b.subscription_status AS status, b.created_at,
+                   b.business_name, b.subscription_status AS biz_status,
+                   u.full_name AS owner_name
+            FROM businesses b
+            LEFT JOIN users u ON u.business_id=b.business_id AND u.role='business_owner'
+            ORDER BY b.created_at DESC")->fetchAll();
+    } catch(Throwable $e2){}
+}
 
 /* ── ALERTS ── */
 $alerts = [];
@@ -48,13 +91,13 @@ try {
         $now = time();
         if(in_array($row['type'],['expired','suspended'],true)){
             $d = $exp ? ceil(($now-$exp)/86400) : '?';
-            $alerts[] = ['id'=>$row['id'],'name'=>$row['name'],'type'=>'expired','msg'=>"Expired {$d} day(s) ago",'date'=>$row['date']?date('M d, Y',strtotime($row['date'])):'—'];
+            $alerts[] = ['id'=>$row['id'],'name'=>$row['name'],'type'=>'expired','msg'=>"Expiré il y a {$d} jour(s)",'date'=>$row['date']?date('d M Y',strtotime($row['date'])):'—'];
         } elseif($row['type']==='trial'){
             $d = $exp ? ceil(($exp-$now)/86400) : '?';
-            $alerts[] = ['id'=>$row['id'],'name'=>$row['name'],'type'=>'pending','msg'=>"Trial — expires in {$d} day(s)",'date'=>$row['date']?date('M d, Y',strtotime($row['date'])):'—'];
+            $alerts[] = ['id'=>$row['id'],'name'=>$row['name'],'type'=>'pending','msg'=>"Essai — expire dans {$d} jour(s)",'date'=>$row['date']?date('d M Y',strtotime($row['date'])):'—'];
         } else {
             $d = $exp ? ceil(($exp-$now)/86400) : '?';
-            $alerts[] = ['id'=>$row['id'],'name'=>$row['name'],'type'=>'warning','msg'=>"Expires in {$d} day(s)",'date'=>$row['date']?date('M d, Y',strtotime($row['date'])):'—'];
+            $alerts[] = ['id'=>$row['id'],'name'=>$row['name'],'type'=>'warning','msg'=>"Expire dans {$d} jour(s)",'date'=>$row['date']?date('d M Y',strtotime($row['date'])):'—'];
         }
     }
 } catch(Throwable $e){}
@@ -69,8 +112,8 @@ try {
         ORDER BY al.created_at DESC LIMIT 8")->fetchAll();
     foreach($rows as $row){
         $diff = time()-strtotime($row['created_at']);
-        $time = $diff<3600 ? ceil($diff/60).' min ago' : ($diff<86400 ? ceil($diff/3600).' hrs ago' : ceil($diff/86400).' days ago');
-        $activity[] = ['icon'=>$row['icon']?:'ℹ️','desc'=>$row['desc']?:$row['action'],'biz'=>$row['biz'],'time'=>$time];
+        $time = $diff<3600 ? ceil($diff/60).' min' : ($diff<86400 ? ceil($diff/3600).'h' : ceil($diff/86400).'j');
+        $activity[] = ['icon'=>$row['icon']?:'info','desc'=>$row['desc']?:$row['action'],'biz'=>$row['biz'],'time'=>$time.' ago'];
     }
 } catch(Throwable $e){}
 
@@ -85,30 +128,53 @@ try {
     }
 } catch(Throwable $e){}
 if(empty($chartData['labels'])){
-    $chartData = ['labels'=>['Jan','Feb','Mar','Apr','May','Jun'],'revenue'=>[0,0,0,0,0,0],'subscriptions'=>[0,0,0,0,0,0]];
+    $chartData = ['labels'=>['Jan','Fév','Mar','Avr','Mai','Jun'],'revenue'=>[0,0,0,0,0,0],'subscriptions'=>[0,0,0,0,0,0]];
 }
 
 $currentPage = basename($_SERVER['PHP_SELF']);
 $initials = '';
 foreach(explode(' ',$user['full_name']) as $w) $initials .= strtoupper($w[0]??'');
 $initials = substr($initials,0,2);
-
-function saNavLink(string $href, string $icon, string $label, string $currentPage, string $badge=''): string {
-    $page    = basename($href);
-    $active  = $page===$currentPage ? 'active' : '';
-    $badgeHtml = $badge ? "<span class='sa-nav-badge'>{$badge}</span>" : '';
-    return "<a class='sa-nav-item {$active}' href='{$href}'><span class='sa-nav-icon'>{$icon}</span><span>{$label}</span>{$badgeHtml}</a>";
-}
 $url = APP_URL;
+
+/* ── SVG Icon helper ── */
+function saIcon(string $name, int $size=18): string {
+    $s = $size;
+    $icons = [
+        'dashboard'    => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='7' height='7'/><rect x='14' y='3' width='7' height='7'/><rect x='14' y='14' width='7' height='7'/><rect x='3' y='14' width='7' height='7'/></svg>",
+        'plus'         => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='12' y1='8' x2='12' y2='16'/><line x1='8' y1='12' x2='16' y2='12'/></svg>",
+        'building'     => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='2' width='18' height='20' rx='1'/><line x1='9' y1='22' x2='9' y2='12'/><line x1='15' y1='22' x2='15' y2='12'/><rect x='9' y='12' width='6' height='10'/><path d='M7 6h.01M7 10h.01M11 6h.01M11 10h.01M17 6h.01M17 10h.01'/></svg>",
+        'check'        => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 11.08V12a10 10 0 1 1-5.93-9.14'/><polyline points='22 4 12 14.01 9 11.01'/></svg>",
+        'credit-card'  => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='1' y='4' width='22' height='16' rx='2' ry='2'/><line x1='1' y1='10' x2='23' y2='10'/></svg>",
+        'refresh'      => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 4 23 10 17 10'/><polyline points='1 20 1 14 7 14'/><path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'/></svg>",
+        'users'        => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M23 21v-2a4 4 0 0 0-3-3.87'/><path d='M16 3.13a4 4 0 0 1 0 7.75'/></svg>",
+        'bar-chart'    => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='20' x2='18' y2='10'/><line x1='12' y1='20' x2='12' y2='4'/><line x1='6' y1='20' x2='6' y2='14'/></svg>",
+        'settings'     => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='3'/><path d='M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'/></svg>",
+        'logout'       => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' y1='12' x2='9' y2='12'/></svg>",
+        'menu'         => "<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='3' y1='12' x2='21' y2='12'/><line x1='3' y1='6' x2='21' y2='6'/><line x1='3' y1='18' x2='21' y2='18'/></svg>",
+        'close'        => "<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='6' x2='6' y2='18'/><line x1='6' y1='6' x2='18' y2='18'/></svg>",
+        'search'       => "<svg width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>",
+        'bell'         => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/><path d='M13.73 21a2 2 0 0 1-3.46 0'/></svg>",
+        'chevron'      => "<svg width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>",
+        'warning'      => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z'/><line x1='12' y1='9' x2='12' y2='13'/><line x1='12' y1='17' x2='12.01' y2='17'/></svg>",
+        'x-circle'     => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='15' y1='9' x2='9' y2='15'/><line x1='9' y1='9' x2='15' y2='15'/></svg>",
+        'clock'        => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg>",
+        'info'         => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='12' y1='16' x2='12' y2='12'/><line x1='12' y1='8' x2='12.01' y2='8'/></svg>",
+        'trend'        => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'/><polyline points='17 6 23 6 23 12'/></svg>",
+        'list'         => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='8' y1='6' x2='21' y2='6'/><line x1='8' y1='12' x2='21' y2='12'/><line x1='8' y1='18' x2='21' y2='18'/><line x1='3' y1='6' x2='3.01' y2='6'/><line x1='3' y1='12' x2='3.01' y2='12'/><line x1='3' y1='18' x2='3.01' y2='18'/></svg>",
+        'user'         => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>",
+    ];
+    return $icons[$name] ?? $icons['info'];
+}
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta name="robots" content="noindex,nofollow"/>
   <title>Super Admin — LionTech</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230B1F3A'/><text y='22' x='5' font-size='20'>🦁</text></svg>"/>
+  <link rel="icon" href="<?= $url ?>/Image/logo_lionTechhead.jpeg"/>
   <link rel="stylesheet" href="super_admin.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>window.SA_CHART_DATA=<?= json_encode($chartData) ?>;</script>
@@ -120,57 +186,74 @@ $url = APP_URL;
 <aside class="sa-sidebar" id="sa-sidebar">
   <div class="sa-sidebar-header">
     <div class="sa-logo">
-       <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech" style="width:60px;height:60px;border-radius:50%;object-fit:cover;">
+      <img src="<?= $url ?>/Image/logo_lionTechhead.jpeg" alt="LionTech" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0">
       <div><div class="sa-logo-name">LionTech</div><div class="sa-logo-tag">Business Manager</div></div>
     </div>
-    <button class="sa-sidebar-close" id="sa-sidebar-close">✕</button>
+    <button class="sa-sidebar-close" id="sa-sidebar-close"><?= saIcon('close') ?></button>
   </div>
 
   <nav class="sa-nav">
+    <div class="sa-nav-section" data-i18n="nav_section_main">Principal</div>
 
-    <div class="sa-nav-section">Principal</div>
+    <button class="sa-nav-item active" data-panel="dashboard">
+      <span class="sa-nav-icon"><?= saIcon('dashboard') ?></span>
+      <span data-i18n="nav_dashboard">Dashboard</span>
+    </button>
 
-    <?= saNavLink("{$url}/SuperAdmin/super_admin.php",         '📊', 'Dashboard',           $currentPage) ?>
-    <?= saNavLink("{$url}/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php", '➕', 'Add Business', $currentPage) ?>
+    <a class="sa-nav-item" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">
+      <span class="sa-nav-icon"><?= saIcon('plus') ?></span>
+      <span data-i18n="nav_add_business">Ajouter Business</span>
+    </a>
 
-    <!-- Businesses JS tab (same page) -->
-    <button class="sa-nav-item" data-page="businesses">
-      <span class="sa-nav-icon">🏢</span>
-      <span>Businesses</span>
+    <button class="sa-nav-item" data-panel="businesses">
+      <span class="sa-nav-icon"><?= saIcon('building') ?></span>
+      <span data-i18n="nav_businesses">Businesses</span>
       <span class="sa-nav-badge"><?= $stats['total'] ?></span>
     </button>
 
-    <div class="sa-nav-section">Paiements</div>
+    <div class="sa-nav-section" data-i18n="nav_section_payments">Paiements</div>
 
-    <?= saNavLink("{$url}/SuperAdmin/payment_review.php",   '✅', 'Valider Paiements',      $currentPage, $stats['pending']>0?(string)$stats['pending']:'') ?>
-    <?= saNavLink("{$url}/SuperAdmin/payment_settings.php", '💳', 'Numéros de Paiement',    $currentPage) ?>
+    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/payment_review.php">
+      <span class="sa-nav-icon"><?= saIcon('check') ?></span>
+      <span data-i18n="nav_validate">Valider Paiements</span>
+      <?php if($stats['pending']>0): ?><span class="sa-nav-badge"><?= $stats['pending'] ?></span><?php endif; ?>
+    </a>
 
-    <div class="sa-nav-section">Plateforme</div>
+    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/payment_settings.php">
+      <span class="sa-nav-icon"><?= saIcon('credit-card') ?></span>
+      <span data-i18n="nav_payment_numbers">Numéros Paiement</span>
+    </a>
 
-    <!-- Subscriptions JS tab -->
-    <button class="sa-nav-item" data-page="subscriptions">
-      <span class="sa-nav-icon">🔄</span>
-      <span>Subscriptions</span>
+    <div class="sa-nav-section" data-i18n="nav_section_platform">Plateforme</div>
+
+    <button class="sa-nav-item" data-panel="subscriptions">
+      <span class="sa-nav-icon"><?= saIcon('refresh') ?></span>
+      <span data-i18n="nav_subscriptions">Abonnements</span>
       <span class="sa-nav-badge"><?= $stats['expired'] ?></span>
     </button>
 
-    <!-- Users JS tab -->
-    <button class="sa-nav-item" data-page="users">
-      <span class="sa-nav-icon">👥</span>
-      <span>Users</span>
+    <button class="sa-nav-item" data-panel="users">
+      <span class="sa-nav-icon"><?= saIcon('users') ?></span>
+      <span data-i18n="nav_users">Utilisateurs</span>
       <span class="sa-nav-badge"><?= $stats['users'] ?></span>
     </button>
 
-    <?= saNavLink("{$url}/SuperAdmin/super_admin_reports.php", '📈', 'Reports', $currentPage) ?>
-
-    <div class="sa-nav-section">Système</div>
-
-    <?= saNavLink("{$url}/SuperAdmin/payment_settings.php", '⚙️', 'Settings', $currentPage) ?>
-
-    <a class="sa-nav-item sa-nav-logout" href="<?= $url ?>/Logininventory/logout.php">
-      <span class="sa-nav-icon">🚪</span><span>Logout</span>
+    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/super_admin_reports.php">
+      <span class="sa-nav-icon"><?= saIcon('bar-chart') ?></span>
+      <span data-i18n="nav_reports">Rapports</span>
     </a>
 
+    <div class="sa-nav-section" data-i18n="nav_section_system">Système</div>
+
+    <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/payment_settings.php">
+      <span class="sa-nav-icon"><?= saIcon('settings') ?></span>
+      <span data-i18n="nav_settings">Paramètres</span>
+    </a>
+
+    <a class="sa-nav-item sa-nav-logout" href="<?= $url ?>/Logininventory/logout.php">
+      <span class="sa-nav-icon"><?= saIcon('logout') ?></span>
+      <span data-i18n="nav_logout">Déconnexion</span>
+    </a>
   </nav>
 
   <div class="sa-sidebar-footer">
@@ -188,22 +271,24 @@ $url = APP_URL;
 
   <!-- Topbar -->
   <header class="sa-topbar">
-    <button class="sa-hamburger" id="sa-hamburger">☰</button>
+    <button class="sa-hamburger" id="sa-hamburger"><?= saIcon('menu') ?></button>
     <div class="sa-topbar-search">
-      <span class="sa-search-icon">🔍</span>
-      <input type="search" id="topbar-search" placeholder="Search businesses, users…"/>
+      <span class="sa-search-icon"><?= saIcon('search') ?></span>
+      <input type="search" id="topbar-search" placeholder="Rechercher businesses, utilisateurs…"/>
     </div>
     <div class="sa-topbar-right">
+      <!-- Lang toggle -->
+      <button class="sa-lang-btn" id="sa-lang-btn" title="Changer de langue">FR</button>
 
       <!-- Notifications -->
       <div style="position:relative">
-        <button class="sa-icon-btn" data-dropdown="notif-dropdown">🔔<span class="sa-notif-dot"></span></button>
+        <button class="sa-icon-btn" data-dropdown="notif-dropdown"><?= saIcon('bell') ?><span class="sa-notif-dot"></span></button>
         <div class="sa-dropdown sa-notif-panel" id="notif-dropdown">
-          <div class="sa-notif-header">Notifications (<?= count($alerts) ?>)</div>
-          <?php foreach(array_slice($alerts,0,3) as $a): ?>
+          <div class="sa-notif-header" data-i18n="notif_title">Notifications (<?= count($alerts) ?>)</div>
+          <?php foreach(array_slice($alerts,0,4) as $a): ?>
           <div class="sa-notif-item">
             <div class="sa-notif-ico" style="background:<?= $a['type']==='expired'?'#FEF2F2':($a['type']==='warning'?'#FFFBEB':'#EFF6FF') ?>">
-              <?= $a['type']==='expired'?'❌':($a['type']==='warning'?'⚠️':'💳') ?>
+              <?= $a['type']==='expired'?saIcon('x-circle'):($a['type']==='warning'?saIcon('warning'):saIcon('credit-card')) ?>
             </div>
             <div>
               <div class="sa-notif-txt"><?= htmlspecialchars($a['msg']) ?></div>
@@ -211,6 +296,7 @@ $url = APP_URL;
             </div>
           </div>
           <?php endforeach; ?>
+          <?php if(empty($alerts)): ?><div style="padding:16px;text-align:center;font-size:13px;color:#6B7280" data-i18n="no_alerts">Aucune alerte.</div><?php endif; ?>
         </div>
       </div>
 
@@ -222,71 +308,70 @@ $url = APP_URL;
             <div class="sa-profile-name"><?= htmlspecialchars(explode(' ',$user['full_name'])[0]) ?></div>
             <div class="sa-profile-role">Super Admin</div>
           </div>
-          <span class="sa-chev">▾</span>
+          <span class="sa-chev"><?= saIcon('chevron') ?></span>
         </button>
         <div class="sa-dropdown" id="profile-dropdown">
-          <a class="sa-dropdown-item" href="<?= $url ?>/SuperAdmin/payment_settings.php">⚙️ Settings</a>
-          <a class="sa-dropdown-item" href="<?= $url ?>/SuperAdmin/payment_review.php">✅ Validate Payments</a>
-          <a class="sa-dropdown-item" href="<?= $url ?>/SuperAdmin/super_admin_reports.php">📈 Reports</a>
+          <a class="sa-dropdown-item" href="<?= $url ?>/SuperAdmin/payment_settings.php"><?= saIcon('settings') ?> <span data-i18n="nav_settings">Paramètres</span></a>
+          <a class="sa-dropdown-item" href="<?= $url ?>/SuperAdmin/payment_review.php"><?= saIcon('check') ?> <span data-i18n="nav_validate">Valider Paiements</span></a>
+          <a class="sa-dropdown-item" href="<?= $url ?>/SuperAdmin/super_admin_reports.php"><?= saIcon('bar-chart') ?> <span data-i18n="nav_reports">Rapports</span></a>
           <div class="sa-dropdown-divider"></div>
-          <a class="sa-dropdown-item danger" href="<?= $url ?>/Logininventory/logout.php">🚪 Logout</a>
+          <a class="sa-dropdown-item danger" href="<?= $url ?>/Logininventory/logout.php"><?= saIcon('logout') ?> <span data-i18n="nav_logout">Déconnexion</span></a>
         </div>
       </div>
-
     </div>
   </header>
 
   <!-- Content -->
   <main class="sa-content">
 
-    <!-- Page Header -->
+  <!-- ══════════ PANEL: DASHBOARD ══════════ -->
+  <div id="panel-dashboard" class="sa-panel">
+
     <div class="sa-page-header">
       <div>
-        <h1 class="sa-page-title">Super Admin Dashboard</h1>
-        <p class="sa-page-sub">Manage businesses, subscriptions, users, and platform activity.</p>
+        <h1 class="sa-page-title" data-i18n="page_title">Super Admin Dashboard</h1>
+        <p class="sa-page-sub" data-i18n="page_sub">Gérez les businesses, abonnements, utilisateurs et l'activité de la plateforme.</p>
       </div>
       <div class="sa-page-actions">
         <?php if($stats['pending']>0): ?>
         <a class="sa-btn sa-btn-outline" href="<?= $url ?>/SuperAdmin/payment_review.php">
-          ⏳ <?= $stats['pending'] ?> paiement(s) en attente
+          <?= saIcon('clock') ?> <?= $stats['pending'] ?> <span data-i18n="pending_payments">paiement(s) en attente</span>
         </a>
         <?php endif; ?>
-        <a class="sa-btn sa-btn-outline" href="<?= $url ?>/SuperAdmin/payment_settings.php">💳 Numéros Paiement</a>
-        <a class="sa-btn sa-btn-primary" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">➕ Add New Business</a>
+        <a class="sa-btn sa-btn-outline" href="<?= $url ?>/SuperAdmin/payment_settings.php"><?= saIcon('credit-card') ?> <span data-i18n="nav_payment_numbers">Numéros Paiement</span></a>
+        <a class="sa-btn sa-btn-primary" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php"><?= saIcon('plus') ?> <span data-i18n="nav_add_business">Nouveau Business</span></a>
       </div>
     </div>
 
     <!-- Stat Cards -->
     <div class="sa-cards-grid">
       <div class="sa-stat-card navy">
-        <div class="sa-stat-icon navy">🏢</div>
-        <div><div class="sa-stat-val"><?= $stats['total'] ?></div><div class="sa-stat-label">Total Businesses</div></div>
+        <div class="sa-stat-icon navy"><?= saIcon('building',22) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['total'] ?></div><div class="sa-stat-label" data-i18n="stat_total">Total Businesses</div></div>
       </div>
       <div class="sa-stat-card green">
-        <div class="sa-stat-icon green">✅</div>
-        <div><div class="sa-stat-val"><?= $stats['active'] ?></div><div class="sa-stat-label">Active Businesses</div></div>
+        <div class="sa-stat-icon green"><?= saIcon('check',22) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['active'] ?></div><div class="sa-stat-label" data-i18n="stat_active">Actifs</div></div>
       </div>
       <div class="sa-stat-card red">
-        <div class="sa-stat-icon red">⚠️</div>
-        <div><div class="sa-stat-val"><?= $stats['expired'] ?></div><div class="sa-stat-label">Expired Subscriptions</div></div>
+        <div class="sa-stat-icon red"><?= saIcon('warning',22) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['expired'] ?></div><div class="sa-stat-label" data-i18n="stat_expired">Abonnements Expirés</div></div>
       </div>
       <div class="sa-stat-card teal">
-        <div class="sa-stat-icon teal">👥</div>
-        <div><div class="sa-stat-val"><?= $stats['users'] ?></div><div class="sa-stat-label">Total Users</div></div>
+        <div class="sa-stat-icon teal"><?= saIcon('users',22) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['users'] ?></div><div class="sa-stat-label" data-i18n="stat_users">Utilisateurs</div></div>
       </div>
       <div class="sa-stat-card amber">
-        <div class="sa-stat-icon amber">💳</div>
+        <div class="sa-stat-icon amber"><?= saIcon('credit-card',22) ?></div>
         <div>
           <div class="sa-stat-val"><?= $stats['pending'] ?></div>
-          <div class="sa-stat-label">Pending Payments</div>
-          <?php if($stats['pending']>0): ?>
-          <a href="<?= $url ?>/SuperAdmin/payment_review.php" style="font-size:11px;color:#D4A017;font-weight:700;text-decoration:none">→ Valider</a>
-          <?php endif; ?>
+          <div class="sa-stat-label" data-i18n="stat_pending">Paiements en Attente</div>
+          <?php if($stats['pending']>0): ?><a href="<?= $url ?>/SuperAdmin/payment_review.php" style="font-size:11px;color:#D4A017;font-weight:700;text-decoration:none" data-i18n="validate_link">→ Valider</a><?php endif; ?>
         </div>
       </div>
       <div class="sa-stat-card blue">
-        <div class="sa-stat-icon blue">📋</div>
-        <div><div class="sa-stat-val"><?= $stats['activity'] ?></div><div class="sa-stat-label">Today's Activity</div></div>
+        <div class="sa-stat-icon blue"><?= saIcon('list',22) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['activity'] ?></div><div class="sa-stat-label" data-i18n="stat_activity">Activité Aujourd'hui</div></div>
       </div>
     </div>
 
@@ -294,132 +379,36 @@ $url = APP_URL;
     <div class="sa-row">
       <div class="sa-card">
         <div class="sa-card-header">
-          <div><div class="sa-card-title">Monthly Trends</div><div class="sa-card-sub">Revenue (XAF) &amp; Active Subscriptions</div></div>
-          <a class="sa-btn sa-btn-sm sa-btn-outline" href="<?= $url ?>/SuperAdmin/super_admin_reports.php">View Reports</a>
+          <div><div class="sa-card-title" data-i18n="chart_title">Tendances Mensuelles</div><div class="sa-card-sub" data-i18n="chart_sub">Revenus (XAF) &amp; Abonnements actifs</div></div>
+          <a class="sa-btn sa-btn-sm sa-btn-outline" href="<?= $url ?>/SuperAdmin/super_admin_reports.php" data-i18n="view_reports">Voir Rapports</a>
         </div>
         <div class="sa-chart-wrap"><canvas id="sa-chart"></canvas></div>
         <div class="sa-chart-legend">
-          <div class="sa-legend-item"><div class="sa-legend-dot" style="background:#D4A017"></div>Revenue (XAF)</div>
-          <div class="sa-legend-item"><div class="sa-legend-dot" style="background:#1A9E7A"></div>Active Subscriptions</div>
+          <div class="sa-legend-item"><div class="sa-legend-dot" style="background:#D4A017"></div><span data-i18n="legend_revenue">Revenus (XAF)</span></div>
+          <div class="sa-legend-item"><div class="sa-legend-dot" style="background:#1A9E7A"></div><span data-i18n="legend_subs">Abonnements actifs</span></div>
         </div>
       </div>
 
       <div class="sa-card">
         <div class="sa-card-header">
-          <div><div class="sa-card-title">Subscription Alerts</div><div class="sa-card-sub">Businesses needing attention</div></div>
-          <span style="background:#FEF2F2;color:#DC2626;font-size:11px;font-weight:700;border-radius:50px;padding:3px 10px"><?= count($alerts) ?> alerts</span>
+          <div><div class="sa-card-title" data-i18n="alerts_title">Alertes Abonnements</div><div class="sa-card-sub" data-i18n="alerts_sub">Businesses nécessitant attention</div></div>
+          <span style="background:#FEF2F2;color:#DC2626;font-size:11px;font-weight:700;border-radius:50px;padding:3px 10px"><?= count($alerts) ?> <span data-i18n="alerts_label">alertes</span></span>
         </div>
         <div class="sa-alerts-list">
           <?php foreach($alerts as $a): ?>
           <div class="sa-alert-item <?= htmlspecialchars($a['type']) ?>">
-            <span class="sa-alert-icon"><?= $a['type']==='expired'?'❌':($a['type']==='warning'?'⚠️':'💳') ?></span>
+            <span class="sa-alert-icon"><?= $a['type']==='expired'?saIcon('x-circle'):($a['type']==='warning'?saIcon('warning'):saIcon('credit-card')) ?></span>
             <div style="flex:1;min-width:0">
               <div class="sa-alert-biz"><?= htmlspecialchars($a['name']) ?></div>
               <div class="sa-alert-msg"><?= htmlspecialchars($a['msg']) ?></div>
               <div class="sa-alert-date"><?= htmlspecialchars($a['date']) ?></div>
             </div>
-            <button class="sa-alert-renew" data-id="<?= $a['id'] ?>" data-name="<?= htmlspecialchars($a['name']) ?>">Renew</button>
+            <button class="sa-alert-renew" data-id="<?= $a['id'] ?>" data-name="<?= htmlspecialchars($a['name']) ?>" data-i18n="btn_renew">Renouveler</button>
           </div>
           <?php endforeach; ?>
           <?php if(empty($alerts)): ?>
-          <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px">✅ No subscription alerts.</div>
+          <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px"><?= saIcon('check',16) ?> <span data-i18n="no_alerts">Aucune alerte d'abonnement.</span></div>
           <?php endif; ?>
-        </div>
-      </div>
-    </div>
-
-    <!-- Business Table -->
-    <div class="sa-card sa-table-card">
-      <div class="sa-card-header">
-        <div>
-          <div class="sa-card-title">Business Overview</div>
-          <div class="sa-card-sub" id="table-count">Showing <?= count($businesses) ?> businesses</div>
-        </div>
-        <a class="sa-btn sa-btn-sm sa-btn-primary"
-           href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">
-          ➕ Add Business
-        </a>
-      </div>
-      <div class="sa-table-controls">
-        <div class="sa-search-wrap">
-          <span class="sa-search-ico">🔍</span>
-          <input type="search" class="sa-table-search" id="table-search" placeholder="Search by name, type, owner, city…"/>
-        </div>
-        <select class="sa-table-filter" id="table-filter">
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="expired">Expired</option>
-          <option value="pending">Pending</option>
-          <option value="trial">Trial</option>
-        </select>
-      </div>
-      <div class="sa-table-wrap">
-        <table class="sa-table" id="businesses-table">
-          <thead><tr>
-            <th>Business Name</th><th>Type</th><th>Owner</th><th>Phone</th>
-            <th>City</th><th>Status</th><th>Created</th><th>Actions</th>
-          </tr></thead>
-          <tbody>
-          <?php foreach($businesses as $b): ?>
-          <tr data-id="<?= $b['id'] ?>"
-              data-name="<?= htmlspecialchars($b['name']) ?>"
-              data-type="<?= htmlspecialchars($b['type']) ?>"
-              data-owner="<?= htmlspecialchars($b['owner']) ?>"
-              data-phone="<?= htmlspecialchars($b['phone']) ?>"
-              data-city="<?= htmlspecialchars($b['city']) ?>"
-              data-status="<?= htmlspecialchars($b['status']) ?>"
-              data-date="<?= htmlspecialchars($b['created']) ?>"
-              data-owner-username="<?= htmlspecialchars($b['owner_username']??'') ?>"
-              data-temp-pin="<?= htmlspecialchars($b['temporary_pin']??'') ?>">
-            <td><?= htmlspecialchars($b['name']) ?></td>
-            <td><?= htmlspecialchars($b['type']) ?></td>
-            <td><?= htmlspecialchars($b['owner']) ?></td>
-            <td><?= htmlspecialchars($b['phone']) ?></td>
-            <td><?= htmlspecialchars($b['city']) ?></td>
-            <td><span class="sa-badge sa-badge-<?= htmlspecialchars($b['status']) ?>"><?= ucfirst(htmlspecialchars($b['status'])) ?></span></td>
-            <td><?= htmlspecialchars($b['created']) ?></td>
-            <td>
-              <div class="sa-tbl-actions">
-                <button class="sa-tbl-btn sa-tbl-btn-view" onclick="viewBusiness(
-                  <?= $b['id'] ?>,
-                  '<?= addslashes($b['name']) ?>',
-                  '<?= addslashes($b['type']) ?>',
-                  '<?= addslashes($b['owner']) ?>',
-                  '<?= addslashes($b['phone']) ?>',
-                  '<?= addslashes($b['city']) ?>',
-                  '<?= $b['status'] ?>',
-                  '<?= $b['created'] ?>',
-                  '<?= addslashes($b['owner_username']??'') ?>',
-                  '<?= addslashes($b['temporary_pin']??'') ?>'
-                )">View</button>
-                <button class="sa-tbl-btn sa-tbl-btn-edit" onclick="editBusiness(
-                  <?= $b['id'] ?>,
-                  '<?= addslashes($b['name']) ?>',
-                  '<?= addslashes($b['type']) ?>',
-                  '<?= addslashes($b['owner']) ?>',
-                  '<?= addslashes($b['phone']) ?>',
-                  '<?= addslashes($b['city']) ?>'
-                )">Edit</button>
-                <button class="sa-tbl-btn sa-tbl-btn-disable" onclick="confirmDisable(<?= $b['id'] ?>,'<?= addslashes($b['name']) ?>')">Disable</button>
-                <?php if(in_array($b['status'],['expired','pending'],true)): ?>
-                <button class="sa-tbl-btn sa-tbl-btn-renew" onclick="renewSubscription(<?= $b['id'] ?>,'<?= addslashes($b['name']) ?>')">Renew</button>
-                <?php endif; ?>
-              </div>
-            </td>
-          </tr>
-          <?php endforeach; ?>
-          <?php if(empty($businesses)): ?>
-          <tr><td colspan="8" style="text-align:center;padding:28px;color:#6B7280">No businesses yet. <a href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">Add the first one →</a></td></tr>
-          <?php endif; ?>
-          </tbody>
-        </table>
-      </div>
-      <div class="sa-pagination">
-        <span>Page 1 of 1</span>
-        <div class="sa-pg-btns">
-          <button class="sa-pg-btn">‹</button>
-          <button class="sa-pg-btn active">1</button>
-          <button class="sa-pg-btn">›</button>
         </div>
       </div>
     </div>
@@ -427,12 +416,12 @@ $url = APP_URL;
     <!-- Recent Activity -->
     <div class="sa-card">
       <div class="sa-card-header">
-        <div><div class="sa-card-title">Recent Activity</div><div class="sa-card-sub">Latest platform events</div></div>
+        <div><div class="sa-card-title" data-i18n="activity_title">Activité Récente</div><div class="sa-card-sub" data-i18n="activity_sub">Derniers événements de la plateforme</div></div>
       </div>
       <div class="sa-activity-list">
         <?php foreach($activity as $act): ?>
         <div class="sa-activity-item">
-          <div class="sa-activity-icon sa-act-navy"><?= $act['icon'] ?></div>
+          <div class="sa-activity-icon sa-act-navy"><?= saIcon('info',15) ?></div>
           <div style="flex:1;min-width:0">
             <div class="sa-activity-desc"><?= htmlspecialchars($act['desc']) ?></div>
             <?php if($act['biz']): ?><div class="sa-activity-biz"><?= htmlspecialchars($act['biz']) ?></div><?php endif; ?>
@@ -441,10 +430,270 @@ $url = APP_URL;
         </div>
         <?php endforeach; ?>
         <?php if(empty($activity)): ?>
-        <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px">No activity logged today.</div>
+        <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px" data-i18n="no_activity">Aucune activité enregistrée aujourd'hui.</div>
         <?php endif; ?>
       </div>
     </div>
+
+  </div><!-- /#panel-dashboard -->
+
+  <!-- ══════════ PANEL: BUSINESSES ══════════ -->
+  <div id="panel-businesses" class="sa-panel" style="display:none">
+
+    <div class="sa-page-header">
+      <div>
+        <h1 class="sa-page-title" data-i18n="biz_page_title">Gestion des Businesses</h1>
+        <p class="sa-page-sub" id="biz-table-count">Affichage de <?= count($businesses) ?> business(es)</p>
+      </div>
+      <div class="sa-page-actions">
+        <a class="sa-btn sa-btn-primary" href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php"><?= saIcon('plus') ?> <span data-i18n="nav_add_business">Nouveau Business</span></a>
+      </div>
+    </div>
+
+    <div class="sa-card sa-table-card">
+      <div class="sa-table-controls">
+        <div class="sa-search-wrap">
+          <span class="sa-search-ico"><?= saIcon('search') ?></span>
+          <input type="search" class="sa-table-search" id="biz-search" placeholder="Rechercher par nom, type, propriétaire, ville…"/>
+        </div>
+        <select class="sa-table-filter" id="biz-filter">
+          <option value="all" data-i18n="filter_all">Tous statuts</option>
+          <option value="active" data-i18n="filter_active">Actif</option>
+          <option value="expired" data-i18n="filter_expired">Expiré</option>
+          <option value="trial" data-i18n="filter_trial">Essai</option>
+          <option value="suspended" data-i18n="filter_suspended">Suspendu</option>
+        </select>
+      </div>
+      <div class="sa-table-wrap">
+        <table class="sa-table" id="businesses-table">
+          <thead><tr>
+            <th data-i18n="col_name">Nom</th>
+            <th data-i18n="col_type">Type</th>
+            <th data-i18n="col_owner">Propriétaire</th>
+            <th data-i18n="col_phone">Téléphone</th>
+            <th data-i18n="col_city">Ville</th>
+            <th data-i18n="col_status">Statut</th>
+            <th data-i18n="col_created">Créé le</th>
+            <th data-i18n="col_actions">Actions</th>
+          </tr></thead>
+          <tbody>
+          <?php foreach($businesses as $b): ?>
+          <tr data-id="<?= $b['id'] ?>"
+              data-name="<?= htmlspecialchars($b['name']) ?>"
+              data-type="<?= htmlspecialchars($b['type']??'') ?>"
+              data-owner="<?= htmlspecialchars($b['owner']??'') ?>"
+              data-phone="<?= htmlspecialchars($b['phone']??'') ?>"
+              data-city="<?= htmlspecialchars($b['city']??'') ?>"
+              data-status="<?= htmlspecialchars($b['status']) ?>"
+              data-date="<?= htmlspecialchars($b['created']) ?>"
+              data-owner-username="<?= htmlspecialchars($b['owner_username']??'') ?>">
+            <td><?= htmlspecialchars($b['name']) ?></td>
+            <td><?= htmlspecialchars($b['type']??'—') ?></td>
+            <td><?= htmlspecialchars($b['owner']??'—') ?></td>
+            <td><?= htmlspecialchars($b['phone']??'—') ?></td>
+            <td><?= htmlspecialchars($b['city']??'—') ?></td>
+            <td><span class="sa-badge sa-badge-<?= htmlspecialchars($b['status']) ?>"><?= ucfirst(htmlspecialchars($b['status'])) ?></span></td>
+            <td><?= htmlspecialchars(date('d/m/Y', strtotime($b['created']))) ?></td>
+            <td>
+              <div class="sa-tbl-actions">
+                <button class="sa-tbl-btn sa-tbl-btn-view" onclick="viewBusiness(
+                  <?= $b['id'] ?>,
+                  '<?= addslashes($b['name']) ?>',
+                  '<?= addslashes($b['type']??'') ?>',
+                  '<?= addslashes($b['owner']??'') ?>',
+                  '<?= addslashes($b['phone']??'') ?>',
+                  '<?= addslashes($b['city']??'') ?>',
+                  '<?= $b['status'] ?>',
+                  '<?= $b['created'] ?>',
+                  '<?= addslashes($b['owner_username']??'') ?>',
+                  ''
+                )" data-i18n="btn_view">Voir</button>
+                <button class="sa-tbl-btn sa-tbl-btn-edit" onclick="editBusiness(
+                  <?= $b['id'] ?>,
+                  '<?= addslashes($b['name']) ?>',
+                  '<?= addslashes($b['type']??'') ?>',
+                  '<?= addslashes($b['owner']??'') ?>',
+                  '<?= addslashes($b['phone']??'') ?>',
+                  '<?= addslashes($b['city']??'') ?>'
+                )" data-i18n="btn_edit">Modifier</button>
+                <button class="sa-tbl-btn sa-tbl-btn-disable" onclick="confirmDisable(<?= $b['id'] ?>,'<?= addslashes($b['name']) ?>')" data-i18n="btn_disable">Désactiver</button>
+                <?php if(in_array($b['status'],['expired','trial','suspended'],true)): ?>
+                <button class="sa-tbl-btn sa-tbl-btn-renew" onclick="renewSubscription(<?= $b['id'] ?>,'<?= addslashes($b['name']) ?>')" data-i18n="btn_renew">Renouveler</button>
+                <?php endif; ?>
+              </div>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+          <?php if(empty($businesses)): ?>
+          <tr><td colspan="8" style="text-align:center;padding:28px;color:#6B7280" data-i18n="no_businesses">Aucun business. <a href="<?= $url ?>/LionTech_Add_Business_Page/liontech_add_business_page/add_business.php">Ajouter le premier →</a></td></tr>
+          <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /#panel-businesses -->
+
+  <!-- ══════════ PANEL: USERS ══════════ -->
+  <div id="panel-users" class="sa-panel" style="display:none">
+
+    <div class="sa-page-header">
+      <div>
+        <h1 class="sa-page-title" data-i18n="users_page_title">Gestion des Utilisateurs</h1>
+        <p class="sa-page-sub" id="users-table-count"><?= count($allUsers) ?> utilisateur(s) au total</p>
+      </div>
+    </div>
+
+    <div class="sa-card sa-table-card">
+      <div class="sa-table-controls">
+        <div class="sa-search-wrap">
+          <span class="sa-search-ico"><?= saIcon('search') ?></span>
+          <input type="search" class="sa-table-search" id="users-search" placeholder="Rechercher par nom, identifiant, email…"/>
+        </div>
+        <select class="sa-table-filter" id="users-role-filter">
+          <option value="all" data-i18n="filter_all">Tous rôles</option>
+          <option value="business_owner" data-i18n="role_owner">Propriétaire</option>
+          <option value="manager" data-i18n="role_manager">Gérant</option>
+          <option value="employee" data-i18n="role_employee">Employé</option>
+        </select>
+        <select class="sa-table-filter" id="users-status-filter">
+          <option value="all" data-i18n="filter_all">Tous statuts</option>
+          <option value="active" data-i18n="filter_active">Actif</option>
+          <option value="inactive" data-i18n="filter_inactive">Inactif</option>
+          <option value="suspended" data-i18n="filter_suspended">Suspendu</option>
+        </select>
+      </div>
+      <div class="sa-table-wrap">
+        <table class="sa-table" id="users-table">
+          <thead><tr>
+            <th data-i18n="col_name">Nom</th>
+            <th data-i18n="col_login_id">Identifiant</th>
+            <th data-i18n="col_email">Email</th>
+            <th data-i18n="col_role">Rôle</th>
+            <th data-i18n="col_business">Business</th>
+            <th data-i18n="col_status">Statut</th>
+            <th data-i18n="col_created">Créé le</th>
+          </tr></thead>
+          <tbody>
+          <?php foreach($allUsers as $u): ?>
+          <tr data-name="<?= htmlspecialchars(strtolower($u['full_name'])) ?>"
+              data-login="<?= htmlspecialchars(strtolower($u['login_id'])) ?>"
+              data-email="<?= htmlspecialchars(strtolower($u['email']??'')) ?>"
+              data-role="<?= htmlspecialchars($u['role']) ?>"
+              data-status="<?= htmlspecialchars($u['status']) ?>">
+            <td><div style="display:flex;align-items:center;gap:9px"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0B1F3A,#1A9E7A);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-shrink:0"><?= strtoupper(substr($u['full_name'],0,1)) ?></div><span><?= htmlspecialchars($u['full_name']) ?></span></div></td>
+            <td style="font-family:monospace;font-size:12.5px"><?= htmlspecialchars($u['login_id']) ?></td>
+            <td style="color:#6B7280;font-size:12.5px"><?= htmlspecialchars($u['email']??'—') ?></td>
+            <td><?php
+              $roleMap = ['business_owner'=>'Propriétaire','manager'=>'Gérant','employee'=>'Employé'];
+              $roleClass = ['business_owner'=>'navy','manager'=>'teal','employee'=>'blue'];
+              $r = $u['role'];
+            ?><span class="sa-badge sa-badge-<?= $roleClass[$r]??'blue' ?>"><?= $roleMap[$r]??$r ?></span></td>
+            <td style="font-size:12.5px"><?= htmlspecialchars($u['business_name']??'—') ?></td>
+            <td><span class="sa-badge sa-badge-<?= $u['status']==='active'?'active':'disabled' ?>"><?= $u['status']==='active'?'Actif':'Inactif' ?></span></td>
+            <td style="font-size:12px;color:#94A3B8"><?= date('d/m/Y',strtotime($u['created_at'])) ?></td>
+          </tr>
+          <?php endforeach; ?>
+          <?php if(empty($allUsers)): ?>
+          <tr><td colspan="7" style="text-align:center;padding:28px;color:#6B7280" data-i18n="no_users">Aucun utilisateur trouvé.</td></tr>
+          <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /#panel-users -->
+
+  <!-- ══════════ PANEL: SUBSCRIPTIONS ══════════ -->
+  <div id="panel-subscriptions" class="sa-panel" style="display:none">
+
+    <div class="sa-page-header">
+      <div>
+        <h1 class="sa-page-title" data-i18n="subs_page_title">Gestion des Abonnements</h1>
+        <p class="sa-page-sub"><?= count($subscriptions) ?> abonnement(s) au total · <?= $stats['expired'] ?> expiré(s)</p>
+      </div>
+    </div>
+
+    <!-- Sub stats -->
+    <div class="sa-cards-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:20px">
+      <div class="sa-stat-card green">
+        <div class="sa-stat-icon green"><?= saIcon('check',20) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['active'] ?></div><div class="sa-stat-label" data-i18n="filter_active">Actifs</div></div>
+      </div>
+      <div class="sa-stat-card red">
+        <div class="sa-stat-icon red"><?= saIcon('x-circle',20) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['expired'] ?></div><div class="sa-stat-label" data-i18n="filter_expired">Expirés</div></div>
+      </div>
+      <div class="sa-stat-card blue">
+        <div class="sa-stat-icon blue"><?= saIcon('clock',20) ?></div>
+        <div><div class="sa-stat-val"><?= (int)$pdo->query("SELECT COUNT(*) FROM businesses WHERE subscription_status='trial'")->fetchColumn() ?></div><div class="sa-stat-label" data-i18n="filter_trial">Essai</div></div>
+      </div>
+      <div class="sa-stat-card amber">
+        <div class="sa-stat-icon amber"><?= saIcon('credit-card',20) ?></div>
+        <div><div class="sa-stat-val"><?= $stats['pending'] ?></div><div class="sa-stat-label" data-i18n="stat_pending">En attente</div></div>
+      </div>
+    </div>
+
+    <div class="sa-card sa-table-card">
+      <div class="sa-table-controls">
+        <div class="sa-search-wrap">
+          <span class="sa-search-ico"><?= saIcon('search') ?></span>
+          <input type="search" class="sa-table-search" id="subs-search" placeholder="Rechercher business, plan…"/>
+        </div>
+        <select class="sa-table-filter" id="subs-filter">
+          <option value="all" data-i18n="filter_all">Tous statuts</option>
+          <option value="active" data-i18n="filter_active">Actif</option>
+          <option value="expired" data-i18n="filter_expired">Expiré</option>
+          <option value="trial" data-i18n="filter_trial">Essai</option>
+        </select>
+      </div>
+      <div class="sa-table-wrap">
+        <table class="sa-table" id="subs-table">
+          <thead><tr>
+            <th data-i18n="col_business">Business</th>
+            <th data-i18n="col_owner">Propriétaire</th>
+            <th data-i18n="col_plan">Plan</th>
+            <th data-i18n="col_amount">Montant</th>
+            <th data-i18n="col_start">Début</th>
+            <th data-i18n="col_end">Fin</th>
+            <th data-i18n="col_status">Statut</th>
+            <th data-i18n="col_actions">Actions</th>
+          </tr></thead>
+          <tbody>
+          <?php foreach($subscriptions as $s): ?>
+          <tr data-biz="<?= htmlspecialchars(strtolower($s['business_name'])) ?>"
+              data-owner="<?= htmlspecialchars(strtolower($s['owner_name']??'')) ?>"
+              data-plan="<?= htmlspecialchars(strtolower($s['plan_name']??'')) ?>"
+              data-status="<?= htmlspecialchars($s['status']??$s['biz_status']??'') ?>">
+            <td style="font-weight:600"><?= htmlspecialchars($s['business_name']) ?></td>
+            <td style="color:#6B7280;font-size:12.5px"><?= htmlspecialchars($s['owner_name']??'—') ?></td>
+            <td><?= htmlspecialchars($s['plan_name']??'Standard') ?></td>
+            <td><?= number_format((float)($s['amount']??10000),0) ?> <?= htmlspecialchars($s['currency']??'XAF') ?></td>
+            <td style="font-size:12.5px;color:#6B7280"><?= $s['start_date'] ? date('d/m/Y',strtotime($s['start_date'])) : '—' ?></td>
+            <td style="font-size:12.5px"><?= $s['end_date'] ? date('d/m/Y',strtotime($s['end_date'])) : '—' ?></td>
+            <td><?php
+              $st = $s['status']??$s['biz_status']??'trial';
+              $stClass = ['active'=>'active','expired'=>'expired','trial'=>'trial','cancelled'=>'disabled','suspended'=>'disabled'];
+              $stLabel = ['active'=>'Actif','expired'=>'Expiré','trial'=>'Essai','cancelled'=>'Annulé','suspended'=>'Suspendu'];
+            ?><span class="sa-badge sa-badge-<?= $stClass[$st]??'disabled' ?>"><?= $stLabel[$st]??$st ?></span></td>
+            <td>
+              <?php if(in_array($st,['expired','trial','suspended'],true)): ?>
+              <button class="sa-tbl-btn sa-tbl-btn-renew" onclick="renewSubscription('','<?= addslashes($s['business_name']) ?>')" data-i18n="btn_renew">Renouveler</button>
+              <?php else: ?>
+              <span style="font-size:12px;color:#94A3B8">—</span>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+          <?php if(empty($subscriptions)): ?>
+          <tr><td colspan="8" style="text-align:center;padding:28px;color:#6B7280" data-i18n="no_subscriptions">Aucun abonnement trouvé.</td></tr>
+          <?php endif; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /#panel-subscriptions -->
 
   </main>
 </div><!-- /.sa-main -->
@@ -455,52 +704,51 @@ $url = APP_URL;
 <!-- View Business -->
 <div class="sa-modal-overlay" id="view-business-modal">
   <div class="sa-modal">
-    <div class="sa-modal-header"><h2 class="sa-modal-title">Business Details</h2><button class="sa-modal-close" data-close-modal>✕</button></div>
+    <div class="sa-modal-header"><h2 class="sa-modal-title" data-i18n="modal_view_title">Détails du Business</h2><button class="sa-modal-close" data-close-modal><?= saIcon('close') ?></button></div>
     <div class="sa-modal-body">
       <div class="sa-detail-grid">
-        <div class="sa-detail-item"><div class="sa-detail-label">Business Name</div><div class="sa-detail-val" id="view-biz-name">—</div></div>
-        <div class="sa-detail-item"><div class="sa-detail-label">Type</div><div class="sa-detail-val" id="view-biz-type">—</div></div>
-        <div class="sa-detail-item"><div class="sa-detail-label">Owner</div><div class="sa-detail-val" id="view-biz-owner">—</div></div>
-        <div class="sa-detail-item"><div class="sa-detail-label">Owner Username</div><div class="sa-detail-val" id="view-owner-username">—</div></div>
-        <div class="sa-detail-item"><div class="sa-detail-label">Temporary PIN</div><div class="sa-detail-val" id="view-temp-pin">—</div></div>
-        <div class="sa-detail-item"><div class="sa-detail-label">Phone</div><div class="sa-detail-val" id="view-biz-phone">—</div></div>
-        <div class="sa-detail-item"><div class="sa-detail-label">City</div><div class="sa-detail-val" id="view-biz-city">—</div></div>
-        <div class="sa-detail-item"><div class="sa-detail-label">Date Created</div><div class="sa-detail-val" id="view-biz-date">—</div></div>
-        <div class="sa-detail-item" style="grid-column:1/-1"><div class="sa-detail-label">Status</div><div class="sa-detail-val"><span class="sa-badge" id="view-biz-status">—</span></div></div>
+        <div class="sa-detail-item"><div class="sa-detail-label" data-i18n="col_name">Nom</div><div class="sa-detail-val" id="view-biz-name">—</div></div>
+        <div class="sa-detail-item"><div class="sa-detail-label" data-i18n="col_type">Type</div><div class="sa-detail-val" id="view-biz-type">—</div></div>
+        <div class="sa-detail-item"><div class="sa-detail-label" data-i18n="col_owner">Propriétaire</div><div class="sa-detail-val" id="view-biz-owner">—</div></div>
+        <div class="sa-detail-item"><div class="sa-detail-label" data-i18n="col_login_id">Identifiant</div><div class="sa-detail-val" id="view-owner-username">—</div></div>
+        <div class="sa-detail-item"><div class="sa-detail-label" data-i18n="col_phone">Téléphone</div><div class="sa-detail-val" id="view-biz-phone">—</div></div>
+        <div class="sa-detail-item"><div class="sa-detail-label" data-i18n="col_city">Ville</div><div class="sa-detail-val" id="view-biz-city">—</div></div>
+        <div class="sa-detail-item"><div class="sa-detail-label" data-i18n="col_created">Date de création</div><div class="sa-detail-val" id="view-biz-date">—</div></div>
+        <div class="sa-detail-item" style="grid-column:1/-1"><div class="sa-detail-label" data-i18n="col_status">Statut</div><div class="sa-detail-val"><span class="sa-badge" id="view-biz-status">—</span></div></div>
       </div>
     </div>
-    <div class="sa-modal-footer"><button class="sa-btn sa-btn-outline" data-close-modal>Close</button></div>
+    <div class="sa-modal-footer"><button class="sa-btn sa-btn-outline" data-close-modal data-i18n="btn_close">Fermer</button></div>
   </div>
 </div>
 
 <!-- Edit Business -->
 <div class="sa-modal-overlay" id="edit-business-modal">
   <div class="sa-modal sa-modal-lg">
-    <div class="sa-modal-header"><h2 class="sa-modal-title">Edit Business</h2><button class="sa-modal-close" data-close-modal>✕</button></div>
+    <div class="sa-modal-header"><h2 class="sa-modal-title" data-i18n="modal_edit_title">Modifier Business</h2><button class="sa-modal-close" data-close-modal><?= saIcon('close') ?></button></div>
     <div class="sa-modal-body">
       <input type="hidden" id="edit-biz-id"/>
       <div class="sa-form-grid">
-        <div class="sa-form-group"><label class="sa-form-label">Business Name *</label><input type="text" class="sa-form-input" id="edit-biz-name"/></div>
-        <div class="sa-form-group"><label class="sa-form-label">Type *</label>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_name">Nom *</label><input type="text" class="sa-form-input" id="edit-biz-name"/></div>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_type">Type *</label>
           <select class="sa-form-select" id="edit-biz-type">
             <option>Restaurant</option><option>Salon</option><option>Boutique</option>
-            <option>Snack Bar</option><option>Retail</option><option>Fashion</option><option>Other</option>
+            <option>Snack Bar</option><option>Commerce</option><option>Mode</option><option>Autre</option>
           </select>
         </div>
-        <div class="sa-form-group"><label class="sa-form-label">Owner Name</label><input type="text" class="sa-form-input" id="edit-biz-owner"/></div>
-        <div class="sa-form-group"><label class="sa-form-label">Phone</label><input type="tel" class="sa-form-input" id="edit-biz-phone"/></div>
-        <div class="sa-form-group"><label class="sa-form-label">City</label><input type="text" class="sa-form-input" id="edit-biz-city"/></div>
-        <div class="sa-form-group"><label class="sa-form-label">Status</label>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_owner">Propriétaire</label><input type="text" class="sa-form-input" id="edit-biz-owner"/></div>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_phone">Téléphone</label><input type="tel" class="sa-form-input" id="edit-biz-phone"/></div>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_city">Ville</label><input type="text" class="sa-form-input" id="edit-biz-city"/></div>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_status">Statut</label>
           <select class="sa-form-select" id="edit-biz-status-sel">
-            <option value="active">Active</option><option value="expired">Expired</option>
-            <option value="trial">Trial</option><option value="suspended">Suspended</option>
+            <option value="active">Actif</option><option value="expired">Expiré</option>
+            <option value="trial">Essai</option><option value="suspended">Suspendu</option>
           </select>
         </div>
       </div>
     </div>
     <div class="sa-modal-footer">
-      <button class="sa-btn sa-btn-outline" data-close-modal>Cancel</button>
-      <button class="sa-btn sa-btn-primary" onclick="saveEdit()">Save Changes</button>
+      <button class="sa-btn sa-btn-outline" data-close-modal data-i18n="btn_cancel">Annuler</button>
+      <button class="sa-btn sa-btn-primary" onclick="saveEdit()" data-i18n="btn_save">Enregistrer</button>
     </div>
   </div>
 </div>
@@ -508,14 +756,14 @@ $url = APP_URL;
 <!-- Disable Confirm -->
 <div class="sa-modal-overlay" id="disable-modal">
   <div class="sa-modal" style="max-width:420px">
-    <div class="sa-modal-header"><h2 class="sa-modal-title">Disable Business</h2><button class="sa-modal-close" data-close-modal>✕</button></div>
+    <div class="sa-modal-header"><h2 class="sa-modal-title" data-i18n="modal_disable_title">Désactiver Business</h2><button class="sa-modal-close" data-close-modal><?= saIcon('close') ?></button></div>
     <div class="sa-modal-body">
-      <div class="sa-confirm-icon">⛔</div>
-      <p class="sa-confirm-msg" id="disable-confirm-msg">Are you sure?</p>
+      <div class="sa-confirm-icon"><?= saIcon('x-circle',48) ?></div>
+      <p class="sa-confirm-msg" id="disable-confirm-msg">Êtes-vous sûr ?</p>
     </div>
     <div class="sa-modal-footer">
-      <button class="sa-btn sa-btn-outline" data-close-modal>Cancel</button>
-      <button class="sa-btn sa-btn-danger" id="disable-confirm-btn">Yes, Disable</button>
+      <button class="sa-btn sa-btn-outline" data-close-modal data-i18n="btn_cancel">Annuler</button>
+      <button class="sa-btn sa-btn-danger" id="disable-confirm-btn" data-i18n="btn_disable_confirm">Oui, Désactiver</button>
     </div>
   </div>
 </div>
@@ -523,28 +771,28 @@ $url = APP_URL;
 <!-- Renew Subscription -->
 <div class="sa-modal-overlay" id="renew-modal">
   <div class="sa-modal">
-    <div class="sa-modal-header"><h2 class="sa-modal-title">Renew Subscription</h2><button class="sa-modal-close" data-close-modal>✕</button></div>
+    <div class="sa-modal-header"><h2 class="sa-modal-title" data-i18n="modal_renew_title">Renouveler Abonnement</h2><button class="sa-modal-close" data-close-modal><?= saIcon('close') ?></button></div>
     <div class="sa-modal-body">
       <input type="hidden" id="renew-biz-id"/>
       <p style="font-size:13.5px;color:#64748B;margin-bottom:16px">
-        Renewing for: <strong id="renew-biz-name" style="color:#0B1F3A">—</strong>
+        Business : <strong id="renew-biz-name" style="color:#0B1F3A">—</strong>
       </p>
       <div class="sa-form-grid">
-        <div class="sa-form-group"><label class="sa-form-label">Plan</label>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_plan">Plan</label>
           <select class="sa-form-select" id="renew-plan">
-            <option value="standard">Standard — 10,000 XAF/mo</option>
-            <option value="premium">Premium — 20,000 XAF/mo</option>
+            <option value="standard">Standard — 10 000 XAF/mois</option>
+            <option value="premium">Premium — 20 000 XAF/mois</option>
           </select>
         </div>
-        <div class="sa-form-group"><label class="sa-form-label">Amount (XAF)</label><input type="number" class="sa-form-input" id="renew-amount" value="10000" min="0"/></div>
-        <div class="sa-form-group"><label class="sa-form-label">Start Date</label><input type="date" class="sa-form-input" id="renew-start"/></div>
-        <div class="sa-form-group"><label class="sa-form-label">End Date</label><input type="date" class="sa-form-input" id="renew-end"/></div>
-        <div class="sa-form-group full"><label class="sa-form-label">Notes</label><textarea class="sa-form-textarea" id="renew-notes" placeholder="e.g. Paid via MTN MoMo"></textarea></div>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_amount">Montant (XAF)</label><input type="number" class="sa-form-input" id="renew-amount" value="10000" min="0"/></div>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_start">Date début</label><input type="date" class="sa-form-input" id="renew-start"/></div>
+        <div class="sa-form-group"><label class="sa-form-label" data-i18n="col_end">Date fin</label><input type="date" class="sa-form-input" id="renew-end"/></div>
+        <div class="sa-form-group full"><label class="sa-form-label">Notes</label><textarea class="sa-form-textarea" id="renew-notes" placeholder="ex: Payé via MTN MoMo"></textarea></div>
       </div>
     </div>
     <div class="sa-modal-footer">
-      <button class="sa-btn sa-btn-outline" data-close-modal>Cancel</button>
-      <button class="sa-btn sa-btn-teal" onclick="saveRenewal()">✅ Confirm Renewal</button>
+      <button class="sa-btn sa-btn-outline" data-close-modal data-i18n="btn_cancel">Annuler</button>
+      <button class="sa-btn sa-btn-teal" onclick="saveRenewal()"><?= saIcon('check') ?> <span data-i18n="btn_confirm_renew">Confirmer Renouvellement</span></button>
     </div>
   </div>
 </div>

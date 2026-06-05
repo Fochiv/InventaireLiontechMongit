@@ -1,8 +1,19 @@
 <?php
 /* ============================================================
    Config.php — LionTech Business Manager
-   ROOT config — C:\Xampp\htdocs\InventoryLiontech\Config.php
    ============================================================ */
+
+/* ── Auto-detect APP_URL (works with any subfolder or root) ── */
+if (!defined('APP_URL')) {
+    $docRoot    = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT'] ?? ''), '/');
+    $configDir  = rtrim(str_replace('\\', '/', dirname(__FILE__)), '/');
+    $subPath    = ($docRoot !== '' && strpos($configDir, $docRoot) === 0)
+                  ? substr($configDir, strlen($docRoot))
+                  : '';
+    $scheme     = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host       = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    define('APP_URL', $scheme . '://' . $host . rtrim($subPath, '/'));
+}
 
 /* ── Database credentials ── */
 define('DB_HOST',    'localhost');
@@ -14,7 +25,6 @@ define('DB_CHARSET', 'utf8mb4');
 /* ── App constants ── */
 define('APP_NAME',    'LionTech Business Manager');
 define('APP_VERSION', '1.0.0');
-define('APP_URL', 'http://localhost/InventoryLiontech');
 
 /* ── Session lifetime ── */
 define('SESSION_LIFETIME', 3600 * 8); // 8 hours
@@ -39,7 +49,7 @@ define('DASHBOARD_ROUTES', json_encode([
     ROLE_SUPER_ADMIN    => 'SuperAdmin/super_admin.php',
     ROLE_BUSINESS_OWNER => 'LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.php',
     ROLE_MANAGER        => 'LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.php',
-    ROLE_EMPLOYEE => 'LionTech_Employee_Dashboard/liontech_employee_dashboard/employee_dashboard.php',
+    ROLE_EMPLOYEE       => 'LionTech_Employee_Dashboard/liontech_employee_dashboard/employee_dashboard.php',
 ]));
 
 /* ============================================================
@@ -77,11 +87,10 @@ function startSecureSession(): void {
     if (session_status() === PHP_SESSION_NONE) {
         ini_set('session.cookie_httponly', 1);
         ini_set('session.use_strict_mode', 1);
-        ini_set('session.cookie_samesite', 'Strict');
         session_set_cookie_params([
             'lifetime' => SESSION_LIFETIME,
             'httponly' => true,
-            'samesite' => 'Strict'
+            'samesite' => 'Lax',
         ]);
         session_start();
     }

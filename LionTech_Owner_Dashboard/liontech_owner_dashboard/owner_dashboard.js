@@ -27,17 +27,17 @@
     }
   };
 
-  let lang = localStorage.getItem('ownerLang') || 'fr';
+  let lang = localStorage.getItem('lt_lang') || 'fr';
   const langBtn = document.getElementById('od-lang-btn');
   function applyLang(){
     document.documentElement.lang = lang;
-    if(langBtn) langBtn.textContent = lang.toUpperCase();
+    if(langBtn) langBtn.textContent = lang === 'fr' ? 'EN' : 'FR';
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
-      if(translations[lang][key]) el.textContent = translations[lang][key];
+      if(translations[lang] && translations[lang][key]) el.textContent = translations[lang][key];
     });
   }
-  if(langBtn){ langBtn.addEventListener('click',()=>{ lang = lang === 'fr' ? 'en':'fr'; localStorage.setItem('ownerLang', lang); applyLang(); }); }
+  if(langBtn){ langBtn.addEventListener('click',()=>{ lang = lang === 'fr' ? 'en':'fr'; localStorage.setItem('lt_lang', lang); applyLang(); }); }
   applyLang();
 
   const chartEl = document.getElementById('odStockChart');

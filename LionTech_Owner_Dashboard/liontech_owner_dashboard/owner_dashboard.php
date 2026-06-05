@@ -137,7 +137,7 @@ $dashboard_url     = $url . '/LionTech_Owner_Dashboard/liontech_owner_dashboard/
 <meta name="robots" content="noindex,nofollow"/>
 <meta name="theme-color" content="#0B1F3A"/>
 <title>Dashboard Propriétaire — LionTech</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230B1F3A'/><text y='22' x='5' font-size='20'>🦁</text></svg>"/>
+<link rel="icon" type="image/jpeg" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
 <link rel="stylesheet" href="owner_dashboard.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>window.OWNER_CHART_DATA = <?= json_encode($chartData) ?>;</script>
@@ -158,7 +158,9 @@ if (file_exists($sidebarFile)) {
   <main class="od-main">
     <!-- Topbar -->
     <header class="od-topbar">
-      <button class="od-menu-btn" id="od-menu-btn" aria-label="Open menu">☰</button>
+      <button class="od-menu-btn" id="od-menu-btn" aria-label="Open menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <div class="od-business-title">
         <h1>Tableau de bord</h1>
         <p>Bienvenue, <?= e($user['full_name']) ?> · <?= e($business['business_name']) ?></p>
@@ -171,7 +173,7 @@ if (file_exists($sidebarFile)) {
 
     <?php if ($subscriptionMessage): ?>
     <section class="od-sub-warning <?= $isExpired ? 'expired' : 'soon' ?>">
-      <div class="od-warning-icon">⚠️</div>
+      <div class="od-warning-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
       <div>
         <strong>Attention abonnement</strong>
         <p><?= e($subscriptionMessage) ?></p>
@@ -183,29 +185,29 @@ if (file_exists($sidebarFile)) {
     <!-- Quick actions -->
     <section class="od-quick-actions">
       <a class="od-action <?= $isExpired ? 'disabled' : '' ?>" href="<?= $products_url ?>?action=add">
-        <span>➕</span>
-        <div><strong>Ajouter produit</strong><small>Créer un nouvel article</small></div>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>
+        <div><strong data-i18n="add_product">Ajouter produit</strong><small data-i18n="add_product_sub">Créer un nouvel article</small></div>
       </a>
       <a class="od-action <?= $isExpired ? 'disabled' : '' ?>" href="<?= $stock_in_url ?>">
-        <span>📥</span>
-        <div><strong>Stock entrant</strong><small>Ajouter une livraison</small></div>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg></span>
+        <div><strong data-i18n="stock_in">Stock entrant</strong><small data-i18n="stock_in_sub">Ajouter une livraison</small></div>
       </a>
       <a class="od-action <?= $isExpired ? 'disabled' : '' ?>" href="<?= $stock_out_url ?>">
-        <span>📤</span>
-        <div><strong>Stock sortant</strong><small>Vente, perte ou usage</small></div>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 12 12 8 8 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg></span>
+        <div><strong data-i18n="stock_out">Stock sortant</strong><small data-i18n="stock_out_sub">Vente, perte ou usage</small></div>
       </a>
       <a class="od-action" href="<?= $employees_url ?>?action=add">
-        <span>👤</span>
-        <div><strong>Ajouter employé</strong><small>Optionnel si vous travaillez seul</small></div>
+        <span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <div><strong data-i18n="add_employee">Ajouter employé</strong><small data-i18n="add_employee_sub">Optionnel si vous travaillez seul</small></div>
       </a>
     </section>
 
     <!-- Stats -->
     <section class="od-stats">
-      <article class="od-card stat"><span class="stat-icon blue">📦</span><div><small>Produits</small><strong><?= number_format($totalProducts) ?></strong></div></article>
-      <article class="od-card stat"><span class="stat-icon green">📊</span><div><small>Quantité totale</small><strong><?= number_format($totalQty) ?></strong></div></article>
-      <article class="od-card stat"><span class="stat-icon amber">⚠️</span><div><small>Stock faible</small><strong><?= number_format($lowStockCount) ?></strong></div></article>
-      <article class="od-card stat"><span class="stat-icon purple">👥</span><div><small>Employés</small><strong><?= number_format($employeeCount) ?></strong></div></article>
+      <article class="od-card stat"><span class="stat-icon blue"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span><div><small data-i18n="total_products">Produits</small><strong><?= number_format($totalProducts) ?></strong></div></article>
+      <article class="od-card stat"><span class="stat-icon green"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><div><small data-i18n="total_stock">Quantité totale</small><strong><?= number_format($totalQty) ?></strong></div></article>
+      <article class="od-card stat"><span class="stat-icon amber"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></span><div><small data-i18n="low_stock">Stock faible</small><strong><?= number_format($lowStockCount) ?></strong></div></article>
+      <article class="od-card stat"><span class="stat-icon purple"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><small data-i18n="employees">Employés</small><strong><?= number_format($employeeCount) ?></strong></div></article>
     </section>
 
     <section class="od-grid">
@@ -222,7 +224,7 @@ if (file_exists($sidebarFile)) {
 
         <?php if (empty($products)): ?>
         <div class="od-empty">
-          <div>📦</div>
+          <div><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
           <strong>Aucun produit pour le moment</strong>
           <p>Commencez par ajouter vos produits pour suivre votre stock.</p>
           <a href="<?= $products_url ?>?action=add" class="od-primary <?= $isExpired ? 'disabled' : '' ?>">
@@ -251,7 +253,7 @@ if (file_exists($sidebarFile)) {
               <tr>
                 <td>
                   <div class="product-cell">
-                    <div class="product-img"><?= $img ? '<img src="'.e($img).'" alt="">' : '📦' ?></div>
+                    <div class="product-img"><?= $img ? '<img src="'.e($img).'" alt="">' : '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>' ?></div>
                     <div><strong><?= e($p['name']) ?></strong><small><?= e($p['sku'] ?? '') ?></small></div>
                   </div>
                 </td>
@@ -314,7 +316,17 @@ if (file_exists($sidebarFile)) {
           <div class="od-empty mini"><strong>Aucune activité récente</strong></div>
           <?php else: foreach ($activities as $a): ?>
           <div class="od-activity">
-            <span class="od-activity-icon"><?= e($a['icon'] ?: 'ℹ️') ?></span>
+            <span class="od-activity-icon"><?php
+              $actIco = $a['icon'] ?? $a['action'] ?? '';
+              $actI = strtolower($actIco);
+              if(str_contains($actI,'stock_in'))         echo '<svg style="color:#16A34A" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg>';
+              elseif(str_contains($actI,'stock_out'))    echo '<svg style="color:#DC2626" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 12 12 8 8 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>';
+              elseif(str_contains($actI,'login'))        echo '<svg style="color:#8B5CF6" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>';
+              elseif(str_contains($actI,'product'))      echo '<svg style="color:#0B1F3A" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>';
+              elseif(str_contains($actI,'employee'))     echo '<svg style="color:#2563EB" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+              elseif(str_contains($actI,'approv'))       echo '<svg style="color:#16A34A" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+              else                                        echo '<svg style="color:#6B7280" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+            ?></span>
             <div>
               <strong><?= e($a['action']) ?></strong>
               <p><?= e($a['description']) ?></p>

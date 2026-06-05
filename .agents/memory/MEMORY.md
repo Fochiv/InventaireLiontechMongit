@@ -1,0 +1,1 @@
+- [LionTech arch decisions](liontech-arch.md) — stack, unified lang key, sidebar/reports path conventions

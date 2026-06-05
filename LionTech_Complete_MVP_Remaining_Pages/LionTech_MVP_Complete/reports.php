@@ -86,9 +86,16 @@ $initials=substr($initials?:'O',0,2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="robots" content="noindex,nofollow"/>
   <title>Rapports — LionTech</title>
+  <link rel="icon" type="image/jpeg" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
+  <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/liontech_owner_dashboard/owner_dashboard.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>window.REPORT_CHARTS = <?= json_encode($chartData) ?>;</script>
+  <style>
+    #rp-menu-btn{display:none}
+    @media(max-width:1050px){#rp-menu-btn{display:flex!important;align-items:center}}
+  </style>
 </head>
 <body>
 <div class="od-layout">
@@ -96,18 +103,25 @@ $initials=substr($initials?:'O',0,2);
 
   <main class="od-main">
     <header class="od-topbar">
-      <div class="od-business-title">
-        <h1>Rapports</h1>
-        <p><?= e($business['business_name']??'Business') ?> · Analyse inventaire, présence et mouvements</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="od-menu-btn" id="rp-menu-btn" aria-label="Menu" style="display:none;border:1.5px solid #E5E7EB;background:#fff;border-radius:12px;padding:8px 11px;cursor:pointer;color:#0B1F3A">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="od-business-title">
+          <h1>Rapports</h1>
+          <p><?= e($business['business_name']??'Business') ?> · Analyse inventaire, présence et mouvements</p>
+        </div>
       </div>
       <div class="od-top-actions">
+        <button id="rp-lang-btn" class="od-lang" style="border:1px solid #E5E7EB;background:#fff;border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer">FR</button>
         <div class="od-avatar"><?= e($initials) ?></div>
       </div>
     </header>
 
     <?php if ($isExpired): ?>
-    <div style="background:#FEF3C7;border:1px solid #FDE68A;padding:12px 24px;font-size:13px;color:#92400E">
-      ⚠️ Abonnement expiré. Vous pouvez consulter les rapports mais les actions sont limitées.
+    <div style="background:#FEF3C7;border:1px solid #FDE68A;padding:12px 24px;font-size:13px;color:#92400E;display:flex;align-items:center;gap:8px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Abonnement expiré. Vous pouvez consulter les rapports mais les actions sont limitées.
     </div>
     <?php endif; ?>
 
@@ -126,10 +140,11 @@ $initials=substr($initials?:'O',0,2);
               style="padding:8px 12px;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;font-family:inherit"/>
           </div>
           <button type="submit" class="od-primary" style="padding:9px 18px;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Appliquer</button>
-          <button type="button" onclick="setRange('today')" style="padding:9px 14px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit">Aujourd'hui</button>
-          <button type="button" onclick="setRange('month')" style="padding:9px 14px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit">Ce mois</button>
+          <button type="button" onclick="setRange('today')" style="padding:9px 14px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit" id="quick-today">Aujourd'hui</button>
+          <button type="button" onclick="setRange('month')" style="padding:9px 14px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit" id="quick-month">Ce mois</button>
+          <button type="button" onclick="setRange('year')" style="padding:9px 14px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit" id="quick-year">Cette année</button>
           <?php if ($isOwner): ?>
-          <button type="button" onclick="window.print()" style="padding:9px 14px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit">🖨️ PDF</button>
+          <button type="button" id="print-pdf" style="padding:9px 14px;background:#fff;border:1.5px solid #E5E7EB;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> PDF</button>
           <?php endif; ?>
         </form>
       </div>
@@ -137,12 +152,12 @@ $initials=substr($initials?:'O',0,2);
 
     <!-- Stats -->
     <div style="padding:16px 24px 0;display:grid;grid-template-columns:repeat(6,1fr);gap:12px">
-      <div class="od-card stat"><span class="stat-icon blue">📦</span><div><small>Produits</small><strong><?= number_format($totalProducts) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon green">📥</span><div><small>Stock entrant</small><strong><?= number_format($stockInQty) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2">📤</span><div><small>Stock sortant</small><strong><?= number_format($stockOutQty) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon amber">⚠️</span><div><small>Stock faible</small><strong><?= number_format($lowStock) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon purple">⏳</span><div><small>En attente</small><strong><?= number_format($pendingApprovals) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon" style="background:#F1F5F9">🚫</span><div><small>Rupture</small><strong><?= number_format($outStock) ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span><div><small>Produits</small><strong><?= number_format($totalProducts) ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 12 16 16 12"/><line x1="12" y1="8" x2="12" y2="16"/></svg></span><div><small>Stock entrant</small><strong><?= number_format($stockInQty) ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="16 12 12 8 8 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg></span><div><small>Stock sortant</small><strong><?= number_format($stockOutQty) ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><div><small>Stock faible</small><strong><?= number_format($lowStock) ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><div><small>En attente</small><strong><?= number_format($pendingApprovals) ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon" style="background:#F1F5F9"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></span><div><small>Rupture</small><strong><?= number_format($outStock) ?></strong></div></div>
     </div>
 
     <!-- Charts -->
@@ -235,30 +250,20 @@ $initials=substr($initials?:'O',0,2);
 function setRange(type) {
     const today = new Date();
     const fmt = d => d.toISOString().split('T')[0];
+    let from, to = fmt(today);
     if (type === 'today') {
-        document.querySelector('[name=from]').value = fmt(today);
-        document.querySelector('[name=to]').value   = fmt(today);
+        from = fmt(today);
+    } else if (type === 'month') {
+        from = fmt(new Date(today.getFullYear(), today.getMonth(), 1));
+    } else if (type === 'year') {
+        from = fmt(new Date(today.getFullYear(), 0, 1));
     } else {
-        const first = new Date(today.getFullYear(), today.getMonth(), 1);
-        document.querySelector('[name=from]').value = fmt(first);
-        document.querySelector('[name=to]').value   = fmt(today);
+        from = fmt(new Date(today.getFullYear(), today.getMonth(), 1));
     }
+    document.querySelector('[name=from]').value = from;
+    document.querySelector('[name=to]').value   = to;
 }
-document.addEventListener('DOMContentLoaded', function() {
-    const d = window.REPORT_CHARTS;
-    if (d && window.Chart) {
-        new Chart(document.getElementById('stockChart'), {
-            type:'doughnut',
-            data:{labels:d.stock.labels,datasets:[{data:d.stock.values,borderWidth:0,backgroundColor:['#1A9E7A','#D4A017']}]},
-            options:{responsive:true,plugins:{legend:{position:'bottom'}},cutout:'60%'}
-        });
-        new Chart(document.getElementById('topChart'), {
-            type:'bar',
-            data:{labels:d.top.labels,datasets:[{data:d.top.values,backgroundColor:'#0B1F3A',borderRadius:6}]},
-            options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
-        });
-    }
-});
 </script>
+<script src="<?= APP_URL ?>/LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/reports.js"></script>
 </body>
 </html>
