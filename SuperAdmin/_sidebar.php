@@ -62,31 +62,32 @@ $saUrl = $url ?? APP_URL;
   </div>
 
   <nav class="sa-nav">
-    <div class="sa-nav-section">Principal</div>
+    <div class="sa-nav-section" data-i18n="nav_section_main">Principal</div>
 
     <a class="sa-nav-item <?= $saCurrentPage === 'super_admin.php' ? 'active' : '' ?>"
        href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
       <span class="sa-nav-icon"><?= saIcon('dashboard') ?></span>
-      <span>Dashboard</span>
+      <span data-i18n="nav_dashboard">Dashboard</span>
     </a>
 
     <a class="sa-nav-item <?= $saCurrentPage === 'add_business.php' ? 'active' : '' ?>"
        href="<?= $saUrl ?>/LionTech_Add_Business_Page/add_business.php">
       <span class="sa-nav-icon"><?= saIcon('plus') ?></span>
-      <span>Ajouter Business</span>
+      <span data-i18n="nav_add_business">Ajouter Business</span>
     </a>
 
-    <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
+    <a class="sa-nav-item <?= $saCurrentPage === 'super_admin.php' && !$saTab ? 'active' : '' ?>"
+       href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
       <span class="sa-nav-icon"><?= saIcon('building') ?></span>
-      <span>Businesses</span>
+      <span data-i18n="nav_businesses">Businesses</span>
     </a>
 
-    <div class="sa-nav-section">Paiements</div>
+    <div class="sa-nav-section" data-i18n="nav_section_payments">Paiements</div>
 
     <a class="sa-nav-item <?= $saCurrentPage === 'payment_review.php' ? 'active' : '' ?>"
        href="<?= $saUrl ?>/SuperAdmin/payment_review.php">
       <span class="sa-nav-icon"><?= saIcon('check') ?></span>
-      <span>Valider Paiements</span>
+      <span data-i18n="nav_validate">Valider Paiements</span>
       <?php if ($saPendingCount > 0): ?>
       <span class="sa-nav-badge"><?= $saPendingCount ?></span>
       <?php endif; ?>
@@ -95,38 +96,38 @@ $saUrl = $url ?? APP_URL;
     <a class="sa-nav-item <?= ($saCurrentPage === 'payment_settings.php' && $saTab === 'numbers') ? 'active' : '' ?>"
        href="<?= $saUrl ?>/SuperAdmin/payment_settings.php?tab=numbers">
       <span class="sa-nav-icon"><?= saIcon('credit-card') ?></span>
-      <span>Numéros Paiement</span>
+      <span data-i18n="nav_payment_numbers">Numéros Paiement</span>
     </a>
 
-    <div class="sa-nav-section">Plateforme</div>
+    <div class="sa-nav-section" data-i18n="nav_section_platform">Plateforme</div>
 
     <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
       <span class="sa-nav-icon"><?= saIcon('refresh') ?></span>
-      <span>Abonnements</span>
+      <span data-i18n="nav_subscriptions">Abonnements</span>
     </a>
 
     <a class="sa-nav-item" href="<?= $saUrl ?>/SuperAdmin/super_admin.php">
       <span class="sa-nav-icon"><?= saIcon('users') ?></span>
-      <span>Utilisateurs</span>
+      <span data-i18n="nav_users">Utilisateurs</span>
     </a>
 
     <a class="sa-nav-item <?= $saCurrentPage === 'super_admin_reports.php' ? 'active' : '' ?>"
        href="<?= $saUrl ?>/SuperAdmin/super_admin_reports.php">
       <span class="sa-nav-icon"><?= saIcon('bar-chart') ?></span>
-      <span>Rapports</span>
+      <span data-i18n="nav_reports">Rapports</span>
     </a>
 
-    <div class="sa-nav-section">Système</div>
+    <div class="sa-nav-section" data-i18n="nav_section_system">Système</div>
 
     <a class="sa-nav-item <?= ($saCurrentPage === 'payment_settings.php' && $saTab !== 'numbers') ? 'active' : '' ?>"
        href="<?= $saUrl ?>/SuperAdmin/payment_settings.php">
       <span class="sa-nav-icon"><?= saIcon('settings') ?></span>
-      <span>Paramètres</span>
+      <span data-i18n="nav_settings">Paramètres</span>
     </a>
 
     <a class="sa-nav-item sa-nav-logout" href="<?= $saUrl ?>/Logininventory/logout.php">
       <span class="sa-nav-icon"><?= saIcon('logout') ?></span>
-      <span>Déconnexion</span>
+      <span data-i18n="nav_logout">Déconnexion</span>
     </a>
   </nav>
 
@@ -145,25 +146,41 @@ $saUrl = $url ?? APP_URL;
   if (document.getElementById('lang-toggle')) return; /* super_admin.php has its own */
   var KEYS = {
     fr:{
-      nav_dashboard:'Tableau de bord', nav_add_business:'Ajouter Business', nav_businesses:'Businesses',
-      nav_payments:'Valider Paiements', nav_numbers:'Numéros Paiement', nav_subscriptions:'Abonnements',
-      nav_users:'Utilisateurs', nav_reports:'Rapports', nav_settings:'Paramètres', nav_logout:'Déconnexion',
+      /* Sections */
+      nav_section_main:'Principal', nav_section_payments:'Paiements',
+      nav_section_platform:'Plateforme', nav_section_system:'Système',
+      /* Nav items — same keys as SA_LANG in super_admin.js */
+      nav_dashboard:'Dashboard', nav_add_business:'Ajouter Business', nav_businesses:'Businesses',
+      nav_validate:'Valider Paiements', nav_payment_numbers:'Numéros Paiement',
+      nav_subscriptions:'Abonnements', nav_users:'Utilisateurs', nav_reports:'Rapports',
+      nav_settings:'Paramètres', nav_logout:'Déconnexion',
+      /* Payment review page */
       pr_title:'Validation des Paiements', pr_pending_title:'Paiements en attente de validation',
       pr_pending_sub:'Vérifiez chaque preuve avant d\'approuver', pr_none:'Aucun paiement en attente.',
       pr_history:'Historique des validations',
+      /* Payment settings page */
       ps_title:'Paramètres de Paiement', ps_om:'Orange Money', ps_mtn:'MTN Mobile Money',
       ps_bank:'Coordonnées Bancaires', ps_save:'💾 Sauvegarder', ps_name_label:'Votre nom complet (confirmation)',
+      /* Reports page */
       sa_reports_title:'Rapports Plateforme', sa_reports_sub:'Vue globale — revenus, paiements, businesses et activité'
     },
     en:{
+      /* Sections */
+      nav_section_main:'Main', nav_section_payments:'Payments',
+      nav_section_platform:'Platform', nav_section_system:'System',
+      /* Nav items */
       nav_dashboard:'Dashboard', nav_add_business:'Add Business', nav_businesses:'Businesses',
-      nav_payments:'Validate Payments', nav_numbers:'Payment Numbers', nav_subscriptions:'Subscriptions',
-      nav_users:'Users', nav_reports:'Reports', nav_settings:'Settings', nav_logout:'Sign Out',
+      nav_validate:'Validate Payments', nav_payment_numbers:'Payment Numbers',
+      nav_subscriptions:'Subscriptions', nav_users:'Users', nav_reports:'Reports',
+      nav_settings:'Settings', nav_logout:'Sign Out',
+      /* Payment review page */
       pr_title:'Payment Validation', pr_pending_title:'Payments awaiting validation',
       pr_pending_sub:'Verify each proof before approving', pr_none:'No pending payments.',
       pr_history:'Validation History',
+      /* Payment settings page */
       ps_title:'Payment Settings', ps_om:'Orange Money', ps_mtn:'MTN Mobile Money',
       ps_bank:'Bank Details', ps_save:'💾 Save', ps_name_label:'Your full name (confirmation)',
+      /* Reports page */
       sa_reports_title:'Platform Reports', sa_reports_sub:'Global overview — revenue, payments, businesses and activity'
     }
   };

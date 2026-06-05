@@ -182,13 +182,13 @@ $initials=substr($initials,0,2);
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
 <title>Ajouter un business — LionTech</title>
-<link rel="stylesheet" href="../../SuperAdmin/super_admin.css"/>
+<link rel="stylesheet" href="../SuperAdmin/super_admin.css"/>
 <link rel="stylesheet" href="add_business.css"/>
 </head>
 <body>
 <div class="sa-layout">
 
-<?php $url = APP_URL; include __DIR__ . '/../../SuperAdmin/_sidebar.php'; ?>
+<?php $url = APP_URL; include __DIR__ . '/../SuperAdmin/_sidebar.php'; ?>
 
 <div class="sa-main">
 <header class="sa-topbar">
