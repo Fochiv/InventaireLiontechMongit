@@ -58,13 +58,16 @@ try {
         LEFT JOIN users u ON u.business_id = s.business_id AND u.role = 'business_owner'
         ORDER BY s.created_at DESC
         LIMIT 200")->fetchAll();
-} catch(Throwable $e){
-    /* If subscriptions table doesn't exist, build from businesses */
+} catch(Throwable $e){}
+/* Always fallback to businesses if subscriptions table absent or empty */
+if (empty($subscriptions)) {
     try {
+        $cols = array_column($pdo->query("SHOW COLUMNS FROM businesses")->fetchAll(), 'Field');
+        $expCol = in_array('subscription_expires_at', $cols) ? 'b.subscription_expires_at' : 'NULL';
         $subscriptions = $pdo->query("
             SELECT b.business_id AS subscription_id, 'Standard' AS plan_name,
                    10000 AS amount, 'XAF' AS currency,
-                   b.created_at AS start_date, b.subscription_expires_at AS end_date,
+                   b.created_at AS start_date, {$expCol} AS end_date,
                    b.subscription_status AS status, b.created_at,
                    b.business_name, b.subscription_status AS biz_status,
                    u.full_name AS owner_name
@@ -116,6 +119,38 @@ try {
         $activity[] = ['icon'=>$row['icon']?:'info','desc'=>$row['desc']?:$row['action'],'biz'=>$row['biz'],'time'=>$time.' ago'];
     }
 } catch(Throwable $e){}
+/* Fallback : use payment history if activity_logs is empty */
+if (empty($activity)) {
+    try {
+        $rows2 = $pdo->query("
+            SELECT p.status, p.created_at, b.business_name AS biz,
+                   CONCAT('Paiement ', p.status, ' — ',
+                          FORMAT(p.amount,0), ' XAF pour ', b.business_name) AS action
+            FROM liontech_payments p
+            JOIN businesses b ON b.business_id = p.business_id
+            ORDER BY p.created_at DESC LIMIT 8")->fetchAll();
+        foreach($rows2 as $row){
+            $diff = time()-strtotime($row['created_at']);
+            $t    = $diff<3600 ? ceil($diff/60).' min' : ($diff<86400 ? ceil($diff/3600).'h' : ceil($diff/86400).'j');
+            $icon = $row['status']==='approved' ? 'check' : ($row['status']==='pending' ? 'clock' : 'x-circle');
+            $activity[] = ['icon'=>$icon,'desc'=>$row['action'],'biz'=>$row['biz'],'time'=>$t.' ago'];
+        }
+    } catch(Throwable $e2){}
+}
+/* Last resort : show registered businesses */
+if (empty($activity)) {
+    try {
+        $rows3 = $pdo->query("
+            SELECT b.business_name, b.created_at,
+                   CONCAT('Business enregistré : ', b.business_name) AS action
+            FROM businesses b ORDER BY b.created_at DESC LIMIT 5")->fetchAll();
+        foreach($rows3 as $row){
+            $diff = time()-strtotime($row['created_at']);
+            $t    = $diff<3600 ? ceil($diff/60).' min' : ($diff<86400 ? ceil($diff/3600).'h' : ceil($diff/86400).'j');
+            $activity[] = ['icon'=>'briefcase','desc'=>$row['action'],'biz'=>$row['business_name'],'time'=>$t.' ago'];
+        }
+    } catch(Throwable $e3){}
+}
 
 /* ── CHART ── */
 $chartData = ['labels'=>[],'revenue'=>[],'subscriptions'=>[]];

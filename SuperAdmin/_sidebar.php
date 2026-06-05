@@ -139,3 +139,41 @@ $saUrl = $url ?? APP_URL;
   </div>
 </aside>
 <div class="sa-overlay" id="sa-overlay"></div>
+<script>
+/* Lang toggle — injected on all SA pages that include _sidebar.php */
+(function(){
+  if (document.getElementById('lang-toggle')) return; /* super_admin.php has its own */
+  var KEYS = {
+    fr:{ nav_dashboard:'Tableau de bord',nav_add_business:'Ajouter Business',nav_businesses:'Businesses',
+         nav_payments:'Valider Paiements',nav_numbers:'Numéros Paiement',nav_subscriptions:'Abonnements',
+         nav_users:'Utilisateurs',nav_reports:'Rapports',nav_settings:'Paramètres',nav_logout:'Déconnexion' },
+    en:{ nav_dashboard:'Dashboard',nav_add_business:'Add Business',nav_businesses:'Businesses',
+         nav_payments:'Validate Payments',nav_numbers:'Payment Numbers',nav_subscriptions:'Subscriptions',
+         nav_users:'Users',nav_reports:'Reports',nav_settings:'Settings',nav_logout:'Sign Out' }
+  };
+  var lang = localStorage.getItem('lt_lang') || 'fr';
+  function applyLang(l){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      if (KEYS[l] && KEYS[l][k]) el.textContent = KEYS[l][k];
+    });
+    var btn = document.getElementById('_lt_lang_btn');
+    if (btn) btn.textContent = l === 'fr' ? 'EN' : 'FR';
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var tr = document.querySelector('.sa-topbar-right');
+    if (!tr) return;
+    var btn = document.createElement('button');
+    btn.id = '_lt_lang_btn';
+    btn.style.cssText = 'font-size:11px;padding:5px 11px;border:1.5px solid #CBD5E1;border-radius:6px;background:#fff;cursor:pointer;font-weight:700;color:#0B1F3A;letter-spacing:.5px';
+    btn.textContent = lang === 'fr' ? 'EN' : 'FR';
+    btn.addEventListener('click', function(){
+      lang = lang === 'fr' ? 'en' : 'fr';
+      localStorage.setItem('lt_lang', lang);
+      applyLang(lang);
+    });
+    tr.insertBefore(btn, tr.firstChild);
+    applyLang(lang);
+  });
+})();
+</script>
