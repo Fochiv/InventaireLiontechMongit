@@ -16,13 +16,13 @@ if (isLoggedIn()) {
 $queryError = htmlspecialchars($_GET['error'] ?? '', ENT_QUOTES);
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="LionTech Business Manager — secure login."/>
+  <meta name="description" content="LionTech Business Manager — connexion sécurisée."/>
   <meta name="theme-color" content="#0B1F3A"/>
-  <title>Login — LionTech Business Manager</title>
+  <title>Connexion — LionTech Business Manager</title>
   <link rel="icon" type="image/jpeg" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
   <link rel="stylesheet" href="style.css"/>
 </head>

@@ -1,8 +1,9 @@
 -- ============================================================
 --  db-config.sql — LionTech Business Manager
---  Single consolidated database file
---  Compatible with MySQL 8.0+ / MariaDB 10.4+
---  Last updated: 2026
+--  Fichier SQL unique et consolidé — compatible MySQL 5.7+ / MariaDB 10.3+
+--  Toutes les colonnes sont incluses dès la création des tables.
+--  Aucun ALTER TABLE ADD COLUMN nécessaire.
+--  Dernière mise à jour : 2026
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS `InventaireLiontech_db`
@@ -12,7 +13,7 @@ CREATE DATABASE IF NOT EXISTS `InventaireLiontech_db`
 USE `InventaireLiontech_db`;
 
 -- ============================================================
---  SECTION 1 — CORE TABLES
+--  SECTION 1 — TABLES PRINCIPALES
 -- ============================================================
 
 -- ------------------------------------------------------------
@@ -22,12 +23,13 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `business_id`             INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `business_name`           VARCHAR(255)  NOT NULL,
   `business_type`           VARCHAR(100)  DEFAULT NULL,
-  `address`                 TEXT          DEFAULT NULL,
-  `city`                    VARCHAR(100)  DEFAULT NULL,
-  `disabled`                TINYINT(1)    NOT NULL DEFAULT 0,
   `phone`                   VARCHAR(30)   DEFAULT NULL,
+  `city`                    VARCHAR(100)  DEFAULT NULL,
+  `address`                 TEXT          DEFAULT NULL,
+  `country`                 VARCHAR(80)   NOT NULL DEFAULT 'Cameroun',
   `email`                   VARCHAR(255)  DEFAULT NULL,
   `logo_url`                VARCHAR(500)  DEFAULT NULL,
+  `disabled`                TINYINT(1)    NOT NULL DEFAULT 0,
   `subscription_status`     ENUM('trial','active','expired','suspended') NOT NULL DEFAULT 'trial',
   `subscription_expires_at` DATETIME      DEFAULT NULL,
   `created_at`              DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -38,44 +40,67 @@ CREATE TABLE IF NOT EXISTS `businesses` (
 
 -- ------------------------------------------------------------
 -- Table: users
+-- (Toutes colonnes incluses : phone, temporary_pin_plain,
+--  force_pin_change, pin_must_change, security_flagged)
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users` (
-  `user_id`       INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `business_id`   INT UNSIGNED  DEFAULT NULL,
-  `full_name`     VARCHAR(255)  NOT NULL,
-  `login_id`      VARCHAR(100)  NOT NULL,
-  `email`         VARCHAR(255)  DEFAULT NULL,
-  `phone`         VARCHAR(30)   DEFAULT NULL,
-  `password_hash` VARCHAR(255)  NOT NULL,
-  `role`          ENUM('super_admin','business_owner','manager','employee') NOT NULL,
-  `status`        ENUM('active','inactive','suspended') NOT NULL DEFAULT 'active',
-  `last_login`    DATETIME      DEFAULT NULL,
-  `created_at`    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`    DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id`              INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `business_id`          INT UNSIGNED  DEFAULT NULL,
+  `full_name`            VARCHAR(255)  NOT NULL,
+  `login_id`             VARCHAR(100)  NOT NULL,
+  `email`                VARCHAR(255)  DEFAULT NULL,
+  `phone`                VARCHAR(30)   DEFAULT NULL,
+  `password_hash`        VARCHAR(255)  NOT NULL,
+  `role`                 ENUM('super_admin','business_owner','manager','employee') NOT NULL,
+  `status`               ENUM('active','inactive','suspended') NOT NULL DEFAULT 'active',
+  `security_flagged`     TINYINT(1)    NOT NULL DEFAULT 0,
+  `last_login`           DATETIME      DEFAULT NULL,
+  `temporary_pin_plain`  VARCHAR(20)   DEFAULT NULL,
+  `force_pin_change`     TINYINT(1)    NOT NULL DEFAULT 0,
+  `pin_must_change`      TINYINT(1)    NOT NULL DEFAULT 1,
+  `created_at`           DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`           DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `uq_login_id` (`login_id`),
   KEY `idx_business_id` (`business_id`),
-  KEY `idx_role`        (`role`),
-  KEY `idx_status`      (`status`),
+  KEY `idx_role`         (`role`),
+  KEY `idx_status`       (`status`),
   CONSTRAINT `fk_users_business`
     FOREIGN KEY (`business_id`) REFERENCES `businesses` (`business_id`)
     ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
--- Table: products / inventory
+-- Table: products / inventaire
+-- (Toutes colonnes incluses : barcode, low_stock_level,
+--  expiration_date, supplier, image_url, description,
+--  status, unit, created_by, updated_at)
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `products` (
-  `product_id`  INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `business_id` INT UNSIGNED  NOT NULL,
-  `name`        VARCHAR(255)  NOT NULL,
-  `sku`         VARCHAR(100)  DEFAULT NULL,
-  `quantity`    INT           NOT NULL DEFAULT 0,
-  `unit_price`  DECIMAL(12,2) NOT NULL DEFAULT 0.00,
-  `category`    VARCHAR(100)  DEFAULT NULL,
-  `created_at`  DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `product_id`      INT UNSIGNED   NOT NULL AUTO_INCREMENT,
+  `business_id`     INT UNSIGNED   NOT NULL,
+  `name`            VARCHAR(255)   NOT NULL,
+  `sku`             VARCHAR(100)   DEFAULT NULL,
+  `barcode`         VARCHAR(150)   DEFAULT NULL,
+  `quantity`        DECIMAL(12,2)  NOT NULL DEFAULT 0.00,
+  `unit_price`      DECIMAL(12,2)  NOT NULL DEFAULT 0.00,
+  `low_stock_level` DECIMAL(12,2)  NOT NULL DEFAULT 5.00,
+  `expiration_date` DATE           DEFAULT NULL,
+  `supplier`        VARCHAR(255)   DEFAULT NULL,
+  `image_url`       VARCHAR(500)   DEFAULT NULL,
+  `description`     TEXT           DEFAULT NULL,
+  `status`          ENUM('active','archived') NOT NULL DEFAULT 'active',
+  `category`        VARCHAR(100)   DEFAULT NULL,
+  `unit`            VARCHAR(50)    NOT NULL DEFAULT 'piece',
+  `created_by`      INT UNSIGNED   DEFAULT NULL,
+  `created_at`      DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`      DATETIME       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_id`),
-  KEY `idx_business_id` (`business_id`),
+  KEY `idx_business_id`             (`business_id`),
+  KEY `idx_products_status`         (`status`),
+  KEY `idx_products_category`       (`category`),
+  KEY `idx_products_barcode`        (`barcode`),
+  KEY `idx_products_business_status`(`business_id`, `status`),
   CONSTRAINT `fk_products_business`
     FOREIGN KEY (`business_id`) REFERENCES `businesses` (`business_id`)
     ON DELETE CASCADE
@@ -83,25 +108,37 @@ CREATE TABLE IF NOT EXISTS `products` (
 
 -- ------------------------------------------------------------
 -- Table: attendance
+-- (Toutes colonnes GPS et status incluses)
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `attendance` (
-  `attendance_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id`       INT UNSIGNED NOT NULL,
-  `business_id`   INT UNSIGNED NOT NULL,
-  `clock_in`      DATETIME     DEFAULT NULL,
-  `clock_out`     DATETIME     DEFAULT NULL,
-  `date`          DATE         NOT NULL,
+  `attendance_id`          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `user_id`                INT UNSIGNED  NOT NULL,
+  `business_id`            INT UNSIGNED  NOT NULL,
+  `clock_in`               DATETIME      DEFAULT NULL,
+  `clock_in_latitude`      DECIMAL(10,7) DEFAULT NULL,
+  `clock_in_longitude`     DECIMAL(10,7) DEFAULT NULL,
+  `clock_out`              DATETIME      DEFAULT NULL,
+  `clock_out_latitude`     DECIMAL(10,7) DEFAULT NULL,
+  `clock_out_longitude`    DECIMAL(10,7) DEFAULT NULL,
+  `date`                   DATE          NOT NULL,
+  `status`                 ENUM('present','late','absent','pending') NOT NULL DEFAULT 'present',
+  `gps_status`             ENUM('on_site','outside_range','rejected','not_checked') NOT NULL DEFAULT 'not_checked',
+  `manager_review_required`TINYINT(1)    NOT NULL DEFAULT 0,
+  `is_locked`              TINYINT(1)    NOT NULL DEFAULT 1,
+  `device_info`            VARCHAR(500)  DEFAULT NULL,
+  `ip_address`             VARCHAR(45)   DEFAULT NULL,
   PRIMARY KEY (`attendance_id`),
-  KEY `idx_user_date`     (`user_id`, `date`),
-  KEY `idx_business_date` (`business_id`, `date`)
+  KEY `idx_user_date`            (`user_id`, `date`),
+  KEY `idx_business_date`        (`business_id`, `date`),
+  KEY `idx_attendance_business_date`(`business_id`, `date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  SECTION 2 — LOGIN / AUTH
+--  SECTION 2 — AUTHENTIFICATION
 -- ============================================================
 
 -- ------------------------------------------------------------
--- Table: login_attempts (brute-force protection)
+-- Table: login_attempts (protection brute-force)
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -124,6 +161,26 @@ CREATE TABLE IF NOT EXISTS `user_sessions` (
   `expires_at` DATETIME     NOT NULL,
   PRIMARY KEY (`session_id`),
   KEY `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------
+-- Table: security_questions (récupération de compte)
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `security_questions` (
+  `sq_id`           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `user_id`         INT UNSIGNED  NOT NULL,
+  `question_1`      VARCHAR(255)  NOT NULL,
+  `answer_1_hash`   VARCHAR(255)  NOT NULL,
+  `question_2`      VARCHAR(255)  NOT NULL,
+  `answer_2_hash`   VARCHAR(255)  NOT NULL,
+  `question_3`      VARCHAR(255)  NOT NULL,
+  `answer_3_hash`   VARCHAR(255)  NOT NULL,
+  `failed_attempts` INT           NOT NULL DEFAULT 0,
+  `is_flagged`      TINYINT(1)    NOT NULL DEFAULT 0,
+  `created_at`      DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`      DATETIME      DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`sq_id`),
+  UNIQUE KEY `uq_sq_user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
@@ -202,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `activity_logs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
--- Views: monthly reports
+-- Vues : rapports mensuels
 -- ------------------------------------------------------------
 CREATE OR REPLACE VIEW `v_monthly_revenue` AS
 SELECT
@@ -224,39 +281,42 @@ GROUP BY DATE_FORMAT(created_at, '%Y-%m')
 ORDER BY month ASC;
 
 -- ------------------------------------------------------------
--- Super admin account (ONE insert only)
+-- Compte super admin — UN SEUL INSERT
+-- Login ID : InvenAdmin26
+-- Mot de passe : Inventory#Admin126
 -- ------------------------------------------------------------
 INSERT INTO `users`
-  (`business_id`, `full_name`, `login_id`, `email`, `password_hash`, `role`, `status`)
+  (`business_id`, `full_name`, `login_id`, `email`, `password_hash`, `role`, `status`, `pin_must_change`)
 VALUES (
   NULL,
   'LionTechInventoryAdmin',
   'InvenAdmin26',
   'InvenAdmin26',
-  '$2b$12$xRhcb2h89ehwAh8VFIUTtOK/H5jjPB7HV4EE0B5uxm9y7EhC5lJIm',
+  '$2y$12$1zBfe7StsnbakHDiD4idieJTTLTip954VMyzUbbp6mzq5yWVltvpi',
   'super_admin',
-  'active'
+  'active',
+  0
 );
 
 -- ============================================================
---  SECTION 4 — EMPLOYEE MANAGEMENT
+--  SECTION 4 — GESTION DES EMPLOYÉS
 -- ============================================================
 
 -- ------------------------------------------------------------
 -- Table: business_features
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `business_features` (
-  `feature_id`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `business_id`             INT UNSIGNED NOT NULL,
-  `inventory_management`    TINYINT(1)   NOT NULL DEFAULT 1,
-  `employee_management`     TINYINT(1)   NOT NULL DEFAULT 0,
-  `employee_attendance`     TINYINT(1)   NOT NULL DEFAULT 0,
-  `sales_tracking`          TINYINT(1)   NOT NULL DEFAULT 0,
-  `reports`                 TINYINT(1)   NOT NULL DEFAULT 1,
-  `low_stock_alerts`        TINYINT(1)   NOT NULL DEFAULT 1,
-  `mobile_employee_access`  TINYINT(1)   NOT NULL DEFAULT 0,
-  `created_at`              DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`              DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `feature_id`             INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `business_id`            INT UNSIGNED NOT NULL,
+  `inventory_management`   TINYINT(1)   NOT NULL DEFAULT 1,
+  `employee_management`    TINYINT(1)   NOT NULL DEFAULT 0,
+  `employee_attendance`    TINYINT(1)   NOT NULL DEFAULT 0,
+  `sales_tracking`         TINYINT(1)   NOT NULL DEFAULT 0,
+  `reports`                TINYINT(1)   NOT NULL DEFAULT 1,
+  `low_stock_alerts`       TINYINT(1)   NOT NULL DEFAULT 1,
+  `mobile_employee_access` TINYINT(1)   NOT NULL DEFAULT 0,
+  `created_at`             DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`             DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`feature_id`),
   UNIQUE KEY `uq_features_business` (`business_id`),
   CONSTRAINT `fk_features_business`
@@ -290,12 +350,12 @@ CREATE TABLE IF NOT EXISTS `employee_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ------------------------------------------------------------
--- Table: business_locations (GPS clock-in verification)
+-- Table: business_locations (vérification GPS pointage)
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `business_locations` (
   `location_id`           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `business_id`           INT UNSIGNED  NOT NULL,
-  `location_name`         VARCHAR(150)  NOT NULL DEFAULT 'Main Location',
+  `location_name`         VARCHAR(150)  NOT NULL DEFAULT 'Emplacement principal',
   `latitude`              DECIMAL(10,7) DEFAULT NULL,
   `longitude`             DECIMAL(10,7) DEFAULT NULL,
   `allowed_radius_meters` INT UNSIGNED  NOT NULL DEFAULT 200,
@@ -305,20 +365,6 @@ CREATE TABLE IF NOT EXISTS `business_locations` (
   CONSTRAINT `fk_location_business`
     FOREIGN KEY (`business_id`) REFERENCES `businesses` (`business_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- ------------------------------------------------------------
--- Expand attendance table with GPS fields
--- ------------------------------------------------------------
-ALTER TABLE `attendance`
-  ADD COLUMN IF NOT EXISTS `clock_in_latitude`       DECIMAL(10,7) DEFAULT NULL AFTER `clock_in`,
-  ADD COLUMN IF NOT EXISTS `clock_in_longitude`      DECIMAL(10,7) DEFAULT NULL AFTER `clock_in_latitude`,
-  ADD COLUMN IF NOT EXISTS `clock_out_latitude`      DECIMAL(10,7) DEFAULT NULL AFTER `clock_out`,
-  ADD COLUMN IF NOT EXISTS `clock_out_longitude`     DECIMAL(10,7) DEFAULT NULL AFTER `clock_out_latitude`,
-  ADD COLUMN IF NOT EXISTS `gps_status`              ENUM('on_site','outside_range','rejected','not_checked') NOT NULL DEFAULT 'not_checked' AFTER `date`,
-  ADD COLUMN IF NOT EXISTS `manager_review_required` TINYINT(1)    NOT NULL DEFAULT 0 AFTER `gps_status`,
-  ADD COLUMN IF NOT EXISTS `is_locked`               TINYINT(1)    NOT NULL DEFAULT 1 AFTER `manager_review_required`,
-  ADD COLUMN IF NOT EXISTS `device_info`             VARCHAR(500)  DEFAULT NULL AFTER `is_locked`,
-  ADD COLUMN IF NOT EXISTS `ip_address`              VARCHAR(45)   DEFAULT NULL AFTER `device_info`;
 
 -- ------------------------------------------------------------
 -- Table: attendance_corrections
@@ -347,51 +393,30 @@ CREATE TABLE IF NOT EXISTS `attendance_corrections` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  SECTION 5 — PRODUCTS
+--  SECTION 5 — MOUVEMENTS DE STOCK
 -- ============================================================
-
--- ------------------------------------------------------------
--- Expand products table with full product management fields
--- ------------------------------------------------------------
-ALTER TABLE `products`
-  ADD COLUMN IF NOT EXISTS `barcode`         VARCHAR(150)  DEFAULT NULL AFTER `sku`,
-  ADD COLUMN IF NOT EXISTS `unit`            VARCHAR(50)   NOT NULL DEFAULT 'piece' AFTER `category`,
-  ADD COLUMN IF NOT EXISTS `low_stock_level` DECIMAL(12,2) NOT NULL DEFAULT 0.00 AFTER `unit_price`,
-  ADD COLUMN IF NOT EXISTS `expiration_date` DATE          DEFAULT NULL AFTER `low_stock_level`,
-  ADD COLUMN IF NOT EXISTS `supplier`        VARCHAR(255)  DEFAULT NULL AFTER `expiration_date`,
-  ADD COLUMN IF NOT EXISTS `image_url`       VARCHAR(500)  DEFAULT NULL AFTER `supplier`,
-  ADD COLUMN IF NOT EXISTS `description`     TEXT          DEFAULT NULL AFTER `image_url`,
-  ADD COLUMN IF NOT EXISTS `status`          ENUM('active','archived') NOT NULL DEFAULT 'active' AFTER `description`,
-  ADD COLUMN IF NOT EXISTS `created_by`      INT UNSIGNED  DEFAULT NULL AFTER `status`,
-  ADD COLUMN IF NOT EXISTS `updated_at`      DATETIME      DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`;
-
-ALTER TABLE `products`
-  MODIFY COLUMN `quantity` DECIMAL(12,2) NOT NULL DEFAULT 0.00;
-
-CREATE INDEX IF NOT EXISTS `idx_products_status`   ON `products` (`status`);
-CREATE INDEX IF NOT EXISTS `idx_products_category` ON `products` (`category`);
-CREATE INDEX IF NOT EXISTS `idx_products_barcode`  ON `products` (`barcode`);
 
 -- ------------------------------------------------------------
 -- Table: stock_movements
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `stock_movements` (
-  `movement_id`    INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `request_id`     INT UNSIGNED  DEFAULT NULL,
-  `business_id`    INT UNSIGNED  NOT NULL,
-  `product_id`     INT UNSIGNED  NOT NULL,
-  `movement_type`  ENUM('initial','stock_in','stock_out','adjustment','damage','loss','sale') NOT NULL,
-  `quantity`       DECIMAL(12,2) NOT NULL,
-  `reason`         VARCHAR(255)  DEFAULT NULL,
-  `supplier`       VARCHAR(255)  DEFAULT NULL,
-  `proof_image_url`VARCHAR(500)  DEFAULT NULL,
-  `created_by`     INT UNSIGNED  DEFAULT NULL,
-  `approved_by`    INT UNSIGNED  DEFAULT NULL,
-  `created_at`     DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `movement_id`     INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `request_id`      INT UNSIGNED  DEFAULT NULL,
+  `business_id`     INT UNSIGNED  NOT NULL,
+  `product_id`      INT UNSIGNED  NOT NULL,
+  `movement_type`   ENUM('initial','stock_in','stock_out','adjustment','damage','loss','sale') NOT NULL,
+  `quantity`        DECIMAL(12,2) NOT NULL,
+  `reason`          VARCHAR(255)  DEFAULT NULL,
+  `supplier`        VARCHAR(255)  DEFAULT NULL,
+  `proof_image_url` VARCHAR(500)  DEFAULT NULL,
+  `created_by`      INT UNSIGNED  DEFAULT NULL,
+  `approved_by`     INT UNSIGNED  DEFAULT NULL,
+  `created_at`      DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`movement_id`),
-  KEY `idx_stock_business` (`business_id`),
-  KEY `idx_stock_product`  (`product_id`),
-  KEY `idx_stock_type`     (`movement_type`),
+  KEY `idx_stock_business`            (`business_id`),
+  KEY `idx_stock_product`             (`product_id`),
+  KEY `idx_stock_type`                (`movement_type`),
+  KEY `idx_stock_movements_business_date`(`business_id`, `created_at`),
   CONSTRAINT `fk_stock_business`
     FOREIGN KEY (`business_id`) REFERENCES `businesses` (`business_id`) ON DELETE CASCADE,
   CONSTRAINT `fk_stock_product`
@@ -399,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `stock_movements` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  SECTION 6 — STOCK IN
+--  SECTION 6 — ENTRÉES DE STOCK
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS `stock_in_requests` (
@@ -428,7 +453,7 @@ CREATE TABLE IF NOT EXISTS `stock_in_requests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  SECTION 7 — OWNER DASHBOARD
+--  SECTION 7 — TABLEAU DE BORD PROPRIÉTAIRE
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS `inventory_movements` (
@@ -455,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `inventory_movements` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  SECTION 8 — EMPLOYEE DASHBOARD
+--  SECTION 8 — TABLEAU DE BORD EMPLOYÉ
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS `attendance_settings` (
@@ -530,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `employee_tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  SECTION 9 — REPORTS
+--  SECTION 9 — RAPPORTS
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS `report_exports` (
@@ -547,17 +572,8 @@ CREATE TABLE IF NOT EXISTS `report_exports` (
   KEY `idx_report_user`     (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE INDEX IF NOT EXISTS `idx_products_business_status`
-  ON `products` (`business_id`, `status`);
-
-CREATE INDEX IF NOT EXISTS `idx_stock_movements_business_date`
-  ON `stock_movements` (`business_id`, `created_at`);
-
-CREATE INDEX IF NOT EXISTS `idx_attendance_business_date`
-  ON `attendance` (`business_id`, `date`);
-
 -- ============================================================
---  SECTION 10 — NOTIFICATIONS & APPROVALS
+--  SECTION 10 — NOTIFICATIONS ET APPROBATIONS
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS `notifications` (
@@ -607,7 +623,7 @@ CREATE TABLE IF NOT EXISTS `business_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  SECTION 11 — STOCK OUT
+--  SECTION 11 — SORTIES DE STOCK
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS `stock_out_requests` (
@@ -635,171 +651,76 @@ CREATE TABLE IF NOT EXISTS `stock_out_requests` (
     FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
-
-ALTER TABLE users
-ADD COLUMN temporary_pin_plain VARCHAR(20) DEFAULT NULL,
-ADD COLUMN pin_must_change TINYINT(1) NOT NULL DEFAULT 1;
-
-
-UPDATE business_features 
-SET employee_management = 1 
-WHERE business_id = (SELECT business_id FROM businesses LIMIT 1);
-
-
-CREATE TABLE IF NOT EXISTS `employee_attendance` (
-  `attendance_id`       INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `business_id`         INT           NOT NULL,
-  `user_id`             INT           NOT NULL,
-  `clock_in_at`         DATETIME      NOT NULL,
-  `clock_out_at`        DATETIME      NULL DEFAULT NULL,
-  `clock_in_latitude`   DECIMAL(10,7) NULL DEFAULT NULL,
-  `clock_in_longitude`  DECIMAL(10,7) NULL DEFAULT NULL,
-  `clock_in_accuracy`   DECIMAL(10,2) NULL DEFAULT NULL,
-  `clock_out_latitude`  DECIMAL(10,7) NULL DEFAULT NULL,
-  `clock_out_longitude` DECIMAL(10,7) NULL DEFAULT NULL,
-  `clock_out_accuracy`  DECIMAL(10,2) NULL DEFAULT NULL,
-  `gps_status`          ENUM('on_site','pending_review','rejected_far','no_gps_allowed') NOT NULL DEFAULT 'pending_review',
-  `distance_meters`     DECIMAL(10,2) NULL DEFAULT NULL,
-  `status`              ENUM('clocked_in','clocked_out','pending_review','rejected') NOT NULL DEFAULT 'clocked_in',
-  `note`                TEXT          NULL DEFAULT NULL,
-  `created_at`          TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`          TIMESTAMP     NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`attendance_id`),
-  KEY `idx_att_business_user` (`business_id`, `user_id`),
-  KEY `idx_att_clock_in`      (`clock_in_at`),
-  KEY `idx_att_status`        (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `attendance_settings` (
-  `setting_id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `business_id`        INT          NOT NULL UNIQUE,
-  `gps_required`       TINYINT(1)   NOT NULL DEFAULT 1,
-  `business_latitude`  DECIMAL(10,7) NULL DEFAULT NULL,
-  `business_longitude` DECIMAL(10,7) NULL DEFAULT NULL,
-  `gps_radius_meters`  INT          NOT NULL DEFAULT 200,
-  `selfie_required`    TINYINT(1)   NOT NULL DEFAULT 0,
-  `created_at`         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`         TIMESTAMP    NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`setting_id`),
-  KEY `idx_attendance_settings_business` (`business_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-
-CREATE TABLE IF NOT EXISTS `stock_out_requests` (
+-- Table alternative pour sorties (utilisée par certaines vues)
+CREATE TABLE IF NOT EXISTS `stock_out` (
   `request_id`       INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `business_id`      INT UNSIGNED  NOT NULL,
   `product_id`       INT UNSIGNED  NOT NULL,
   `quantity`         DECIMAL(12,2) NOT NULL,
-  `reason`           VARCHAR(255)  NOT NULL,
-  `recipient`        VARCHAR(255)  NULL DEFAULT NULL,
-  `note`             TEXT          NULL DEFAULT NULL,
-  `proof_image_url`  VARCHAR(500)  NULL DEFAULT NULL,
+  `reason`           VARCHAR(255)  DEFAULT NULL,
+  `note`             TEXT          DEFAULT NULL,
+  `proof_image_url`  VARCHAR(500)  DEFAULT NULL,
   `status`           ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
-  `created_by`       INT UNSIGNED  NULL DEFAULT NULL,
-  `approved_by`      INT UNSIGNED  NULL DEFAULT NULL,
+  `created_by`       INT UNSIGNED  DEFAULT NULL,
+  `approved_by`      INT UNSIGNED  DEFAULT NULL,
   `created_at`       DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `approved_at`      DATETIME      NULL DEFAULT NULL,
-  `rejection_reason` VARCHAR(500)  NULL DEFAULT NULL,
+  `approved_at`      DATETIME      DEFAULT NULL,
+  `rejection_reason` VARCHAR(500)  DEFAULT NULL,
   PRIMARY KEY (`request_id`),
-  KEY `idx_stock_out_business` (`business_id`),
-  KEY `idx_stock_out_product`  (`product_id`),
-  KEY `idx_stock_out_status`   (`status`)
+  KEY `idx_stock_out2_business` (`business_id`),
+  KEY `idx_stock_out2_product`  (`product_id`),
+  KEY `idx_stock_out2_status`   (`status`),
+  CONSTRAINT `fk_stock_out2_business`
+    FOREIGN KEY (`business_id`) REFERENCES `businesses` (`business_id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_stock_out2_product`
+    FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `stock_in_requests` (
-  `request_id`       INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `business_id`      INT UNSIGNED  NOT NULL,
-  `product_id`       INT UNSIGNED  NOT NULL,
-  `quantity`         DECIMAL(12,2) NOT NULL,
-  `supplier`         VARCHAR(255)  NULL DEFAULT NULL,
-  `delivery_date`    DATE          NULL DEFAULT NULL,
-  `note`             TEXT          NULL DEFAULT NULL,
-  `proof_image_url`  VARCHAR(500)  NULL DEFAULT NULL,
-  `status`           ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
-  `created_by`       INT UNSIGNED  NULL DEFAULT NULL,
-  `approved_by`      INT UNSIGNED  NULL DEFAULT NULL,
-  `created_at`       DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `approved_at`      DATETIME      NULL DEFAULT NULL,
-  `rejection_reason` VARCHAR(500)  NULL DEFAULT NULL,
-  PRIMARY KEY (`request_id`),
-  KEY `idx_stock_in_business` (`business_id`),
-  KEY `idx_stock_in_product`  (`product_id`),
-  KEY `idx_stock_in_status`   (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `stock_movements` (
-  `movement_id`     INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `request_id`      INT UNSIGNED  NULL DEFAULT NULL,
-  `business_id`     INT UNSIGNED  NOT NULL,
-  `product_id`      INT UNSIGNED  NOT NULL,
-  `movement_type`   ENUM('initial','stock_in','stock_out','adjustment','damage','loss','sale') NOT NULL,
-  `quantity`        DECIMAL(12,2) NOT NULL,
-  `reason`          VARCHAR(255)  NULL DEFAULT NULL,
-  `supplier`        VARCHAR(255)  NULL DEFAULT NULL,
-  `proof_image_url` VARCHAR(500)  NULL DEFAULT NULL,
-  `created_by`      INT UNSIGNED  NULL DEFAULT NULL,
-  `approved_by`     INT UNSIGNED  NULL DEFAULT NULL,
-  `created_at`      DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`movement_id`),
-  KEY `idx_stock_business` (`business_id`),
-  KEY `idx_stock_product`  (`product_id`),
-  KEY `idx_stock_type`     (`movement_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `notifications` (
-  `notification_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `business_id`     INT UNSIGNED NOT NULL,
-  `user_id`         INT UNSIGNED NULL DEFAULT NULL,
-  `title`           VARCHAR(150) NOT NULL,
-  `message`         TEXT         NULL DEFAULT NULL,
-  `type`            ENUM('info','warning','danger','success') NOT NULL DEFAULT 'info',
-  `is_read`         TINYINT(1)   NOT NULL DEFAULT 0,
-  `created_at`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`notification_id`),
-  KEY `idx_notif_business` (`business_id`),
-  KEY `idx_notif_user`     (`user_id`),
-  KEY `idx_notif_is_read`  (`is_read`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-
----forget password/pin
 -- ============================================================
---  security_questions.sql — LionTech Business Manager
---  Run this in phpMyAdmin on your InventaireLiontech_db
+--  SECTION 12 — VENTES
 -- ============================================================
 
-CREATE TABLE IF NOT EXISTS `security_questions` (
-  `sq_id`          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `user_id`        INT UNSIGNED  NOT NULL,
-  `question_1`     VARCHAR(255)  NOT NULL,
-  `answer_1_hash`  VARCHAR(255)  NOT NULL,
-  `question_2`     VARCHAR(255)  NOT NULL,
-  `answer_2_hash`  VARCHAR(255)  NOT NULL,
-  `question_3`     VARCHAR(255)  NOT NULL,
-  `answer_3_hash`  VARCHAR(255)  NOT NULL,
-  `failed_attempts` INT          NOT NULL DEFAULT 0,
-  `is_flagged`     TINYINT(1)    NOT NULL DEFAULT 0,
+CREATE TABLE IF NOT EXISTS `sales` (
+  `sale_id`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `business_id`    INT UNSIGNED  NOT NULL,
+  `product_id`     INT UNSIGNED  DEFAULT NULL,
+  `quantity`       DECIMAL(12,2) NOT NULL DEFAULT 1,
+  `unit_price`     DECIMAL(12,2) NOT NULL DEFAULT 0,
+  `total`          DECIMAL(14,2) NOT NULL DEFAULT 0,
+  `payment_method` VARCHAR(50)   DEFAULT NULL,
+  `created_by`     INT UNSIGNED  DEFAULT NULL,
   `created_at`     DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`     DATETIME      NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`sq_id`),
-  UNIQUE KEY `uq_sq_user` (`user_id`)
+  PRIMARY KEY (`sale_id`),
+  KEY `idx_sales_business`   (`business_id`),
+  KEY `idx_sales_product`    (`product_id`),
+  KEY `idx_sales_created_at` (`created_at`),
+  CONSTRAINT `fk_sales_business`
+    FOREIGN KEY (`business_id`) REFERENCES `businesses` (`business_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Add security_flagged column to users table
-ALTER TABLE `users`
-  ADD COLUMN IF NOT EXISTS `security_flagged` TINYINT(1) NOT NULL DEFAULT 0 AFTER `status`;
-
-
-  ----payement---
-  -- ============================================================
---  payment_system.sql — LionTech Business Manager
---  Run in phpMyAdmin on InventaireLiontech_db
+-- ============================================================
+--  SECTION 13 — CODES PIN EMPLOYÉS
 -- ============================================================
 
--- Payment settings (managed by super admin)
+CREATE TABLE IF NOT EXISTS `pin_codes` (
+  `pin_id`      INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id`     INT UNSIGNED NOT NULL,
+  `business_id` INT UNSIGNED NOT NULL,
+  `pin_hash`    VARCHAR(255) NOT NULL,
+  `must_change` TINYINT(1)   NOT NULL DEFAULT 0,
+  `created_at`  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`  DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pin_id`),
+  UNIQUE KEY `uq_pin_user` (`user_id`),
+  CONSTRAINT `fk_pin_user`
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
+--  SECTION 14 — PAIEMENTS (SYSTÈME LIONTECH)
+-- ============================================================
+
+-- Paramètres de paiement (gérés par le super admin)
 CREATE TABLE IF NOT EXISTS `payment_settings` (
   `setting_id`          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `orange_money_number` VARCHAR(30)   DEFAULT NULL,
@@ -816,13 +737,13 @@ CREATE TABLE IF NOT EXISTS `payment_settings` (
   PRIMARY KEY (`setting_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insert default empty row
+-- Ligne par défaut (vide)
 INSERT INTO `payment_settings`
   (`orange_money_number`, `mtn_momo_number`, `bank_name`)
 VALUES ('', '', '')
 ON DUPLICATE KEY UPDATE `setting_id` = `setting_id`;
 
--- Payment settings audit log
+-- Journal d'audit des paramètres de paiement
 CREATE TABLE IF NOT EXISTS `payment_settings_log` (
   `log_id`          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `changed_by_name` VARCHAR(150)  NOT NULL,
@@ -835,30 +756,33 @@ CREATE TABLE IF NOT EXISTS `payment_settings_log` (
   PRIMARY KEY (`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Payments submitted by owners
+-- Paiements soumis par les propriétaires
 CREATE TABLE IF NOT EXISTS `liontech_payments` (
-  `payment_id`          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `business_id`         INT UNSIGNED  NOT NULL,
-  `amount`              DECIMAL(12,2) NOT NULL,
-  `months_paid`         INT           NOT NULL DEFAULT 1,
-  `payment_method`      ENUM('orange_money','mtn_momo','bank_transfer','cash') NOT NULL,
-  `transaction_reference` VARCHAR(150) DEFAULT NULL,
-  `proof_image_url`     VARCHAR(500)  DEFAULT NULL,
-  `status`              ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
-  `rejection_reason`    VARCHAR(255)  DEFAULT NULL,
-  `rejection_detail`    TEXT          DEFAULT NULL,
-  `submitted_by`        INT UNSIGNED  NOT NULL,
-  `approved_by`         INT UNSIGNED  DEFAULT NULL,
-  `whatsapp_sent`       TINYINT(1)    NOT NULL DEFAULT 0,
-  `created_at`          DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `approved_at`         DATETIME      DEFAULT NULL,
+  `payment_id`            INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `business_id`           INT UNSIGNED  NOT NULL,
+  `amount`                DECIMAL(12,2) NOT NULL,
+  `months_paid`           INT           NOT NULL DEFAULT 1,
+  `payment_method`        ENUM('orange_money','mtn_momo','bank_transfer','cash') NOT NULL,
+  `transaction_reference` VARCHAR(150)  DEFAULT NULL,
+  `proof_image_url`       VARCHAR(500)  DEFAULT NULL,
+  `status`                ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `rejection_reason`      VARCHAR(255)  DEFAULT NULL,
+  `rejection_detail`      TEXT          DEFAULT NULL,
+  `submitted_by`          INT UNSIGNED  NOT NULL,
+  `approved_by`           INT UNSIGNED  DEFAULT NULL,
+  `whatsapp_sent`         TINYINT(1)    NOT NULL DEFAULT 0,
+  `created_at`            DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `approved_at`           DATETIME      DEFAULT NULL,
   PRIMARY KEY (`payment_id`),
   UNIQUE KEY `uq_transaction_ref` (`transaction_reference`),
-  KEY `idx_payment_business`  (`business_id`),
-  KEY `idx_payment_status`    (`status`),
-  KEY `idx_payment_method`    (`payment_method`)
+  KEY `idx_payment_business` (`business_id`),
+  KEY `idx_payment_status`   (`status`),
+  KEY `idx_payment_method`   (`payment_method`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================================
---  MORE SECTIONS BELOW AS YOU ADD THEM
+--  FIN DU FICHIER db-config.sql
+--  Pour vérifier : SELECT table_name FROM information_schema.tables
+--                  WHERE table_schema='InventaireLiontech_db'
+--                  ORDER BY table_name;
 -- ============================================================

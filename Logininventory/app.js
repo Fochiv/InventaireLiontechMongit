@@ -6,7 +6,7 @@
 
 /* ─── State ─── */
 const LT = {
-  lang : localStorage.getItem('lt_lang') || 'en',
+  lang : localStorage.getItem('lt_lang') || 'fr',
 };
 
 /* ─── DOM helpers ─── */
