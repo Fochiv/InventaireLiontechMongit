@@ -362,16 +362,16 @@ function exportCSV() {
 
 /* Sidebar hamburger */
 document.getElementById('sa-hamburger')?.addEventListener('click', () => {
-    document.getElementById('sa-sidebar').classList.toggle('open');
-    document.getElementById('sa-overlay').classList.toggle('visible');
+    document.getElementById('sa-sidebar').classList.add('open');
+    document.getElementById('sa-overlay').classList.add('active');
 });
 document.getElementById('sa-sidebar-close')?.addEventListener('click', () => {
     document.getElementById('sa-sidebar').classList.remove('open');
-    document.getElementById('sa-overlay').classList.remove('visible');
+    document.getElementById('sa-overlay').classList.remove('active');
 });
 document.getElementById('sa-overlay')?.addEventListener('click', () => {
     document.getElementById('sa-sidebar').classList.remove('open');
-    document.getElementById('sa-overlay').classList.remove('visible');
+    document.getElementById('sa-overlay').classList.remove('active');
 });
 </script>
 </body>

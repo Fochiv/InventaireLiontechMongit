@@ -4,16 +4,16 @@ requireRole([ROLE_MANAGER]);
 $user = currentUser();
 ?>
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Manager Dashboard — LionTech</title>
+<html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tableau de bord Manager — LionTech</title>
 <link rel="stylesheet" href="../style.css"/></head>
 <body>
 <div class="dash-page">
-  <div class="dash-badge">👔 Manager</div>
-  <h1 class="dash-title">Manager Dashboard</h1>
-  <p class="dash-sub">Welcome, <strong><?= htmlspecialchars($user['full_name']) ?></strong>!<br>
-  You can manage inventory, attendance, and daily operations.</p>
-  <p style="color:#7A8CA0;font-size:13px;margin-bottom:32px">Business ID: <?= htmlspecialchars((string)$user['business_id']) ?></p>
-  <button class="dash-logout" onclick="window.location='../logout.php'">Sign Out</button>
+  <div class="dash-badge">Manager</div>
+  <h1 class="dash-title">Tableau de bord Manager</h1>
+  <p class="dash-sub">Bienvenue, <strong><?= htmlspecialchars($user['full_name']) ?></strong> !<br>
+  Gérez l'inventaire, les présences et les opérations quotidiennes.</p>
+  <p style="color:#7A8CA0;font-size:13px;margin-bottom:32px">Identifiant business : <?= htmlspecialchars((string)$user['business_id']) ?></p>
+  <button class="dash-logout" onclick="window.location='../logout.php'">Se déconnecter</button>
 </div>
 </body></html>

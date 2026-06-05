@@ -347,8 +347,8 @@ const _sa_sidebar  = document.getElementById('sa-sidebar');
 const _sa_overlay  = document.getElementById('sa-overlay');
 const _sa_hamburger = document.getElementById('sa-hamburger');
 const _sa_close    = document.getElementById('sa-sidebar-close');
-function _sa_open()  { _sa_sidebar.classList.add('open');    _sa_overlay.classList.add('show'); }
-function _sa_close_fn() { _sa_sidebar.classList.remove('open'); _sa_overlay.classList.remove('show'); }
+function _sa_open()  { _sa_sidebar.classList.add('open');    _sa_overlay.classList.add('active'); }
+function _sa_close_fn() { _sa_sidebar.classList.remove('open'); _sa_overlay.classList.remove('active'); }
 if (_sa_hamburger) _sa_hamburger.addEventListener('click', _sa_open);
 if (_sa_close)     _sa_close.addEventListener('click', _sa_close_fn);
 if (_sa_overlay)   _sa_overlay.addEventListener('click', _sa_close_fn);

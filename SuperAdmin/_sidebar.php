@@ -49,6 +49,7 @@ if (!isset($saPendingCount)) {
 }
 
 $saCurrentPage = basename($_SERVER['PHP_SELF']);
+$saTab = $_GET['tab'] ?? '';
 $saUrl = $url ?? APP_URL;
 ?>
 <aside class="sa-sidebar" id="sa-sidebar">
@@ -91,8 +92,8 @@ $saUrl = $url ?? APP_URL;
       <?php endif; ?>
     </a>
 
-    <a class="sa-nav-item <?= $saCurrentPage === 'payment_settings.php' ? 'active' : '' ?>"
-       href="<?= $saUrl ?>/SuperAdmin/payment_settings.php">
+    <a class="sa-nav-item <?= ($saCurrentPage === 'payment_settings.php' && $saTab === 'numbers') ? 'active' : '' ?>"
+       href="<?= $saUrl ?>/SuperAdmin/payment_settings.php?tab=numbers">
       <span class="sa-nav-icon"><?= saIcon('credit-card') ?></span>
       <span>Numéros Paiement</span>
     </a>
@@ -117,7 +118,7 @@ $saUrl = $url ?? APP_URL;
 
     <div class="sa-nav-section">Système</div>
 
-    <a class="sa-nav-item <?= ($saCurrentPage === 'payment_settings.php' && !($saCurrentPage === 'payment_settings.php' && isset($_SERVER['QUERY_STRING']))) ? 'active' : '' ?>"
+    <a class="sa-nav-item <?= ($saCurrentPage === 'payment_settings.php' && $saTab !== 'numbers') ? 'active' : '' ?>"
        href="<?= $saUrl ?>/SuperAdmin/payment_settings.php">
       <span class="sa-nav-icon"><?= saIcon('settings') ?></span>
       <span>Paramètres</span>
