@@ -1,6 +1,6 @@
 <?php
 ob_start();
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 requireRole([ROLE_SUPER_ADMIN]);
 $user = currentUser();
 $pdo  = getDB();

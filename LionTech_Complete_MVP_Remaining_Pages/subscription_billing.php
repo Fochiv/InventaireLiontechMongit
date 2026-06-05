@@ -4,7 +4,7 @@
    Owner submits payment — pending until super admin approves.
    Path: LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 requireRole([ROLE_BUSINESS_OWNER]);
 

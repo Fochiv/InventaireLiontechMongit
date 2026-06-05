@@ -4,7 +4,7 @@
    Shown when a user tries to access a page they don't have
    permission for.
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 
 /* Figure out where to send the user back */

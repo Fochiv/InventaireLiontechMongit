@@ -5,7 +5,7 @@
    Landing page after a business owner logs in.
    ============================================================ */
 
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 requireRole([ROLE_BUSINESS_OWNER, ROLE_MANAGER]);
 

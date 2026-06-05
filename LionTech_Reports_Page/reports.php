@@ -3,7 +3,7 @@
    reports.php — LionTech Business Manager
    Role: owner, manager
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 requireRole([ROLE_BUSINESS_OWNER, ROLE_MANAGER]);
 

@@ -5,7 +5,7 @@
    Landing page after employee logs in.
    ============================================================ */
 
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 if (function_exists('startSecureSession')) startSecureSession();
 if (function_exists('requireRole')) {
     requireRole([ROLE_EMPLOYEE, ROLE_MANAGER]);

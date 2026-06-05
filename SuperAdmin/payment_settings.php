@@ -119,7 +119,7 @@ $initials = substr($initials, 0, 2);
   <div class="sa-main">
     <header class="sa-topbar">
       <button class="sa-hamburger" id="sa-hamburger"><?= saIcon('menu') ?></button>
-      <div style="font-size:16px;font-weight:700;color:#0B1F3A">Paramètres de Paiement</div>
+      <div style="font-size:16px;font-weight:700;color:#0B1F3A" data-i18n="ps_title">Paramètres de Paiement</div>
       <div class="sa-topbar-right">
         <div class="sa-profile-av"><?= e($initials) ?></div>
       </div>
@@ -145,7 +145,7 @@ $initials = substr($initials, 0, 2);
           <div class="sa-card">
             <div class="sa-card-header">
               <div>
-                <div class="sa-card-title">Orange Money</div>
+                <div class="sa-card-title" data-i18n="ps_om">Orange Money</div>
                 <div class="sa-card-sub">Numéro Orange Money de LionTech</div>
               </div>
             </div>

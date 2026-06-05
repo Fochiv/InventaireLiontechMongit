@@ -144,12 +144,28 @@ $saUrl = $url ?? APP_URL;
 (function(){
   if (document.getElementById('lang-toggle')) return; /* super_admin.php has its own */
   var KEYS = {
-    fr:{ nav_dashboard:'Tableau de bord',nav_add_business:'Ajouter Business',nav_businesses:'Businesses',
-         nav_payments:'Valider Paiements',nav_numbers:'Numéros Paiement',nav_subscriptions:'Abonnements',
-         nav_users:'Utilisateurs',nav_reports:'Rapports',nav_settings:'Paramètres',nav_logout:'Déconnexion' },
-    en:{ nav_dashboard:'Dashboard',nav_add_business:'Add Business',nav_businesses:'Businesses',
-         nav_payments:'Validate Payments',nav_numbers:'Payment Numbers',nav_subscriptions:'Subscriptions',
-         nav_users:'Users',nav_reports:'Reports',nav_settings:'Settings',nav_logout:'Sign Out' }
+    fr:{
+      nav_dashboard:'Tableau de bord', nav_add_business:'Ajouter Business', nav_businesses:'Businesses',
+      nav_payments:'Valider Paiements', nav_numbers:'Numéros Paiement', nav_subscriptions:'Abonnements',
+      nav_users:'Utilisateurs', nav_reports:'Rapports', nav_settings:'Paramètres', nav_logout:'Déconnexion',
+      pr_title:'Validation des Paiements', pr_pending_title:'Paiements en attente de validation',
+      pr_pending_sub:'Vérifiez chaque preuve avant d\'approuver', pr_none:'Aucun paiement en attente.',
+      pr_history:'Historique des validations',
+      ps_title:'Paramètres de Paiement', ps_om:'Orange Money', ps_mtn:'MTN Mobile Money',
+      ps_bank:'Coordonnées Bancaires', ps_save:'💾 Sauvegarder', ps_name_label:'Votre nom complet (confirmation)',
+      sa_reports_title:'Rapports Plateforme', sa_reports_sub:'Vue globale — revenus, paiements, businesses et activité'
+    },
+    en:{
+      nav_dashboard:'Dashboard', nav_add_business:'Add Business', nav_businesses:'Businesses',
+      nav_payments:'Validate Payments', nav_numbers:'Payment Numbers', nav_subscriptions:'Subscriptions',
+      nav_users:'Users', nav_reports:'Reports', nav_settings:'Settings', nav_logout:'Sign Out',
+      pr_title:'Payment Validation', pr_pending_title:'Payments awaiting validation',
+      pr_pending_sub:'Verify each proof before approving', pr_none:'No pending payments.',
+      pr_history:'Validation History',
+      ps_title:'Payment Settings', ps_om:'Orange Money', ps_mtn:'MTN Mobile Money',
+      ps_bank:'Bank Details', ps_save:'💾 Save', ps_name_label:'Your full name (confirmation)',
+      sa_reports_title:'Platform Reports', sa_reports_sub:'Global overview — revenue, payments, businesses and activity'
+    }
   };
   var lang = localStorage.getItem('lt_lang') || 'fr';
   function applyLang(l){

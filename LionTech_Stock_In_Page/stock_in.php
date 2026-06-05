@@ -5,7 +5,7 @@
    Path: C:\Xampp\htdocs\InventoryLiontech\LionTech_Stock_In_Page\
          liontech_stock_in_page\stock_in.php
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 requireLogin();
 

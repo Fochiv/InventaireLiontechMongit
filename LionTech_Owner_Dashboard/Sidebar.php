@@ -16,13 +16,13 @@ $L = [
     'employee_dash' => $url . '/LionTech_Employee_Dashboard/employee_dashboard.php',
     'owner_dash'    => $url . '/LionTech_Owner_Dashboard/owner_dashboard.php',
     'products'      => $url . '/Produit/products.php',
-    'stock_in'      => $url . '/LionTech_Stock_In_Page/liontech_stock_in_page/stock_in.php',
+    'stock_in'      => $url . '/LionTech_Stock_In_Page/stock_in.php',
     'stock_out'     => $url . '/stockout_stockfinis/stock_out.php',
     'attendance'    => $url . '/Attendance_presenceemployer/clock_attendance.php',
     'notifications' => $url . '/LionTech_Complete_MVP_Remaining_Pages/notifications.php',
     'change_pin'    => $url . '/change_pin.php',
     'logout'        => $url . '/Logininventory/logout.php',
-    'employees'     => $url . '/LionTech_Employee_Management/liontech_employee_management/employees.php',
+    'employees'     => $url . '/LionTech_Employee_Management/employees.php',
     'validations'   => $url . '/LionTech_Complete_MVP_Remaining_Pages/approval_center.php',
     'reports'       => $url . '/LionTech_Complete_MVP_Remaining_Pages/reports.php',
     'activity'      => $url . '/LionTech_Complete_MVP_Remaining_Pages/activity_logs.php',
@@ -113,6 +113,7 @@ function sbIcon(string $name): string {
 
     <a class="od-nav-link<?= sbActive('notifications.php', $currentPage) ?>" href="<?= $L['notifications'] ?>">
       <?= sbIcon('bell') ?><span data-i18n="nav_notifications">Notifications</span>
+      <span id="lt-notif-badge" style="display:none;background:#DC2626;color:#fff;font-size:10px;font-weight:700;border-radius:50px;padding:1px 6px;margin-left:auto;min-width:18px;text-align:center"></span>
     </a>
 
     <?php if ($isOwnerOrMgr): ?>
@@ -205,6 +206,30 @@ function sbIcon(string $name): string {
       if (window.LT_SIDEBAR_LANG_EN[k]) el.textContent = window.LT_SIDEBAR_LANG_EN[k];
     });
   }
+})();
+</script>
+
+<script>
+/* ── Notification badge polling ── */
+(function () {
+  var API = '<?= $url ?>/LionTech_Complete_MVP_Remaining_Pages/notifications_api.php';
+  var badge = document.getElementById('lt-notif-badge');
+  function fetchNotifs() {
+    fetch(API, {credentials:'same-origin'})
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (!badge) return;
+        if (data.unread > 0) {
+          badge.textContent = data.unread > 99 ? '99+' : data.unread;
+          badge.style.display = 'inline-block';
+        } else {
+          badge.style.display = 'none';
+        }
+      })
+      .catch(function(){});
+  }
+  fetchNotifs();
+  setInterval(fetchNotifs, 30000);
 })();
 </script>
 

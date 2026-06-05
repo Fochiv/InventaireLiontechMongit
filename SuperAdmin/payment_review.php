@@ -163,7 +163,7 @@ $methodLabels = [
   <div class="sa-main">
     <header class="sa-topbar">
       <button class="sa-hamburger" id="sa-hamburger"><?= saIcon('menu') ?></button>
-      <div style="font-size:16px;font-weight:700;color:#0B1F3A">Validation des Paiements</div>
+      <div style="font-size:16px;font-weight:700;color:#0B1F3A" data-i18n="pr_title">Validation des Paiements</div>
       <div class="sa-topbar-right">
         <?php if (count($pending) > 0): ?>
         <span style="background:#FEF3C7;color:#92400E;border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700"><?= count($pending) ?> en attente</span>
@@ -197,7 +197,7 @@ $methodLabels = [
       <!-- Pending payments -->
       <div class="sa-card" style="margin-bottom:20px">
         <div class="sa-card-header">
-          <div><div class="sa-card-title">Paiements en attente de validation</div><div class="sa-card-sub">Vérifiez chaque preuve avant d'approuver</div></div>
+          <div><div class="sa-card-title" data-i18n="pr_pending_title">Paiements en attente de validation</div><div class="sa-card-sub" data-i18n="pr_pending_sub">Vérifiez chaque preuve avant d'approuver</div></div>
           <span style="background:#FEF2F2;color:#DC2626;font-size:11px;font-weight:700;border-radius:50px;padding:3px 10px"><?= count($pending) ?> en attente</span>
         </div>
 

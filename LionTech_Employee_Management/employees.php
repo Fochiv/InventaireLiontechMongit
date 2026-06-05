@@ -5,7 +5,7 @@
    Access: business_owner / manager only
    Feature gate: employee_management must be enabled for the business
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 requireRole([ROLE_BUSINESS_OWNER, ROLE_MANAGER]);
 
 $user = currentUser();

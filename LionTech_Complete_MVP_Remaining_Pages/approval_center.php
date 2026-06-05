@@ -3,7 +3,7 @@
    approval_center.php — LionTech Business Manager
    Owner + Manager — approve/reject stock requests
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 requireRole([ROLE_BUSINESS_OWNER, ROLE_MANAGER]);
 

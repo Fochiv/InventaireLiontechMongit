@@ -3,7 +3,7 @@
    activity_logs.php — LionTech Business Manager
    Owner: full access | Manager: view only
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 requireRole([ROLE_BUSINESS_OWNER, ROLE_MANAGER]);
 

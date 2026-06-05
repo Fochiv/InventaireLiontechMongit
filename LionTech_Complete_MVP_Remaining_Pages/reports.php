@@ -4,7 +4,7 @@
    Owner: full access | Manager: view only (no export)
    FIXED: correct table names (stock_in_requests, stock_out_requests)
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 startSecureSession();
 requireRole([ROLE_BUSINESS_OWNER, ROLE_MANAGER]);
 

@@ -4,7 +4,7 @@
    Shows business details after creation
    Role: super_admin only
    ============================================================ */
-require_once __DIR__ . '/../../Config.php';
+require_once __DIR__ . '/../Config.php';
 
 requireRole([ROLE_SUPER_ADMIN]);
 $pdo  = getDB();
