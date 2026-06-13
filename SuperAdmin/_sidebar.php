@@ -193,6 +193,15 @@ try {
 
     <div class="sa-nav-section" data-i18n="nav_section_system">System</div>
 
+    <a class="sa-nav-item <?= $saCurrentPage === 'super_admin_reports.php' || ($saCurrentPage === 'super_admin.php' && ($_GET['panel'] ?? '') === 'logs') ? 'active' : '' ?>"
+       href="<?= $saUrl ?>/SuperAdmin/super_admin.php?panel=logs">
+      <span class="sa-nav-icon"><?= saIcon('bar-chart') ?></span>
+      <span data-i18n="nav_activity_log">Journal d'activité</span>
+      <?php if(isset($actLogTotals) && $actLogTotals['today']>0): ?>
+      <span class="sa-nav-badge"><?= $actLogTotals['today'] ?></span>
+      <?php endif; ?>
+    </a>
+
     <a class="sa-nav-item <?= ($saCurrentPage === 'payment_settings.php' && $saTab !== 'numbers') ? 'active' : '' ?>"
        href="<?= $saUrl ?>/SuperAdmin/payment_settings.php">
       <span class="sa-nav-icon"><?= saIcon('settings') ?></span>
@@ -245,6 +254,7 @@ try {
       nav_subscriptions:'Subscriptions',
       nav_users:'Users',
       nav_reports:'Reports',
+      nav_activity_log:'Activity Log',
       nav_settings:'Settings',
       nav_notifications:'Notifications',
       nav_logout:'Sign Out'
@@ -263,6 +273,7 @@ try {
       nav_subscriptions:'Abonnements',
       nav_users:'Utilisateurs',
       nav_reports:'Rapports',
+      nav_activity_log:"Journal d'activité",
       nav_settings:'Paramètres',
       nav_notifications:'Notifications',
       nav_logout:'Déconnexion'

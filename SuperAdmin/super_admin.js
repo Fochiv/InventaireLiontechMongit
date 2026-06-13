@@ -477,6 +477,36 @@ function initLang() {
 }
 
 /* ══════════════════════════════════════════
+   ACTIVITY LOG FILTERS
+   ══════════════════════════════════════════ */
+function initLogFilters() {
+  const search  = $('log-search');
+  const typesel = $('log-action-filter');
+  const list    = $('log-list');
+  const noRes   = $('log-no-results');
+  if (!list) return;
+
+  function filterLogs() {
+    const q   = (search?.value || '').toLowerCase().trim();
+    const act = (typesel?.value || '').toLowerCase();
+    let visible = 0;
+    list.querySelectorAll('.sa-log-row').forEach(row => {
+      const txt = (row.dataset.search || '');
+      const typ = (row.dataset.action || '');
+      const matchQ   = !q   || txt.includes(q);
+      const matchAct = !act || typ.includes(act);
+      const show = matchQ && matchAct;
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (noRes) noRes.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  search?.addEventListener('input',  filterLogs);
+  typesel?.addEventListener('change', filterLogs);
+}
+
+/* ══════════════════════════════════════════
    USER TOGGLE STATUS (suspend / activate)
    ══════════════════════════════════════════ */
 function initUserToggle() {
@@ -551,6 +581,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTopbarSearch();
   initAlertRenew();
   initUserToggle();
+  initLogFilters();
   initLang();
 
   if (window.Chart) {

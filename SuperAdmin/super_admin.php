@@ -51,6 +51,24 @@ try {
         LIMIT 300")->fetchAll();
 } catch(Throwable $e){}
 
+/* ── ACTIVITY LOGS ── */
+$activityLogs = [];
+$actLogTotals = ['today'=>0,'week'=>0,'month'=>0];
+try {
+    $activityLogs = $pdo->query("
+        SELECT al.log_id, al.action, al.description, al.ip_address, al.created_at,
+               u.full_name AS user_name, u.role AS user_role,
+               b.business_name
+        FROM activity_logs al
+        LEFT JOIN users u ON u.user_id = al.user_id
+        LEFT JOIN businesses b ON b.business_id = al.business_id
+        ORDER BY al.created_at DESC
+        LIMIT 300")->fetchAll();
+    $actLogTotals['today'] = (int)$pdo->query("SELECT COUNT(*) FROM activity_logs WHERE DATE(created_at)=CURDATE()")->fetchColumn();
+    $actLogTotals['week']  = (int)$pdo->query("SELECT COUNT(*) FROM activity_logs WHERE created_at >= DATE_SUB(NOW(),INTERVAL 7 DAY)")->fetchColumn();
+    $actLogTotals['month'] = (int)$pdo->query("SELECT COUNT(*) FROM activity_logs WHERE created_at >= DATE_SUB(NOW(),INTERVAL 30 DAY)")->fetchColumn();
+} catch(Throwable $e){}
+
 /* ── SUBSCRIPTIONS ── */
 $subscriptions = [];
 try {
@@ -311,6 +329,14 @@ function saIcon(string $name, int $size=18): string {
     </a>
 
     <div class="sa-nav-section">Système</div>
+
+    <button class="sa-nav-item" data-panel="logs">
+      <span class="sa-nav-icon"><?= saIcon('bar-chart') ?></span>
+      <span>Journal d'activité</span>
+      <?php if($actLogTotals['today']>0): ?>
+      <span class="sa-nav-badge"><?= $actLogTotals['today'] ?></span>
+      <?php endif; ?>
+    </button>
 
     <a class="sa-nav-item" href="<?= $url ?>/SuperAdmin/payment_settings.php">
       <span class="sa-nav-icon"><?= saIcon('settings') ?></span>
@@ -867,6 +893,117 @@ function saIcon(string $name, int $size=18): string {
       </div>
 
     </div><!-- /#panel-subscriptions -->
+
+    <!-- ══════════ PANEL: ACTIVITY LOGS ══════════ -->
+    <div id="panel-logs" class="sa-panel" style="display:none">
+
+      <div class="sa-page-header">
+        <div>
+          <h1 class="sa-page-title">Journal d'activité</h1>
+          <p class="sa-page-sub">Historique complet des événements système</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="sa-log-stats">
+        <div class="sa-log-stat">
+          <div class="sa-log-stat-val"><?= $actLogTotals['today'] ?></div>
+          <div class="sa-log-stat-lbl">Aujourd'hui</div>
+        </div>
+        <div class="sa-log-stat">
+          <div class="sa-log-stat-val"><?= $actLogTotals['week'] ?></div>
+          <div class="sa-log-stat-lbl">7 derniers jours</div>
+        </div>
+        <div class="sa-log-stat">
+          <div class="sa-log-stat-val"><?= $actLogTotals['month'] ?></div>
+          <div class="sa-log-stat-lbl">30 derniers jours</div>
+        </div>
+        <div class="sa-log-stat">
+          <div class="sa-log-stat-val"><?= count($activityLogs) ?></div>
+          <div class="sa-log-stat-lbl">Chargés (300 max)</div>
+        </div>
+      </div>
+
+      <div class="sa-card">
+        <!-- Filters -->
+        <div class="sa-log-filters">
+          <input type="search" id="log-search" placeholder="🔍 Rechercher action, utilisateur, business…"/>
+          <select id="log-action-filter">
+            <option value="">Tous les types</option>
+            <option value="login">Connexion</option>
+            <option value="logout">Déconnexion</option>
+            <option value="stock">Stocks</option>
+            <option value="clock">Présences</option>
+            <option value="employee">Employés</option>
+            <option value="product">Produits</option>
+            <option value="payment">Paiements</option>
+            <option value="suspend">Suspension</option>
+          </select>
+        </div>
+
+        <!-- Log rows -->
+        <div class="sa-log-list" id="log-list">
+        <?php if(empty($activityLogs)): ?>
+          <div class="sa-log-empty">Aucune activité enregistrée pour l'instant.</div>
+        <?php else: foreach($activityLogs as $log):
+          $a   = strtolower($log['action'] ?? '');
+          /* Icon category */
+          if (str_contains($a,'login'))          { $iCls='sa-log-icon-login';   $iSvg='🔐'; }
+          elseif (str_contains($a,'logout'))     { $iCls='sa-log-icon-logout';  $iSvg='🚪'; }
+          elseif (str_contains($a,'suspend'))    { $iCls='sa-log-icon-suspend'; $iSvg='⏸'; }
+          elseif (str_contains($a,'activat'))    { $iCls='sa-log-icon-activate';$iSvg='▶'; }
+          elseif (str_contains($a,'clock'))      { $iCls='sa-log-icon-default'; $iSvg='🕐'; }
+          elseif (str_contains($a,'stock'))      { $iCls='sa-log-icon-stock';   $iSvg='📦'; }
+          elseif (str_contains($a,'employee'))   { $iCls='sa-log-icon-create';  $iSvg='👤'; }
+          elseif (str_contains($a,'product'))    { $iCls='sa-log-icon-create';  $iSvg='🏷'; }
+          elseif (str_contains($a,'payment') || str_contains($a,'subscription')) { $iCls='sa-log-icon-payment'; $iSvg='💳'; }
+          elseif (str_contains($a,'create') || str_contains($a,'add') || str_contains($a,'register')) { $iCls='sa-log-icon-create'; $iSvg='➕'; }
+          else   { $iCls='sa-log-icon-default'; $iSvg='📋'; }
+
+          /* Role pill */
+          $roleColors = ['business_owner'=>'#92400E','manager'=>'#5B21B6','employee'=>'#065F46','caissier'=>'#1E40AF','super_admin'=>'#0B1F3A'];
+          $roleBg     = ['business_owner'=>'#FEF3C7','manager'=>'#EDE9FE','employee'=>'#D1FAE5','caissier'=>'#DBEAFE','super_admin'=>'#EEF2F7'];
+          $rk  = $log['user_role'] ?? '';
+          $rc  = $roleColors[$rk] ?? '#6B7280';
+          $rbg = $roleBg[$rk]     ?? '#F1F5F9';
+
+          /* Nicely formatted action label */
+          $actionLabel = ucwords(str_replace(['_','-'],' ',$log['action'] ?? 'Événement'));
+          $timeAgo = (new DateTime($log['created_at']))->format('d/m/Y H:i');
+        ?>
+          <div class="sa-log-row"
+               data-search="<?= htmlspecialchars(strtolower(($log['action']??'').' '.($log['description']??'').' '.($log['user_name']??'').' '.($log['business_name']??''))) ?>"
+               data-action="<?= htmlspecialchars(strtolower($log['action']??'')) ?>">
+            <div class="sa-log-icon <?= $iCls ?>"><?= $iSvg ?></div>
+            <div class="sa-log-body">
+              <div class="sa-log-action"><?= htmlspecialchars($actionLabel) ?></div>
+              <?php if(!empty($log['description'])): ?>
+              <div class="sa-log-desc" title="<?= htmlspecialchars($log['description']) ?>"><?= htmlspecialchars($log['description']) ?></div>
+              <?php endif; ?>
+              <div class="sa-log-meta">
+                <?php if(!empty($log['user_name'])): ?>
+                <span>👤 <?= htmlspecialchars($log['user_name']) ?>
+                  <?php if($rk): ?>
+                  <span style="font-size:10px;padding:1px 6px;border-radius:50px;background:<?= $rbg ?>;color:<?= $rc ?>;font-weight:700;margin-left:3px"><?= htmlspecialchars($rk) ?></span>
+                  <?php endif; ?>
+                </span>
+                <?php endif; ?>
+                <?php if(!empty($log['business_name'])): ?>
+                <span>🏢 <?= htmlspecialchars($log['business_name']) ?></span>
+                <?php endif; ?>
+                <?php if(!empty($log['ip_address'])): ?>
+                <span>🌐 <?= htmlspecialchars($log['ip_address']) ?></span>
+                <?php endif; ?>
+              </div>
+            </div>
+            <div class="sa-log-time"><?= $timeAgo ?></div>
+          </div>
+        <?php endforeach; endif; ?>
+        </div>
+        <div id="log-no-results" style="display:none" class="sa-log-empty">Aucun résultat pour ce filtre.</div>
+      </div>
+
+    </div><!-- /#panel-logs -->
 
   </main>
 </div><!-- /.sa-main -->

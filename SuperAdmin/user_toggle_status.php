@@ -56,6 +56,23 @@ try {
 
     $label = $newStatus === 'active' ? 'Actif' : 'Suspendu';
 
+    /* ── Log the action ── */
+    try {
+        $desc = ($newStatus === 'suspended')
+            ? "Compte suspendu par SuperAdmin (ID #{$userId})"
+            : "Compte réactivé par SuperAdmin (ID #{$userId})";
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '::1';
+        $pdo->prepare(
+            "INSERT INTO activity_logs (user_id, business_id, action, description, icon, ip_address)
+             VALUES (?, NULL, ?, ?, 'user', ?)"
+        )->execute([
+            (int)($self['user_id'] ?? 0),
+            $newStatus === 'suspended' ? 'user_suspend' : 'user_activate',
+            $desc,
+            $ip,
+        ]);
+    } catch (Throwable $_e) {}
+
     echo json_encode(['ok'=>true, 'status'=>$newStatus, 'label'=>$label]);
 
 } catch (Throwable $e) {
