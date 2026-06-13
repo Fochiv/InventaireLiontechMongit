@@ -93,6 +93,37 @@ $initials = substr($initials ?: 'O', 0, 2);
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Centre de Validation — LionTech</title>
+  <link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+  <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
+  <link rel="stylesheet" href="<?= APP_URL ?>/icons.css"/>
+  <style>
+    .ac-menu-btn{display:none}
+    @media(max-width:1050px){.ac-menu-btn{display:flex}}
+    .ac-section{padding:20px 24px}
+    @media(max-width:600px){.ac-section{padding:12px 14px}}
+    .ac-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+    .ac-tab{padding:9px 18px;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;border:1.5px solid #E5E7EB;background:#fff;color:#0B1F3A;transition:.15s}
+    .ac-tab.active{background:#0B1F3A;color:#fff;border-color:#0B1F3A}
+    .ac-alert{border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13.5px}
+    .ac-alert.success{background:#F0FDF4;border:1px solid #86EFAC;color:#166534}
+    .ac-alert.error{background:#FEF2F2;border:1px solid #FECACA;color:#991B1B}
+    .ac-empty{text-align:center;padding:40px;color:#94A3B8;font-size:14px}
+    .ac-empty strong{display:block;font-size:16px;color:#6B7280;margin-top:8px}
+    .ac-badge{display:inline-flex;padding:4px 10px;border-radius:50px;font-size:11.5px;font-weight:700}
+    .ac-badge-pending{background:#FEF3C7;color:#92400E}
+    .ac-badge-approved{background:#DCFCE7;color:#166534}
+    .ac-badge-rejected{background:#FEE2E2;color:#991B1B}
+    .ac-proof-link{font-size:12px;color:#2563EB;font-weight:600;text-decoration:underline}
+    .ac-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .ac-btn-approve{background:#DCFCE7;color:#166534;border:none;padding:8px 14px;border-radius:10px;font-size:12.5px;font-weight:700;cursor:pointer}
+    .ac-btn-reject{background:#FEE2E2;color:#991B1B;border:none;padding:8px 14px;border-radius:10px;font-size:12.5px;font-weight:700;cursor:pointer}
+    .ac-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:999;align-items:center;justify-content:center}
+    .ac-modal.open{display:flex}
+    .ac-modal-box{background:#fff;border-radius:18px;padding:28px;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+    .ac-modal-title{font-size:17px;font-weight:800;color:#0B1F3A;margin:0 0 10px}
+    .ac-modal-textarea{width:100%;box-sizing:border-box;padding:10px 13px;border:1.5px solid #E5E7EB;border-radius:12px;font-size:13.5px;font-family:inherit;resize:vertical;min-height:80px;margin:10px 0}
+    .ac-modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}
+  </style>
 </head>
 <body>
 <div class="od-layout">
@@ -100,6 +131,9 @@ $initials = substr($initials ?: 'O', 0, 2);
 
   <main class="od-main">
     <header class="od-topbar">
+      <button class="od-menu-btn" id="od-menu-btn" aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <div class="od-business-title">
         <h1>Centre de Validation</h1>
         <p>Approuvez ou refusez les demandes de stock des employés</p>
@@ -120,12 +154,25 @@ $initials = substr($initials ?: 'O', 0, 2);
     <?php endif; ?>
 
     <!-- Stat cards -->
-    <div style="padding:20px 24px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
-      <div class="od-card stat"><span class="stat-icon blue">📥</span><div><small>Stock entrant</small><strong><?= count($pendingIn) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon amber">📤</span><div><small>Stock sortant</small><strong><?= count($pendingOut) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2"><span class="icon-warn">⚠</span></span><div><small>Total urgent</small><strong><?= $totalPending ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon green"><span class="icon-ok">✓</span></span><div><small>Action requise</small><strong><?= $totalPending > 0 ? 'Oui' : 'Non' ?></strong></div></div>
+    <div style="padding:20px 24px 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px" class="ac-stat-grid">
+      <div class="od-card stat">
+        <span class="stat-icon blue"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="3" x2="12" y2="21"/></svg></span>
+        <div><small>Stock entrant</small><strong><?= count($pendingIn) ?></strong></div>
+      </div>
+      <div class="od-card stat">
+        <span class="stat-icon amber"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 7 12 3 8 7"/><line x1="12" y1="21" x2="12" y2="3"/></svg></span>
+        <div><small>Stock sortant</small><strong><?= count($pendingOut) ?></strong></div>
+      </div>
+      <div class="od-card stat">
+        <span class="stat-icon" style="background:#FEE2E2"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><small>Total urgent</small><strong><?= $totalPending ?></strong></div>
+      </div>
+      <div class="od-card stat">
+        <span class="stat-icon green"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <div><small>Action requise</small><strong><?= $totalPending > 0 ? 'Oui' : 'Non' ?></strong></div>
+      </div>
     </div>
+    <style>.ac-stat-grid{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:900px){.ac-stat-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.ac-stat-grid{grid-template-columns:1fr}}</style>
 
     <div style="padding:20px 24px 40px;display:flex;flex-direction:column;gap:20px">
 

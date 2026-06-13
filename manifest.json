@@ -1,0 +1,27 @@
+{
+  "name": "Tally — LionTech Business Manager",
+  "short_name": "Tally",
+  "description": "Gérez votre business africain en temps réel",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1F3A",
+  "theme_color": "#0B1F3A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Image/TALLYLOGO.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Image/TALLYLOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "finance", "productivity"],
+  "lang": "fr",
+  "dir": "ltr"
+}

@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
                     'bank_transfer' => 'Virement Bancaire',
                     'cash'          => 'Espèces',
                 ];
-                $waText = "<span class="icon-brand">T</span> *Nouveau paiement LionTech*\n\nBusiness: *{$bizName}*\nMontant: *" . number_format($amount,0,'.',' ') . " XAF*\nDurée: *{$months} mois*\nMéthode: *" . ($methodLabels[$method] ?? $method) . "*\nRéf: *" . ($reference ?: 'Espèces') . "*\n\nVeuillez valider sur le tableau de bord Super Admin.";
+                $waText = "T *Nouveau paiement LionTech*\n\nBusiness: *{$bizName}*\nMontant: *" . number_format($amount,0,'.',' ') . " XAF*\nDurée: *{$months} mois*\nMéthode: *" . ($methodLabels[$method] ?? $method) . "*\nRéf: *" . ($reference ?: 'Espèces') . "*\n\nVeuillez valider sur le tableau de bord Super Admin.";
                 $waUrl = 'https://wa.me/237688203095?text=' . urlencode($waText);
 
                 /* Reload payments */
@@ -168,6 +168,8 @@ $methodLabels = [
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Abonnement — LionTech</title>
+  <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+  <link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
 </head>
 <body>
 <div class="od-layout">

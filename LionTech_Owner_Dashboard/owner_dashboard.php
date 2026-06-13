@@ -145,6 +145,8 @@ $dashboard_url     = $url . '/LionTech_Owner_Dashboard/owner_dashboard.php';
 <meta name="theme-color" content="#0B1F3A"/>
 <title>Dashboard Propriétaire — LionTech</title>
 <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+<link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
+<link rel="apple-touch-icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
 <link rel="stylesheet" href="owner_dashboard.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>window.OWNER_CHART_DATA = <?= json_encode($chartData) ?>;</script>

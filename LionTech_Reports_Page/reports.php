@@ -202,6 +202,7 @@ $initials = substr($initials ?: 'O', 0, 2);
 <meta name="theme-color" content="#0B1F3A"/>
 <title>Rapports — LionTech</title>
 <link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+<link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
 <link rel="stylesheet" href="reports.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>

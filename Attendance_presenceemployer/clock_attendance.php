@@ -269,6 +269,8 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Clock In / Clock Out — LionTech</title>
+<link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+<link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 <style>
 *{box-sizing:border-box}

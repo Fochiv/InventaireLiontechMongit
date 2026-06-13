@@ -308,6 +308,8 @@ try {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vente — <?= e($bizName) ?></title>
+<link rel="icon" type="image/png" href="<?= $url ?>/Image/TALLYLOGO.png"/>
+<link rel="manifest" href="<?= $url ?>/manifest.json"/>
 <link rel="stylesheet" href="<?= $url ?>/LionTech_Owner_Dashboard/owner_dashboard.css">
 <link rel="stylesheet" href="<?= $url ?>/Vente_cashier/Vente.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>

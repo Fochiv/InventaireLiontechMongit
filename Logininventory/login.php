@@ -23,8 +23,10 @@ $queryError = htmlspecialchars($_GET['error'] ?? '', ENT_QUOTES);
     <meta name="theme-color" content="#0B1F3A">
     <title>Connexion — Tally Business Manager</title>
     <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png?v=<?= time() ?>">
+    <link rel="manifest" href="<?= APP_URL ?>/manifest.json">
+    <link rel="apple-touch-icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png">
     <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+    <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 
@@ -186,5 +188,13 @@ $queryError = htmlspecialchars($_GET['error'] ?? '', ENT_QUOTES);
 
 <script src="lang.js"></script>
 <script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('<?= APP_URL ?>/sw.js')
+      .catch(() => {});
+  });
+}
+</script>
 </body>
 </html>

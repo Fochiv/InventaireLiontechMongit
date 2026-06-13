@@ -81,6 +81,7 @@ try {
   <meta name="robots" content="noindex,nofollow"/>
   <title>Journal d'Activité — LionTech</title>
   <link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+  <link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <style>
     .al-menu-btn{display:none;border:1.5px solid #E5E7EB;background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;color:#0B1F3A}

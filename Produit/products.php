@@ -200,17 +200,30 @@ $initials = substr($initials?:'U',0,2);
     <?php endif; ?>
 
     <!-- Stat cards -->
-    <div style="padding:20px 24px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
-      <div class="od-card stat"><span class="stat-icon blue"><span class="icon-box">▣</span></span><div><small>Total Produits</small><strong><?=e($totalProducts)?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon amber"><span class="icon-warn">⚠</span></span><div><small>Stock Faible</small><strong><?=e($lowStock)?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2"><span class="icon-err">✗</span></span><div><small>Rupture</small><strong><?=e($outOfStock)?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon" style="background:#F1F5F9">🗂️</span><div><small>Archivés</small><strong><?=e($archived)?></strong></div></div>
+    <div class="pr-stat-grid" style="padding:20px 24px 0">
+      <div class="od-card stat">
+        <span class="stat-icon blue"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+        <div><small>Total Produits</small><strong><?=e($totalProducts)?></strong></div>
+      </div>
+      <div class="od-card stat">
+        <span class="stat-icon amber"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><small>Stock Faible</small><strong><?=e($lowStock)?></strong></div>
+      </div>
+      <div class="od-card stat">
+        <span class="stat-icon" style="background:#FEE2E2"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>
+        <div><small>Rupture</small><strong><?=e($outOfStock)?></strong></div>
+      </div>
+      <div class="od-card stat">
+        <span class="stat-icon" style="background:#F1F5F9"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>
+        <div><small>Archivés</small><strong><?=e($archived)?></strong></div>
+      </div>
     </div>
+    <style>.pr-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}@media(max-width:900px){.pr-stat-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.pr-stat-grid{grid-template-columns:1fr}}</style>
 
     <!-- Toolbar -->
     <div style="padding:16px 24px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
       <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:8px 13px;flex:1;min-width:200px">
-        <span style="color:#9CA3AF">🔎</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" id="productSearch" placeholder="Rechercher des produits..."
           style="border:none;outline:none;font-size:13.5px;width:100%;font-family:inherit"/>
       </div>

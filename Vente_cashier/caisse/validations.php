@@ -104,6 +104,8 @@ $initials = substr($initials ?: 'U', 0, 2);
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Validations Caisse — LionTech</title>
+<link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+<link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 <style>
 .val-tabs { display:flex; gap:4px; margin-bottom:20px; background:#F3F4F6; border-radius:12px; padding:4px; width:fit-content; }

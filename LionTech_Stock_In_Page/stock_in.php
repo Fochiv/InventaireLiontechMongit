@@ -82,6 +82,8 @@ $initials=substr($initials?:'U',0,2);
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Stock In — LionTech</title>
+<link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+<link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
 <link rel="stylesheet" href="stock_in.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>

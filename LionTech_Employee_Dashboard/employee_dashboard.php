@@ -249,17 +249,22 @@ $initials = substr($initials ?: 'E',0,2);
 <meta name="robots" content="noindex,nofollow"/>
 <meta name="theme-color" content="#0B1F3A"/>
 <title>Dashboard Employé — LionTech</title>
+<link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
+<link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
+<link rel="apple-touch-icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
 <link rel="stylesheet" href="employee_dashboard.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="ed-layout">
- 
-<?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
+
+  <?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
 
   <main class="ed-main">
     <header class="ed-topbar">
-      <button class="menu-btn" id="menu-btn">☰</button>
+      <button class="menu-btn od-menu-btn" id="od-menu-btn" aria-label="Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <div>
         <h1 data-i18n="title">Dashboard Employé</h1>
         <p><?= e($business['business_name'] ?? $business['name'] ?? 'Business') ?> · <?= e($employeeRole) ?></p>
