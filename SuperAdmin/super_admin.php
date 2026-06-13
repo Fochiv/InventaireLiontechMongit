@@ -213,7 +213,7 @@ function saIcon(string $name, int $size=18): string {
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta name="robots" content="noindex,nofollow"/>
-  <title>Super Admin — Tally</title>
+  <title>Super Admin — LionTech</title>
   <link rel="icon" href="<?= $url ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="super_admin.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -235,7 +235,7 @@ function saIcon(string $name, int $size=18): string {
     <div class="sa-logo">
       <img src="<?= $url ?>/Image/TALLYLOGO.png" alt="Tally"
            style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0">
-      <div><div class="sb-logo-name">Tally</div><div class="sa-logo-tag">Business Manager</div></div>
+      <div><div class="sb-logo-name">LionTech</div><div class="sa-logo-tag">Business Manager</div></div>
     </div>
     <button class="sa-sidebar-close" id="sa-sidebar-close"><?= saIcon('close') ?></button>
   </div>

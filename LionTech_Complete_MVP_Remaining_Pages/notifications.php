@@ -28,7 +28,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Notifications — Tally</title>
+  <title>Notifications — LionTech</title>
   <link rel="stylesheet" href="remaining_pages.css"/>
   <script src="remaining_pages.js" defer></script>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">

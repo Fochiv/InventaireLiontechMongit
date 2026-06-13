@@ -57,7 +57,7 @@ $status = $business['subscription_status'] ?? 'trial';
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Business cree — Tally</title>
+<title>Business cree — LionTech</title>
 <link rel="stylesheet" href="add_business.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
@@ -68,7 +68,7 @@ $status = $business['subscription_status'] ?? 'trial';
     <div class="ab-sidebar-header">
       <div class="ab-logo">
         <div class="ab-logo-icon"><span class="icon-brand">T</span></div>
-        <div><div class="sb-logo-name">Tally</div><div class="ab-logo-tag">Business Manager</div></div>
+        <div><div class="sb-logo-name">LionTech</div><div class="ab-logo-tag">Business Manager</div></div>
       </div>
     </div>
     <nav class="ab-nav">

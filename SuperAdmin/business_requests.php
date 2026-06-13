@@ -197,7 +197,7 @@ $url = APP_URL;
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Business Requests — Tally Super Admin</title>
+<title>Business Requests — LionTech Super Admin</title>
 <link rel="stylesheet" href="super_admin.css"/>
 <style>
 .br-layout { display:grid; grid-template-columns:320px 1fr; gap:24px; }

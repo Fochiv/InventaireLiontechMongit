@@ -244,7 +244,7 @@ $initials = substr($initials, 0, 2);
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
-<title>Employees — Tally</title>
+<title>Employees — LionTech</title>
 <link rel="stylesheet" href="employees.css"/>
 <style>
 /* ══ MODAL ══ */

@@ -35,7 +35,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['name'])){
 <!DOCTYPE html><html lang="fr">
 <head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="theme-color" content="#28744c"/>
-<title>Mon Profil — Tally</title>
+<title>Mon Profil — LionTech</title>
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?=$LOGO?>"/>
 <link rel="stylesheet" href="client.css"/>

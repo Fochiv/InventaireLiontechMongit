@@ -153,7 +153,7 @@ $sq    = $_SESSION['fp_sq']    ?? [];
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Mot de passe oublié — Tally</title>
+  <title>Mot de passe oublié — LionTech</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#0F172A;min-height:100vh;display:grid;place-items:center;padding:20px}
@@ -197,7 +197,7 @@ $sq    = $_SESSION['fp_sq']    ?? [];
       <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally"
            style="width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0">
       <div>
-        <div class="sb-logo-name">Tally</div>
+        <div class="sb-logo-name">LionTech</div>
         <div class="logo-tag">Business Manager</div>
       </div>
     </div>

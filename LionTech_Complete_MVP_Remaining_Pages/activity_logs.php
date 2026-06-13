@@ -79,7 +79,7 @@ try {
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta name="robots" content="noindex,nofollow"/>
-  <title>Journal d'Activité — Tally</title>
+  <title>Journal d'Activité — LionTech</title>
   <link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <style>

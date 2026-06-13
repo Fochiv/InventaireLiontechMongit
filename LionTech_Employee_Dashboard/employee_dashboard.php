@@ -248,7 +248,7 @@ $initials = substr($initials ?: 'E',0,2);
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
 <meta name="theme-color" content="#0B1F3A"/>
-<title>Dashboard Employé — Tally</title>
+<title>Dashboard Employé — LionTech</title>
 <link rel="stylesheet" href="employee_dashboard.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>

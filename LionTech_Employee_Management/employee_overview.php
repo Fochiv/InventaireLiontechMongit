@@ -138,7 +138,7 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Employés — Tally</title>
+<title>Employés — LionTech</title>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 <style>
 *{box-sizing:border-box}

@@ -87,7 +87,7 @@ $initials=substr($initials?:'O',0,2);
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta name="robots" content="noindex,nofollow"/>
-  <title>Rapports — Tally</title>
+  <title>Rapports — LionTech</title>
   <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

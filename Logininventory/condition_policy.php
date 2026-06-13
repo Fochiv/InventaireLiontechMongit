@@ -76,7 +76,7 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
   <a class="nav-logo" href="<?= APP_URL ?>/Logininventory/login.php">
     <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally" onerror="this.style.display='none'"/>
     <div>
-      <div class="sb-logo-name">Tally</div>
+      <div class="sb-logo-name">LionTech</div>
       <div class="nav-logo-tag">Business Manager</div>
     </div>
   </a>

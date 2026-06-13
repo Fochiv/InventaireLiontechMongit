@@ -150,7 +150,7 @@ $initials = substr($initials?:'U',0,2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Produits — Tally</title>
+  <title>Produits — LionTech</title>
   <link rel="stylesheet" href="products.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>

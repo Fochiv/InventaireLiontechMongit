@@ -88,7 +88,7 @@ try {
         style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0"
       >
       <div>
-        <div class="sb-logo-name">Tally</div>
+        <div class="sb-logo-name">LionTech</div>
         <div class="sa-logo-tag">Business Manager</div>
       </div>
     </div>

@@ -5,7 +5,7 @@ $user = currentUser();
 ?>
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Tableau de bord Employé — Tally</title>
+<title>Tableau de bord Employé — LionTech</title>
 <link rel="stylesheet" href="../style.css"/><link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>

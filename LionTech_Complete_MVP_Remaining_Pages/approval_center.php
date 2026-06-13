@@ -92,7 +92,7 @@ $initials = substr($initials ?: 'O', 0, 2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Centre de Validation — Tally</title>
+  <title>Centre de Validation — LionTech</title>
 </head>
 <body>
 <div class="od-layout">

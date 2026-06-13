@@ -105,7 +105,7 @@ $initials=substr($initials?:'U',0,2);
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Stock Out — Tally</title>
+<title>Stock Out — LionTech</title>
 <link rel="stylesheet" href="stock_out.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>

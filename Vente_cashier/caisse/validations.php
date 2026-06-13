@@ -103,7 +103,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Validations Caisse — Tally</title>
+<title>Validations Caisse — LionTech</title>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 <style>
 .val-tabs { display:flex; gap:4px; margin-bottom:20px; background:#F3F4F6; border-radius:12px; padding:4px; width:fit-content; }

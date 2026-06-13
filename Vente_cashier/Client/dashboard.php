@@ -65,7 +65,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="theme-color" content="#28744c"/>
-<title>Mes Reçus — Tally</title>
+<title>Mes Reçus — LionTech</title>
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?= $LOGO ?>"/>
 <link rel="stylesheet" href="client.css"/>

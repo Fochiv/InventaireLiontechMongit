@@ -143,7 +143,7 @@ $dashboard_url     = $url . '/LionTech_Owner_Dashboard/owner_dashboard.php';
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
 <meta name="theme-color" content="#0B1F3A"/>
-<title>Dashboard Propriétaire — Tally</title>
+<title>Dashboard Propriétaire — LionTech</title>
 <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
 <link rel="stylesheet" href="owner_dashboard.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

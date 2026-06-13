@@ -113,7 +113,7 @@ if (!function_exists('sbA')) {
       <img src="<?= $url ?>/Image/TALLYLOGO.png" alt="Tally"
            onerror="this.style.display='none'">
       <div>
-        <div class="sb-logo-name">Tally</div>
+        <div class="sb-logo-name">LionTech</div>
         <div class="sb-logo-tag">Business Manager</div>
       </div>
     </div>

@@ -17,7 +17,7 @@ $dashUrl = APP_URL . '/' . ($routes[$role] ?? 'Logininventory/login.php');
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Accès refusé — Tally</title>
+  <title>Accès refusé — LionTech</title>
 </head>
 <body>
 <div class="od-layout">

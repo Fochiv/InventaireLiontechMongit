@@ -103,7 +103,7 @@ $initials=substr($initials?:'U',0,2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Add Product — Tally</title>
+  <title>Add Product — LionTech</title>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <link rel="stylesheet" href="products.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">

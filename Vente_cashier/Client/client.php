@@ -17,7 +17,7 @@ $LOGO     = APP_URL . '/Image/TALLYLOGO.png';
 <meta name="description" content="Tally Client — Consultez vos reçus et factures."/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="Tally Client"/>
-<title>Tally Client — Mes Reçus</title>
+<title>LionTech Client — Mes Reçus</title>
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?= $LOGO ?>"/>
 <link rel="apple-touch-icon" href="<?= $LOGO ?>"/>

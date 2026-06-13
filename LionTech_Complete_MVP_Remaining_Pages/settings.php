@@ -238,7 +238,7 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Paramètres — Tally</title>
+<title>Paramètres — LionTech</title>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 
 <style>

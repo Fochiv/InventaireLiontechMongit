@@ -132,7 +132,7 @@ $questionsJson = json_encode(array_values($QUESTIONS), JSON_UNESCAPED_UNICODE);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Configuration sécurité — Tally</title>
+  <title>Configuration sécurité — LionTech</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#0F172A;min-height:100vh;display:grid;place-items:center;padding:20px}
@@ -174,7 +174,7 @@ $questionsJson = json_encode(array_values($QUESTIONS), JSON_UNESCAPED_UNICODE);
         <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally"
              style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0">
         <div>
-          <div class="sb-logo-name">Tally</div>
+          <div class="sb-logo-name">LionTech</div>
           <div class="logo-tag">Business Manager</div>
         </div>
       </div>

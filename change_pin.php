@@ -70,7 +70,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Changer PIN — Tally</title>
+  <title>Changer PIN — LionTech</title>
 </head>
 <body>
 <div class="od-layout">

@@ -34,7 +34,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <!DOCTYPE html><html lang="fr">
 <head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="theme-color" content="#28744c"/>
-<title>Créer un compte — Tally</title>
+<title>Créer un compte — LionTech</title>
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?=APP_URL?>/Image/TALLYLOGO.png"/>
 <link rel="stylesheet" href="client.css"/><link rel="stylesheet" href="<?= APP_URL ?>/icons.css">

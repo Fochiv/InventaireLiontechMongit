@@ -200,7 +200,7 @@ $initials = substr($initials ?: 'O', 0, 2);
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
 <meta name="theme-color" content="#0B1F3A"/>
-<title>Rapports — Tally</title>
+<title>Rapports — LionTech</title>
 <link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
 <link rel="stylesheet" href="reports.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>

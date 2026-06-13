@@ -152,7 +152,7 @@ $methodLabels = [
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Valider Paiements — Tally</title>
+  <title>Valider Paiements — LionTech</title>
   <link rel="stylesheet" href="super_admin.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
