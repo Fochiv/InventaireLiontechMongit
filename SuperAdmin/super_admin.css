@@ -81,6 +81,8 @@ svg { flex-shrink: 0; }
 .sa-logo { display: flex; align-items: center; gap: 11px; min-width: 0; }
 .sa-logo-name { font-family: var(--font-head); font-size: 15px; font-weight: 800; color: var(--white); line-height: 1.2; }
 .sa-logo-tag  { font-size: 9px; font-weight: 500; color: var(--gold-lt); letter-spacing: .3px; }
+/* sb-logo-name used in super_admin sidebar */
+.sb-logo-name { font-family: var(--font-head); font-size: 15px; font-weight: 800; color: #D4A017; line-height: 1.2; letter-spacing: .3px; }
 .sa-sidebar-close {
   display: none;
   background: rgba(255,255,255,.1); border: none; color: rgba(255,255,255,.7);

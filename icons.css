@@ -21,3 +21,61 @@
 [class^="icon-"], [class*=" icon-"], .dot-green, .dot-gray {
   display: inline-block; vertical-align: middle; line-height: 1;
 }
+
+/* ══════════════════════════════════════════
+   GLOBAL RESPONSIVE RULES — all pages
+══════════════════════════════════════════ */
+
+/* Horizontal scroll on ALL tables at any screen size */
+.sa-table-wrap,
+.od-table-wrap,
+table.sa-table,
+table.od-table {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+  width: 100%;
+}
+
+/* Generic table wrapper — applies to any table not already wrapped */
+table {
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+/* Scrollable table wrapper for any page using class .table-responsive */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+/* ── Responsive meta rules — all pages ── */
+@media (max-width: 768px) {
+  /* Ensure no page overflows horizontally */
+  body { overflow-x: hidden; }
+
+  /* Stack any flex row on mobile */
+  .lt-receipt-banner { padding: 10px 14px; flex-direction: column; align-items: flex-start; }
+  .lt-receipt-btn { width: 100%; justify-content: center; }
+
+  /* Topbar: stack or shrink */
+  .od-topbar { flex-wrap: wrap; gap: 8px; }
+  .od-business-title h1 { font-size: 20px !important; }
+  .od-top-actions { margin-left: auto; }
+
+  /* Cards: single column */
+  .od-quick-actions,
+  .od-stats,
+  .sa-cards-grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Full width cards on very small screens */
+}
+
+@media (max-width: 480px) {
+  .od-quick-actions,
+  .od-stats,
+  .sa-cards-grid { grid-template-columns: 1fr !important; }
+
+  .od-business-title h1 { font-size: 17px !important; }
+}

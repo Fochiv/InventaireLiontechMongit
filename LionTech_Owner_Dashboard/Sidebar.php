@@ -60,7 +60,7 @@ if (!function_exists('sbA')) {
   padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
 .sb-logo{display:flex;align-items:center;gap:10px}
 .sb-logo img{width:38px;height:38px;border-radius:50%;object-fit:cover}
-.sb-logo-name{color:#fff;font-size:15px;font-weight:800;line-height:1}
+.sb-logo-name{color:#D4A017;font-size:15px;font-weight:800;line-height:1;letter-spacing:.3px}
 .sb-logo-tag{color:rgba(255,255,255,.45);font-size:10px;margin-top:2px}
 .od-sidebar-close{background:none;border:none;color:rgba(255,255,255,.5);
   font-size:22px;cursor:pointer;padding:4px 8px;line-height:1}
@@ -105,7 +105,9 @@ if (!function_exists('sbA')) {
 <div class="sb-overlay" id="sbOverlay"></div>
 
 <!-- Hamburger (inject into topbar via JS) -->
-<button class="od-hamburger" id="sbHamburger" aria-label="Menu">☰</button>
+<button class="od-hamburger" id="sbHamburger" aria-label="Menu">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
 
 <aside class="od-sidebar" id="od-sidebar">
   <div class="od-sidebar-header">

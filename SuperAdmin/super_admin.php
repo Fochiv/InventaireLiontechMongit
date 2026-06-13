@@ -46,7 +46,7 @@ try {
                b.business_name
         FROM users u
         LEFT JOIN businesses b ON b.business_id = u.business_id
-        WHERE u.role IN ('business_owner', 'manager')
+        WHERE u.role IN ('business_owner', 'manager', 'employee', 'caissier')
         ORDER BY u.created_at DESC
         LIMIT 300")->fetchAll();
 } catch(Throwable $e){}
@@ -694,7 +694,7 @@ function saIcon(string $name, int $size=18): string {
 
       <div class="sa-page-header">
         <div>
-          <h1 class="sa-page-title">Propriétaires & Managers</h1>
+          <h1 class="sa-page-title">Tous les utilisateurs</h1>
           <p class="sa-page-sub" id="users-table-count"><?= count($allUsers) ?> utilisateur(s) au total</p>
         </div>
       </div>
@@ -710,7 +710,8 @@ function saIcon(string $name, int $size=18): string {
             <option value="all">Tous rôles</option>
             <option value="business_owner">Propriétaire</option>
             <option value="manager">Gérant</option>
-           
+            <option value="employee">Employé</option>
+            <option value="caissier">Caissier</option>
           </select>
           <select class="sa-table-filter" id="users-status-filter">
             <option value="all">Tous statuts</option>

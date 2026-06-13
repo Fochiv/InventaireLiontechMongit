@@ -166,9 +166,6 @@ if (file_exists($sidebarFile)) {
   <main class="od-main">
     <!-- Topbar -->
     <header class="od-topbar">
-      <button class="od-menu-btn" id="od-menu-btn" aria-label="Open menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
       <div class="od-business-title">
         <h1>Tableau de bord</h1>
         <p>Bienvenue, <?= e($user['full_name']) ?> · <?= e($business['business_name']) ?></p>
