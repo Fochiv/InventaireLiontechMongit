@@ -657,6 +657,7 @@ body {
         </div>
 
         <?php if (!empty($items)): ?>
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
         <table class="fac-table">
             <thead>
                 <tr>
@@ -711,6 +712,7 @@ body {
                 </tr>
             </tfoot>
         </table>
+        </div>
         <?php endif; ?>
 
         <?php if (!empty($transaction['note'])): ?>

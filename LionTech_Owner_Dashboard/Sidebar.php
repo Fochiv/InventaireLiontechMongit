@@ -101,6 +101,9 @@ if (!function_exists('sbA')) {
 }
 </style>
 
+<!-- Global i18n engine (covers all pages) -->
+<script src="<?= $url ?>/global_i18n.js"></script>
+
 <!-- Overlay -->
 <div class="sb-overlay" id="sbOverlay"></div>
 

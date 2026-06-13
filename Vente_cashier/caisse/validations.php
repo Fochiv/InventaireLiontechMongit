@@ -111,7 +111,8 @@ $initials = substr($initials ?: 'U', 0, 2);
 .val-tab.active { background:#0B1F3A; color:#fff; }
 .val-section { display:none; }
 .val-section.active { display:block; }
-.val-table { width:100%; border-collapse:collapse; font-size:13px; }
+.val-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.val-table { width:100%; border-collapse:collapse; font-size:13px; min-width:600px; }
 .val-table th { background:#0B1F3A; color:#fff; padding:11px 14px; font-size:11px; text-align:left; }
 .val-table td { padding:11px 14px; border-bottom:1px solid #F3F4F6; vertical-align:middle; }
 .val-table tr:hover td { background:#F8FAFC; }
@@ -181,6 +182,7 @@ $initials = substr($initials ?: 'U', 0, 2);
         <?php if (empty($remboursements)): ?>
         <div class="empty-state">Aucun remboursement</div>
         <?php else: ?>
+        <div class="val-table-wrap">
         <table class="val-table">
           <thead>
             <tr>
@@ -224,6 +226,7 @@ $initials = substr($initials ?: 'U', 0, 2);
             <?php endforeach; ?>
           </tbody>
         </table>
+        </div>
         <?php endif; ?>
       </div>
     </div>
@@ -235,6 +238,7 @@ $initials = substr($initials ?: 'U', 0, 2);
         <?php if (empty($produitsAbimes)): ?>
         <div class="empty-state">Aucun produit abîmé signalé</div>
         <?php else: ?>
+        <div class="val-table-wrap">
         <table class="val-table">
           <thead>
             <tr>
@@ -284,6 +288,7 @@ $initials = substr($initials ?: 'U', 0, 2);
             <?php endforeach; ?>
           </tbody>
         </table>
+        </div>
         <?php endif; ?>
       </div>
     </div>

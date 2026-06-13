@@ -108,6 +108,7 @@ $initials = substr($initials ?: 'O', 0, 2);
         <?php if ($totalPending > 0): ?>
         <span style="background:#FEF3C7;color:#92400E;border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700"><?= $totalPending ?> en attente</span>
         <?php endif; ?>
+        <button class="od-lang" id="ac-lang-btn" type="button" style="border:1px solid #E5E7EB;background:#fff;border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer;font-family:inherit">FR</button>
         <div class="od-avatar"><?= e($initials) ?></div>
       </div>
     </header>
@@ -224,5 +225,16 @@ $initials = substr($initials ?: 'O', 0, 2);
     </div>
   </main>
 </div>
+<script>
+(function(){
+  var btn = document.getElementById('ac-lang-btn');
+  if (btn) btn.addEventListener('click', function(){
+    var cur = localStorage.getItem('lt_lang') || 'fr';
+    localStorage.setItem('lt_lang', cur === 'fr' ? 'en' : 'fr');
+  });
+  var saved = localStorage.getItem('lt_lang') || 'fr';
+  if (btn) btn.textContent = saved === 'fr' ? 'EN' : 'FR';
+})();
+</script>
 </body>
 </html>

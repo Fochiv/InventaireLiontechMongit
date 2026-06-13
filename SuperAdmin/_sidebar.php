@@ -208,6 +208,9 @@ try {
 
 <div class="sa-overlay" id="sa-overlay"></div>
 
+<!-- Global i18n engine -->
+<script src="<?= $saUrl ?>/global_i18n.js"></script>
+
 <script>
 (function(){
   var KEYS = {

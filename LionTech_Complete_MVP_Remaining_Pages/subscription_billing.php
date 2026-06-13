@@ -180,6 +180,7 @@ $methodLabels = [
         <p><?= e($business['business_name'] ?? '') ?> — Plan actuel, paiements et renouvellement</p>
       </div>
       <div class="od-top-actions">
+        <button class="od-lang" id="sb-lang-btn" type="button" style="border:1px solid #E5E7EB;background:#fff;border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer;font-family:inherit">FR</button>
         <div class="od-avatar"><?= e($initials) ?></div>
       </div>
     </header>
@@ -490,6 +491,17 @@ document.querySelectorAll('.method-radio').forEach(r => {
 
 /* Trigger first duration selection */
 document.querySelector('.dur-radio:checked')?.dispatchEvent(new Event('change'));
+
+/* Lang button */
+(function(){
+  var btn = document.getElementById('sb-lang-btn');
+  if (btn) btn.addEventListener('click', function(){
+    var cur = localStorage.getItem('lt_lang') || 'fr';
+    localStorage.setItem('lt_lang', cur === 'fr' ? 'en' : 'fr');
+  });
+  var saved = localStorage.getItem('lt_lang') || 'fr';
+  if (btn) btn.textContent = saved === 'fr' ? 'EN' : 'FR';
+})();
 </script>
 </body>
 </html>

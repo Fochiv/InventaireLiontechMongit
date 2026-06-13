@@ -11,7 +11,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
 $user = currentUser();
-if (!$user) { echo json_encode(['unread'=>0,'items':[]]); exit; }
+if (!$user) { echo json_encode(['unread'=>0,'items'=>[]]); exit; }
 
 $pdo        = getDB();
 $userId     = (int)$user['user_id'];
