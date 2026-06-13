@@ -63,6 +63,20 @@ Files are directly in their module folder — no subdirectory inside a module fo
 
 **Why:** Badge showed $stats['expired'] which was 0 for a new active business, confusing the user.
 
+## MariaDB startup on Replit (critical)
+Bootstrap mode (`mysqld --bootstrap`) is blocked by Replit's seccomp sandbox — it tries to access `/proc/pid/fd` which is forbidden. `mariadb-install-db` and `--initialize-insecure` also fail for the same reason.
+
+**Working solution (in `start.sh`):**
+1. Start mysqld with `--skip-grant-tables --performance-schema=0 --skip-log-bin --skip-slave-start` on a fresh/existing datadir
+2. Poll for socket ready in a tight loop (250ms intervals, up to 30s)
+3. Once alive, import `db-config.sql` via `mysql --socket=/tmp/mysql.sock -u root`
+4. Touch `$MYSQL_DATA/.lt_initialized` so subsequent boots skip the import
+5. `exec php -S 0.0.0.0:5000 -t /home/runner/workspace`
+
+**Why:** `--performance-schema=0` prevents background thread crashes due to missing mysql system tables on a fresh datadir. The window to connect is ~1.5s after startup. Socket: `/tmp/mysql.sock`. Datadir: `/home/runner/mysql-data`.
+
+**Config.php** already detects the socket: `define('DB_SOCKET', file_exists('/tmp/mysql.sock') ? '/tmp/mysql.sock' : '');`
+
 ## DB schema quirks
 - Attendance: `employee_attendance` has `clock_in_at`/`clock_out_at`; `attendance` has `clock_in`/`clock_out` (fallback).
 - Stock requests: `stock_in_requests` (not `stock_in`); `stock_movements.movement_type` for stock_out.
