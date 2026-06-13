@@ -744,10 +744,15 @@ function saIcon(string $name, int $size=18): string {
               <td style="font-family:monospace;font-size:12.5px"><?= htmlspecialchars($u['login_id']) ?></td>
               <td style="color:#6B7280;font-size:12.5px"><?= htmlspecialchars($u['email']??'—') ?></td>
               <td><?php
-                $roleMap   = ['business_owner'=>'Propriétaire','manager'=>'Gérant','employee'=>'Employé'];
-                $roleClass = ['business_owner'=>'navy','manager'=>'teal','employee'=>'blue'];
-                $r = $u['role'];
-              ?><span class="sa-badge sa-badge-<?= $roleClass[$r]??'blue' ?>"><?= $roleMap[$r]??$r ?></span></td>
+                $roleMap  = [
+                  'business_owner' => ['label'=>'Propriétaire', 'cls'=>'sa-role-owner',    'icon'=>'👑'],
+                  'manager'        => ['label'=>'Gérant',        'cls'=>'sa-role-manager',  'icon'=>'🛠'],
+                  'employee'       => ['label'=>'Employé',       'cls'=>'sa-role-employee', 'icon'=>'👤'],
+                  'caissier'       => ['label'=>'Caissier',      'cls'=>'sa-role-caissier', 'icon'=>'🧾'],
+                ];
+                $r   = $u['role'];
+                $rd  = $roleMap[$r] ?? ['label'=>$r, 'cls'=>'sa-role-caissier', 'icon'=>'·'];
+              ?><span class="sa-role-pill <?= $rd['cls'] ?>"><?= $rd['icon'] ?> <?= $rd['label'] ?></span></td>
               <td style="font-size:12.5px"><?= htmlspecialchars($u['business_name']??'—') ?></td>
               <td><span class="sa-badge sa-badge-<?= $u['status']==='active'?'active':'disabled' ?>"><?= $u['status']==='active'?'Actif':'Inactif' ?></span></td>
               <td style="font-size:12px;color:#94A3B8"><?= date('d/m/Y',strtotime($u['created_at'])) ?></td>
