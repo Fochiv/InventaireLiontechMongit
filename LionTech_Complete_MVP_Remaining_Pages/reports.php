@@ -97,6 +97,7 @@ $initials=substr($initials?:'O',0,2);
     @media(max-width:1050px){#rp-menu-btn{display:flex!important;align-items:center}}
   </style>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

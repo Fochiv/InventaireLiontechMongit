@@ -308,14 +308,20 @@ $initials = substr($initials, 0, 2);
 .sched-pill.on{background:#0B1F3A;color:#fff}
 .sched-pill.off{background:#F1F5F9;color:#94A3B8}
 
+.em-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.em-table{min-width:700px;width:100%;border-collapse:collapse}
+
 @media(max-width:600px){
   .em-form-grid{grid-template-columns:1fr}
   .em-permissions{grid-template-columns:1fr}
   .pay-row{grid-template-columns:1fr}
   .em-modal-card{border-radius:12px}
+  .em-form-actions{flex-direction:column}
+  .em-form-actions button{width:100%}
 }
 </style>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="em-layout">

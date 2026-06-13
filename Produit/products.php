@@ -151,8 +151,10 @@ $initials = substr($initials?:'U',0,2);
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Produits — LionTech</title>
+  <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="products.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

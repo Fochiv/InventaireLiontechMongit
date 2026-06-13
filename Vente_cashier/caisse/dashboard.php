@@ -55,6 +55,7 @@ $dashLink = match($role){
   <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <title>Caisse — <?= h($bizName) ?></title>
+  <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="Caisse.css"/>
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js" defer></script>
   <script>
@@ -71,6 +72,7 @@ $dashLink = match($role){
     window.POS_ROLE = <?= json_encode($role) ?>;
   </script>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 

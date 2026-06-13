@@ -151,6 +151,7 @@ $dashboard_url     = $url . '/LionTech_Owner_Dashboard/owner_dashboard.php';
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>window.OWNER_CHART_DATA = <?= json_encode($chartData) ?>;</script>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

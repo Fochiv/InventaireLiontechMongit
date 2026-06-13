@@ -206,7 +206,9 @@ a{text-decoration:none;color:inherit}
     letter-spacing:.3px;flex-shrink:0;min-width:90px;
   }
   /* Override inline styles for grid on mobile */
-  div[style*="grid-template-columns:1fr 340px"]{
+  div[style*="grid-template-columns:1fr 340px"],
+  div[style*="grid-template-columns:1fr 320px"],
+  div[style*="grid-template-columns:1fr 300px"]{
     display:flex !important;flex-direction:column;
   }
 }

@@ -51,6 +51,7 @@ $bizName = $biz['business_name'] ?? 'LionTech';
 .role-employee{background:#F3F4F6;color:#374151}
 </style>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

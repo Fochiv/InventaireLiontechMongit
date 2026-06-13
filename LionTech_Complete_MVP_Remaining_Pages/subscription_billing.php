@@ -172,6 +172,7 @@ $methodLabels = [
   <link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <link rel="stylesheet" href="<?= APP_URL ?>/icons.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

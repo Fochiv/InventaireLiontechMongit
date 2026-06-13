@@ -124,6 +124,7 @@ $initials = substr($initials ?: 'O', 0, 2);
     .ac-modal-textarea{width:100%;box-sizing:border-box;padding:10px 13px;border:1.5px solid #E5E7EB;border-radius:12px;font-size:13.5px;font-family:inherit;resize:vertical;min-height:80px;margin:10px 0}
     .ac-modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}
   </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

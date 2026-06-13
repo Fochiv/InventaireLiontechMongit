@@ -49,6 +49,7 @@ $initials = substr($initials ?: 'U', 0, 2);
     .notif-summary-icon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex-shrink:0}
     .notif-mark-btn{background:#0B1F3A;color:#fff;border:none;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
   </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

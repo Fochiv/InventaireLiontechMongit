@@ -39,15 +39,27 @@ Files are directly in their module folder — no subdirectory inside a module fo
 **Include path from root-level file (e.g. change_pin.php):**
 `__DIR__ . '/LionTech_Owner_Dashboard/Sidebar.php'`
 
-## Sidebar
+## Sidebar — architecture (CRITICAL)
 - Shared sidebar is at `LionTech_Owner_Dashboard/Sidebar.php`.
-- It generates `<aside class="od-sidebar" id="od-sidebar">` — NOT `rp-sidebar`.
-- Sidebar.php does NOT output `od-menu-btn`; each page must add its own hamburger `id="rp-menu-btn"` (reports) or `id="od-menu-btn"` (other pages).
-- Sidebar.php JS binds to `od-menu-btn` for open and `od-sidebar-close` for close.
+- It generates `<aside class="od-sidebar" id="od-sidebar">` with INLINE CSS in a `<style>` block.
+- Sidebar.php inline CSS: `.od-sidebar{position:fixed;top:0;left:-280px;width:260px;height:100vh}` / `.od-sidebar.open{left:0}`.
+- Desktop (min-width:769px): `.od-sidebar{left:0!important}` + `.od-main{margin-left:260px}` — sidebar always visible.
+- Mobile (<768px): `.od-main{margin-left:0!important}` — sidebar hidden, toggled via `.open` class (JS).
+- DO NOT add `transform:translateX()` CSS for od-sidebar — conflicts with the `left:-280px/left:0` system.
+- `responsive_utils.css` must NOT override sidebar positioning — Sidebar.php inline CSS handles it entirely.
 - Reports page uses `id="rp-menu-btn"` and reports.js manually calls `sidebar.classList.add('open')`.
-- CSS for sidebar is in `owner_dashboard.css` at 1050px breakpoint; reports.php must load `owner_dashboard.css`.
+- All other pages use `id="od-menu-btn"` which Sidebar.php JS auto-binds.
 
-**Why:** Sidebar.php was rewritten to use shared od-* classes; pages that had their own rp-sidebar must reference od-sidebar.
+**Why:** Sidebar.php uses `left` property not `transform`. Adding `transform` globally breaks the animation.
+
+## Responsive utilities (responsive_utils.css)
+- File at project root: `responsive_utils.css`
+- Linked on all 17 admin pages via `<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">` before `</head>`.
+- Handles: inline grid attribute selectors (`1fr 320px`, `1fr 340px`, `repeat(6,1fr)`, `1fr 1fr;gap:20px`), class-based grids (`kpi-grid`, `ac-stat-grid`, `st-grid`, `notif-grid`), table overflow safety nets (`.od-table-wrap`, `.val-table-wrap`), topbar/hero wrap.
+- Does NOT touch od-sidebar positioning (handled by Sidebar.php inline styles).
+- stock_out.css also targets `div[style*="grid-template-columns:1fr 340px,1fr 320px,1fr 300px"]` — keep in sync.
+
+**Why:** Central responsive supplement; attribute selectors on inline style strings work when the exact substring matches.
 
 ## Reports page
 - Canonical file used by Sidebar.php links: `LionTech_Complete_MVP_Remaining_Pages/reports.php`

@@ -86,6 +86,7 @@ $initials=substr($initials?:'U',0,2);
 <link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
 <link rel="stylesheet" href="stock_in.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">

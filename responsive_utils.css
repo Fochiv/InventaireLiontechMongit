@@ -1,0 +1,167 @@
+/* =============================================================
+   Tally Business Manager — Responsive Utility Overrides v2
+   Compléments mobile-first pour toutes les pages admin
+   NB: La sidebar est gérée par Sidebar.php (left:-280px / .open)
+   ============================================================= */
+
+/* ── Grille 2 colonnes avec panel latéral fixe (ex: form + historique 1fr 320px) ── */
+@media(max-width:960px){
+  div[style*="grid-template-columns:1fr 320px"],
+  div[style*="grid-template-columns:1fr 300px"],
+  div[style*="grid-template-columns:1fr 340px"],
+  div[style*="grid-template-columns:1fr 360px"],
+  div[style*="grid-template-columns:1fr 380px"]{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* ── Grille 6 colonnes (rapports stats) → 3 → 2 ── */
+@media(max-width:1100px){
+  div[style*="grid-template-columns:repeat(6,1fr)"]{
+    grid-template-columns:repeat(3,1fr)!important;
+  }
+}
+@media(max-width:700px){
+  div[style*="grid-template-columns:repeat(6,1fr)"]{
+    grid-template-columns:repeat(2,1fr)!important;
+  }
+}
+@media(max-width:430px){
+  div[style*="grid-template-columns:repeat(6,1fr)"]{
+    grid-template-columns:1fr 1fr!important;
+  }
+}
+
+/* ── Grille 2 colonnes égales (graphiques, tableaux côte à côte) ── */
+@media(max-width:760px){
+  div[style*="grid-template-columns:1fr 1fr;gap:20px"],
+  div[style*="grid-template-columns:1fr 1fr;gap:18px"],
+  div[style*="grid-template-columns:1fr 1fr;gap:16px"]{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* ── Grilles 2 colonnes dans modales / formulaires ── */
+@media(max-width:600px){
+  div[style*="grid-template-columns:1fr 1fr;gap:14px"],
+  div[style*="grid-template-columns:1fr 1fr;gap:12px"],
+  div[style*="grid-template-columns:1fr 1fr;gap:10px"]{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* ── Reports / Vente KPI grid ── */
+@media(max-width:900px){
+  .kpi-grid{grid-template-columns:repeat(3,1fr)!important}
+}
+@media(max-width:600px){
+  .kpi-grid{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:400px){
+  .kpi-grid{grid-template-columns:1fr!important}
+}
+
+/* ── Settings .st-grid (déjà @media 900px, on ajoute 600px) ── */
+@media(max-width:600px){
+  .st-grid,.st-two{grid-template-columns:1fr!important}
+  .st-card{padding:18px!important}
+}
+
+/* ── Approval center stat grid ── */
+@media(max-width:600px){
+  .ac-stat-grid{grid-template-columns:1fr 1fr!important}
+}
+
+/* ── Clock attendance extra breakpoints ── */
+@media(max-width:480px){
+  .ca-stats{grid-template-columns:1fr 1fr!important}
+  .time-row{grid-template-columns:1fr!important}
+  .ca-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:360px){
+  .ca-stats{grid-template-columns:1fr!important}
+  .day-grid{grid-template-columns:repeat(3,1fr)!important}
+}
+
+/* ── Notifications ── */
+@media(max-width:600px){
+  .notif-grid{grid-template-columns:1fr!important}
+  .notif-header{flex-direction:column;align-items:flex-start}
+}
+
+/* ── Tableau overflow sécurité (nappe globale) ── */
+.od-table-wrap,
+.val-table-wrap,
+.al-table-wrap{
+  overflow-x:auto!important;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ── Employees: form grid sur mobile ── */
+@media(max-width:600px){
+  .em-form-grid{grid-template-columns:1fr!important}
+  .em-permissions{grid-template-columns:1fr!important}
+  .pay-row{grid-template-columns:1fr!important}
+  .em-form-actions{flex-direction:column}
+}
+
+/* ── Change PIN card ── */
+@media(max-width:480px){
+  .cp-card{padding:18px!important}
+  .cp-wrap{padding:0 10px 40px!important}
+}
+
+/* ── Caisse POS responsive ── */
+@media(max-width:600px){
+  .pay-modes{grid-template-columns:1fr 1fr!important}
+  .co-row-2{grid-template-columns:1fr!important}
+}
+
+/* ── Produits: stat grid mobile ── */
+@media(max-width:700px){
+  .pr-stat-grid{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:480px){
+  .pr-stat-grid{grid-template-columns:1fr!important}
+}
+
+/* ── Hero card mobile ── */
+@media(max-width:640px){
+  .hero-card{flex-direction:column!important;align-items:flex-start!important}
+  .hero-card h2{font-size:22px!important}
+  .clock-box{min-width:unset!important;width:100%}
+}
+
+/* ── Topbar wrap général ── */
+@media(max-width:640px){
+  .od-topbar{flex-wrap:wrap;gap:10px}
+  .od-top-actions{flex-wrap:wrap}
+  .od-business-title h1{font-size:20px!important}
+}
+
+/* ── Tables minimum width réduit sur mobile ── */
+@media(max-width:640px){
+  .od-table{min-width:480px}
+}
+
+/* ── Produit/products.php: modal grille ── */
+@media(max-width:600px){
+  .pr-modal-grid{grid-template-columns:1fr!important}
+}
+
+/* ── Vente.php receipt search ── */
+@media(max-width:600px){
+  .receipt-search{grid-template-columns:1fr!important}
+  .receipt-search .btn{width:100%}
+}
+
+/* ── Approval center: table overflow ── */
+@media(max-width:768px){
+  .ac-table-wrap{overflow-x:auto}
+}
+
+/* ── Activity logs: filtres wrap ── */
+@media(max-width:640px){
+  .al-filter-form{flex-direction:column;align-items:stretch}
+  .al-date-group{flex-wrap:wrap}
+}

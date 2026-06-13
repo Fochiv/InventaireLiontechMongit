@@ -254,6 +254,7 @@ $initials = substr($initials ?: 'E',0,2);
 <link rel="apple-touch-icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
 <link rel="stylesheet" href="employee_dashboard.css"/>
 <link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="ed-layout">

@@ -88,6 +88,7 @@ $initials = substr($initials ?: 'U', 0, 2);
     .cp-btn:hover{background:#102d52}
     @media(max-width:640px){.cp-card{padding:22px 18px}.cp-wrap{padding:0 12px 40px}}
   </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/responsive_utils.css">
 </head>
 <body>
 <div class="od-layout">
