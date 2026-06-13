@@ -20,7 +20,7 @@ unset($_SESSION['business_request_errors']);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create Business Account — LionTech</title>
+<title>Create Business Account — Tally</title>
 <link rel="stylesheet" href="add_business.css">
 <style>
 .lang-switch{max-width:1250px;margin:0 auto 16px;display:flex;justify-content:flex-end;}
@@ -34,6 +34,7 @@ unset($_SESSION['business_request_errors']);
 .error-list{background:#FEE2E2;border:1px solid #FCA5A5;border-radius:10px;padding:14px 18px;margin-bottom:20px;color:#991B1B;font-size:14px;}
 .error-list li{margin-bottom:4px;}
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <main class="ab-content">
@@ -43,7 +44,7 @@ unset($_SESSION['business_request_errors']);
     </div>
 
     <div class="ab-logo-top">
-        <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech"
+        <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally"
              style="width:60px;height:60px;border-radius:50%;object-fit:cover;"/>
     </div>
 
@@ -99,9 +100,9 @@ unset($_SESSION['business_request_errors']);
                     <!-- SECTION 1: Business Info -->
                     <section class="ab-section">
                         <div class="ab-section-title"
-                             data-en="🏢 Business Information"
-                             data-fr="🏢 Informations du business">
-                            🏢 Business Information
+                             data-en="<span class="icon-biz">⌂</span> Business Information"
+                             data-fr="<span class="icon-biz">⌂</span> Informations du business">
+                            <span class="icon-biz">⌂</span> Business Information
                         </div>
                         <div class="ab-form-grid">
 
@@ -226,9 +227,9 @@ unset($_SESSION['business_request_errors']);
                     <!-- SECTION 2: Owner Info -->
                     <section class="ab-section">
                         <div class="ab-section-title"
-                             data-en="👤 Owner Information"
-                             data-fr="👤 Informations du propriétaire">
-                            👤 Owner Information
+                             data-en="<span class="icon-user">◉</span> Owner Information"
+                             data-fr="<span class="icon-user">◉</span> Informations du propriétaire">
+                            <span class="icon-user">◉</span> Owner Information
                         </div>
                         <div class="ab-form-grid">
 
@@ -276,9 +277,9 @@ unset($_SESSION['business_request_errors']);
                     <!-- SECTION 3: Subscription -->
                     <section class="ab-section">
                         <div class="ab-section-title"
-                             data-en="💳 Subscription & Payment"
-                             data-fr="💳 Abonnement et paiement">
-                            💳 Subscription & Payment
+                             data-en="<span class="icon-card">▬</span> Subscription & Payment"
+                             data-fr="<span class="icon-card">▬</span> Abonnement et paiement">
+                            <span class="icon-card">▬</span> Subscription & Payment
                         </div>
 
                         <div class="ab-plan-note">
@@ -349,9 +350,9 @@ unset($_SESSION['business_request_errors']);
                     <!-- SECTION 4: Modules -->
                     <section class="ab-section">
                         <div class="ab-section-title"
-                             data-en="⚙️ Requested Modules"
-                             data-fr="⚙️ Modules souhaités">
-                            ⚙️ Requested Modules
+                             data-en="<span class="icon-gear">⚙</span> Requested Modules"
+                             data-fr="<span class="icon-gear">⚙</span> Modules souhaités">
+                            <span class="icon-gear">⚙</span> Requested Modules
                         </div>
                         <div class="ab-checks">
 

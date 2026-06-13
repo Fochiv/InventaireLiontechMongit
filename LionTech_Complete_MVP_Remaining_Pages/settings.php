@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $showClientPhone
         ]);
 
-        $success = 'Paramètres sauvegardés avec succès. ✅';
+        $success = 'Paramètres sauvegardés avec succès. <span class="icon-ok">✓</span>';
 
         $stmt = $pdo->prepare("SELECT * FROM businesses WHERE business_id = ? LIMIT 1");
         $stmt->execute([$businessId]);
@@ -238,7 +238,7 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Paramètres — LionTech</title>
+<title>Paramètres — Tally</title>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 
 <style>
@@ -520,6 +520,7 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
     .st-card { padding:20px; }
 }
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 
 <body>
@@ -550,7 +551,7 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
 <?php endif; ?>
 
 <?php if ($error): ?>
-<div class="st-alert error">⚠️ <?= e($error) ?></div>
+<div class="st-alert error"><span class="icon-warn">⚠</span> <?= e($error) ?></div>
 <?php endif; ?>
 
 <div class="st-wrap">
@@ -646,7 +647,7 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
     <section class="st-card full">
         <div class="st-card-head">
             <div>
-                <h2 data-i18n="st_tva_title">🧾 TVA &amp; Caisse</h2>
+                <h2 data-i18n="st_tva_title"><span class="icon-receipt">▤</span> TVA &amp; Caisse</h2>
                 <p data-i18n="st_tva_sub">Activez la TVA pour qu'elle apparaisse automatiquement sur la caisse et les factures.</p>
             </div>
         </div>
@@ -684,7 +685,7 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
             <!-- Live preview of TVA impact -->
             <div id="tvaPreviewBox" style="margin-top:8px;<?= ($settings['tva_enabled'] ?? 0) ? '' : 'display:none' ?>">
                 <div style="background:#F0FDF4;border:1px solid #86EFAC;border-radius:10px;padding:14px 16px;font-size:13px">
-                    <div style="font-weight:700;color:#166534;margin-bottom:8px">✅ <span data-i18n="st_tva_preview_title">Aperçu TVA sur une vente de 10 000 XAF</span></div>
+                    <div style="font-weight:700;color:#166534;margin-bottom:8px"><span class="icon-ok">✓</span> <span data-i18n="st_tva_preview_title">Aperçu TVA sur une vente de 10 000 XAF</span></div>
                     <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #D1FAE5">
                         <span data-i18n="st_tva_subtotal">Sous-total HT</span><span>10 000 XAF</span>
                     </div>
@@ -785,12 +786,12 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
                                 <?php if (!empty($receiptLogoValue)): ?>
                                     <img src="<?= e($receiptLogoValue) ?>" alt="logo">
                                 <?php else: ?>
-                                    🦁
+                                    <span class="icon-brand">T</span>
                                 <?php endif; ?>
                             </div>
                             <div>
                                 <div class="st-preview-brand" id="receiptPreviewBrand"><?= e($receiptBrandValue ?: 'Mon Business') ?></div>
-                                <div class="st-preview-sub">LionTech Business Manager</div>
+                                <div class="st-preview-sub">Tally Business Manager</div>
                             </div>
                         </div>
                         <div class="st-preview-num">FACTURE<br>FAC-2026-00001</div>
@@ -814,7 +815,7 @@ $receiptLogoValue  = $receiptSettings['logo_url'] ?? ($business['logo_url'] ?? '
 </div>
 
 <div class="st-actions">
-    <button type="submit" class="st-save" data-i18n="st_save">💾 Sauvegarder</button>
+    <button type="submit" class="st-save" data-i18n="st_save"><span class="icon-save">▣</span> Sauvegarder</button>
 </div>
 
 </form>
@@ -843,7 +844,7 @@ var ST_LANG = {
         st_gps:'Rayon GPS clock-in',
         st_approval:'Validation stock employé requise',
         st_approval_sub:'Les demandes des employés nécessitent une approbation.',
-        st_receipt_title:'🧾 Personnalisation du reçu',
+        st_receipt_title:'<span class="icon-receipt">▤</span> Personnalisation du reçu',
         st_receipt_sub:'Configurez le reçu que les clients impriment, reçoivent ou consultent depuis l’application.',
         st_receipt_brand:'Nom affiché sur le reçu',
         st_receipt_logo:'Logo du reçu',
@@ -855,8 +856,8 @@ var ST_LANG = {
         st_show_cashier:'Afficher le nom du caissier sur le reçu',
         st_show_phone:'Afficher le téléphone du client sur le reçu',
         st_preview:'Aperçu rapide',
-        st_save:'💾 Sauvegarder',
-        st_tva_title:'🧾 TVA & Caisse',
+        st_save:'<span class="icon-save">▣</span> Sauvegarder',
+        st_tva_title:'<span class="icon-receipt">▤</span> TVA & Caisse',
         st_tva_sub:'Activez la TVA pour qu\'elle apparaisse automatiquement sur la caisse et les factures.',
         st_tva_enabled:'Activer la TVA sur les ventes',
         st_tva_enabled_sub:'Une fois activée, la TVA sera calculée sur chaque vente à la caisse et affichée sur les factures.',
@@ -884,7 +885,7 @@ var ST_LANG = {
         st_gps:'GPS clock-in radius',
         st_approval:'Employee stock validation required',
         st_approval_sub:'Employee requests require approval.',
-        st_receipt_title:'🧾 Receipt Customization',
+        st_receipt_title:'<span class="icon-receipt">▤</span> Receipt Customization',
         st_receipt_sub:'Configure the receipt customers print, receive, or view from the app.',
         st_receipt_brand:'Name shown on receipt',
         st_receipt_logo:'Receipt logo',
@@ -896,8 +897,8 @@ var ST_LANG = {
         st_show_cashier:'Show cashier name on receipt',
         st_show_phone:'Show customer phone on receipt',
         st_preview:'Quick preview',
-        st_save:'💾 Save',
-        st_tva_title:'🧾 TVA & Register',
+        st_save:'<span class="icon-save">▣</span> Save',
+        st_tva_title:'<span class="icon-receipt">▤</span> TVA & Register',
         st_tva_sub:'Enable VAT so it automatically appears on the register and invoices.',
         st_tva_enabled:'Enable VAT on sales',
         st_tva_enabled_sub:'Once enabled, VAT will be calculated on each sale and displayed on invoices.',

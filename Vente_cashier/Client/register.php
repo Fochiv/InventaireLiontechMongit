@@ -37,7 +37,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <title>Créer un compte — Tally</title>
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?=APP_URL?>/Image/TALLYLOGO.png"/>
-<link rel="stylesheet" href="client.css"/></head>
+<link rel="stylesheet" href="client.css"/><link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+</head>
 <body class="cl-body cl-auth-body">
 
 <div class="cl-auth-wrap">
@@ -50,10 +51,10 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     </div>
     <h2 class="cl-auth-tagline" data-i="register_tagline">Sauvegardez tous vos reçus gratuitement.</h2>
     <ul class="cl-auth-feats">
-      <li>🧾 <span data-i="feat_link">Liez vos achats existants automatiquement</span></li>
-      <li>🔲 <span data-i="feat_qr">Générez votre QR Code personnel</span></li>
-      <li>📊 <span data-i="feat_stats">Suivez vos dépenses mensuelles</span></li>
-      <li>⭐ <span data-i="feat_save">Sauvegarde permanente illimitée</span></li>
+      <li><span class="icon-receipt">▤</span> <span data-i="feat_link">Liez vos achats existants automatiquement</span></li>
+      <li><span class="icon-sq">▪</span> <span data-i="feat_qr">Générez votre QR Code personnel</span></li>
+      <li><span class="icon-chart">▦</span> <span data-i="feat_stats">Suivez vos dépenses mensuelles</span></li>
+      <li><span class="icon-star">★</span> <span data-i="feat_save">Sauvegarde permanente illimitée</span></li>
     </ul>
   </div>
 
@@ -70,27 +71,27 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
       <h1 class="cl-auth-title" data-i="register_title">Créer un compte</h1>
       <p class="cl-auth-sub" data-i="register_sub">Gratuit · Accès immédiat à vos reçus</p>
 
-      <?php if($err): ?><div class="cl-auth-err">⚠️ <?=h($err)?></div><?php endif; ?>
+      <?php if($err): ?><div class="cl-auth-err"><span class="icon-warn">⚠</span> <?=h($err)?></div><?php endif; ?>
 
       <form method="POST">
         <div class="cl-field">
-          <label data-i="name_label">👤 Nom complet</label>
+          <label data-i="name_label"><span class="icon-user">◉</span> Nom complet</label>
           <input type="text" name="name" placeholder="Jean Dupont" required value="<?=h($_POST['name']??'')?>"/>
         </div>
         <div class="cl-field">
-          <label data-i="phone_label">📱 Numéro de téléphone</label>
+          <label data-i="phone_label"><span class="icon-phone"><span class="icon-phone">☎</span></span> Numéro de téléphone</label>
           <input type="tel" name="phone" placeholder="+237 6XX XXX XXX" inputmode="tel" required
                  value="<?=h($_POST['phone']??$prePhone)?>"/>
         </div>
         <div class="cl-field">
-          <label data-i="password_label">🔒 Mot de passe / PIN (min. 4 chiffres)</label>
+          <label data-i="password_label"><span class="icon-lock">🔒</span> Mot de passe / PIN (min. 4 chiffres)</label>
           <div class="cl-input-wrap">
             <input type="password" id="p1" name="password" placeholder="••••••" required/>
             <button type="button" class="cl-eye-btn" onclick="togglePass('p1')">👁</button>
           </div>
         </div>
         <div class="cl-field">
-          <label data-i="confirm_label">🔒 Confirmer le mot de passe</label>
+          <label data-i="confirm_label"><span class="icon-lock">🔒</span> Confirmer le mot de passe</label>
           <div class="cl-input-wrap">
             <input type="password" id="p2" name="password2" placeholder="••••••" required/>
             <button type="button" class="cl-eye-btn" onclick="togglePass('p2')">👁</button>

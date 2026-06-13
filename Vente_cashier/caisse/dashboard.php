@@ -70,12 +70,13 @@ $dashLink = match($role){
     };
     window.POS_ROLE = <?= json_encode($role) ?>;
   </script>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 
 <!-- ══ PIN GATE SCREEN (caissier role) ══ -->
 <div class="gate-screen lock-hidden" id="pinGateScreen">
-  <div class="gate-logo"><img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3)"/></div>
+  <div class="gate-logo"><img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,.3)"/></div>
   <div class="gate-title">Accès Caisse</div>
   <div class="gate-sub">
     Bonjour <?= h(explode(' ',$cashier)[0]) ?> — entrez votre PIN caisse<br>
@@ -92,7 +93,7 @@ $dashLink = match($role){
 
 <!-- ══ CAISSE CODE SCREEN (employees) ══ -->
 <div class="gate-screen lock-hidden" id="caisseCodeScreen">
-   <link rel="icon" type="image/jpeg" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
+   <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <div class="gate-title">Accès Caisse</div>
   <div class="gate-sub">Entrez le code caisse pour continuer<br><em>Enter the caisse code to continue</em></div>
   <input class="gate-input" id="caisseCodeInput" type="password" inputmode="numeric" maxlength="6" placeholder="••••" onkeydown="if(event.key==='Enter') tryCode()"/>
@@ -102,7 +103,7 @@ $dashLink = match($role){
 
 <!-- ══ SESSION OPENING SCREEN ══ -->
 <div class="gate-screen lock-hidden" id="sessionScreen">
-  <link rel="icon" type="image/jpeg" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
+  <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <div class="gate-title" id="sesTitle">Ouvrir la caisse</div>
   <div class="gate-sub" id="sesSub">Bonjour <?= h(explode(' ',$cashier)[0]) ?> — entrez le montant en caisse</div>
   <div class="gate-field-label">Fond de caisse (XAF)</div>
@@ -113,7 +114,7 @@ $dashLink = match($role){
 
 <!-- ══ LOCK SCREEN (inactivity) ══ -->
 <div class="gate-screen lock-hidden" id="lockScreen">
-  <div class="gate-logo">🔒</div>
+  <div class="gate-logo"><span class="icon-lock">🔒</span></div>
   <div class="gate-title" id="lkTitle">Session verrouillée</div>
   <div class="gate-sub"   id="lkSub">Entrez votre PIN pour reprendre</div>
   <input class="gate-input" id="lockPin" type="password" inputmode="numeric" maxlength="10" placeholder="••••••" autocomplete="current-password"/>
@@ -126,7 +127,7 @@ $dashLink = match($role){
 <aside class="sb-drawer" id="sbDrawer">
   <div class="sb-head">
     <div class="sb-brand">
-      <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech"
+      <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally"
            style="width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0"
            onerror="this.style.display='none'"/>
       <div>
@@ -134,7 +135,7 @@ $dashLink = match($role){
         <div class="sb-tag">Business Manager</div>
       </div>
     </div>
-    <button class="sb-close" id="sbClose" type="button">✕</button>
+    <button class="sb-close" id="sbClose" type="button">✗</button>
   </div>
   <nav class="sb-nav">
     <a class="sb-link" href="<?= h($dashLink) ?>">
@@ -185,8 +186,8 @@ $dashLink = match($role){
   <button class="bar-icon-btn" id="hamburger" type="button" aria-label="Menu">☰</button>
   <a class="bar-icon-btn" href="<?= h($dashLink) ?>" title="Retour">←</a>
   <div class="bar-center">
-    <div class="bar-biz">🧾 <?= h($bizName) ?></div>
-    <div class="bar-sub" id="barSub">👤 <?= h($cashier) ?></div>
+    <div class="bar-biz"><span class="icon-receipt">▤</span> <?= h($bizName) ?></div>
+    <div class="bar-sub" id="barSub"><span class="icon-user">◉</span> <?= h($cashier) ?></div>
   </div>
   <div class="bar-right">
     <div class="online-dot" id="onlineDot"></div>
@@ -202,14 +203,14 @@ $dashLink = match($role){
   <div class="products-col">
     <div class="pos-search">
       <div class="s-wrap">
-        <span class="s-ico">🔍</span>
+        <span class="s-ico"><span class="icon-search">⌕</span></span>
         <input type="search" id="searchInput" placeholder="Chercher un produit..." autocomplete="off" spellcheck="false"/>
       </div>
       <button class="scan-btn" id="scanBtn" type="button" title="Scanner">📷</button>
     </div>
     <div class="products-wrap">
       <div class="prod-empty-state" id="prodEmptyState">
-        <div class="prod-empty-icon">🔍</div>
+        <div class="prod-empty-icon"><span class="icon-search">⌕</span></div>
         <div class="prod-empty-text" id="prodEmptyText">Recherchez ou scannez un produit</div>
         <div class="prod-empty-sub" id="prodEmptySub">Scan or search to add products</div>
       </div>
@@ -236,7 +237,7 @@ $dashLink = match($role){
   <div class="cp-handle"></div>
   <div class="cp-head">
     <div class="cp-title">🛒 <span id="cpTtl">Panier</span></div>
-    <button class="cp-close" id="cpClose" type="button">✕</button>
+    <button class="cp-close" id="cpClose" type="button">✗</button>
   </div>
   <div id="cpBody" class="cp-body-scroll">
 
@@ -268,8 +269,8 @@ $dashLink = match($role){
     <div class="co-section">
       <div class="co-label">Paiement</div>
       <div class="pay-modes">
-        <button class="pay-mode-btn" onclick="selectPayMode('especes')">💵<br>Espèces</button>
-        <button class="pay-mode-btn" onclick="selectPayMode('mtn_momo')">📱<br>MTN MoMo</button>
+        <button class="pay-mode-btn" onclick="selectPayMode('especes')"><span class="icon-money">&#36;</span><br>Espèces</button>
+        <button class="pay-mode-btn" onclick="selectPayMode('mtn_momo')"><span class="icon-phone"><span class="icon-phone">☎</span></span><br>MTN MoMo</button>
         <button class="pay-mode-btn" onclick="selectPayMode('orange_money')">🟠<br>Orange</button>
       </div>
       <div id="payInputRow" class="co-row-2" style="display:none;margin-top:8px">
@@ -279,7 +280,7 @@ $dashLink = match($role){
       <button id="addPayBtn" onclick="addPayment()"
         style="display:none;width:100%;margin-top:6px;padding:9px;background:var(--navy,#0B1F3A);
                color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer">
-        ➕ Ajouter ce paiement
+        <span class="icon-add">+</span> Ajouter ce paiement
       </button>
       <div id="paymentList" style="margin-top:6px"></div>
     </div>
@@ -305,7 +306,7 @@ $dashLink = match($role){
     <!-- Actions -->
     <div class="co-btns">
       <button class="btn-clear" onclick="clearCart()">🗑 Vider</button>
-      <button class="btn-sale"  onclick="doSale()">✅ Valider la vente</button>
+      <button class="btn-sale"  onclick="doSale()"><span class="icon-ok">✓</span> Valider la vente</button>
     </div>
 
   </div><!-- /#cpBody -->
@@ -315,7 +316,7 @@ $dashLink = match($role){
 <div class="scan-modal" id="scanModal">
   <div class="scan-frame"><div id="reader"></div></div>
   <div class="scan-hint" id="scanHint">📷 Pointez la caméra vers le code-barres</div>
-  <button class="scan-close" id="scanClose" type="button">✕ Fermer</button>
+  <button class="scan-close" id="scanClose" type="button">✗ Fermer</button>
 </div>
 
 <!-- ══ CLOSE SESSION MODAL ══ -->
@@ -337,7 +338,7 @@ $dashLink = match($role){
     <div class="rec-handle"></div>
     <div id="recContent"></div>
     <div class="rec-actions">
-      <button class="rec-wa"  id="recWa"  type="button">💬 Envoyer sur WhatsApp</button>
+      <button class="rec-wa"  id="recWa"  type="button"><span class="icon-msg">▷</span> Envoyer sur WhatsApp</button>
       <button class="rec-print" id="recPrint" type="button">🖨️ Imprimer la facture</button>
       <button class="rec-new" id="recNew" type="button">🛒 Nouvelle vente</button>
     </div>

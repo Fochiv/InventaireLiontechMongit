@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   approval_center.php — LionTech Business Manager
+   approval_center.php — Tally Business Manager
    Owner + Manager — approve/reject stock requests
    ============================================================ */
 require_once __DIR__ . '/../Config.php';
@@ -92,7 +92,7 @@ $initials = substr($initials ?: 'O', 0, 2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Centre de Validation — LionTech</title>
+  <title>Centre de Validation — Tally</title>
 </head>
 <body>
 <div class="od-layout">
@@ -114,7 +114,7 @@ $initials = substr($initials ?: 'O', 0, 2);
 
     <?php if ($message): ?>
     <div style="background:<?=$messageType==='success'?'#F0FDF4':'#FEF2F2'?>;border:1px solid <?=$messageType==='success'?'#86EFAC':'#FECACA'?>;padding:12px 24px;font-size:13px;color:<?=$messageType==='success'?'#166534':'#991B1B'?>">
-      <?=$messageType==='success'?'✅':'⚠️'?> <?= e($message) ?>
+      <?=$messageType==='success'?'<span class="icon-ok">✓</span>':'<span class="icon-warn">⚠</span>'?> <?= e($message) ?>
     </div>
     <?php endif; ?>
 
@@ -122,8 +122,8 @@ $initials = substr($initials ?: 'O', 0, 2);
     <div style="padding:20px 24px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
       <div class="od-card stat"><span class="stat-icon blue">📥</span><div><small>Stock entrant</small><strong><?= count($pendingIn) ?></strong></div></div>
       <div class="od-card stat"><span class="stat-icon amber">📤</span><div><small>Stock sortant</small><strong><?= count($pendingOut) ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2">⚠️</span><div><small>Total urgent</small><strong><?= $totalPending ?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon green">✅</span><div><small>Action requise</small><strong><?= $totalPending > 0 ? 'Oui' : 'Non' ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2"><span class="icon-warn">⚠</span></span><div><small>Total urgent</small><strong><?= $totalPending ?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon green"><span class="icon-ok">✓</span></span><div><small>Action requise</small><strong><?= $totalPending > 0 ? 'Oui' : 'Non' ?></strong></div></div>
     </div>
 
     <div style="padding:20px 24px 40px;display:flex;flex-direction:column;gap:20px">
@@ -155,14 +155,14 @@ $initials = substr($initials ?: 'O', 0, 2);
                     <input type="hidden" name="action" value="approve"/>
                     <input type="hidden" name="type" value="stock_in"/>
                     <input type="hidden" name="request_id" value="<?=(int)$r['request_id']?>"/>
-                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;color:#166534;cursor:pointer;font-family:inherit">✅ Approuver</button>
+                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;color:#166534;cursor:pointer;font-family:inherit"><span class="icon-ok">✓</span> Approuver</button>
                   </form>
                   <form method="POST">
                     <input type="hidden" name="action" value="reject"/>
                     <input type="hidden" name="type" value="stock_in"/>
                     <input type="hidden" name="request_id" value="<?=(int)$r['request_id']?>"/>
                     <input type="hidden" name="rejection_reason" value="Rejeté après vérification"/>
-                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;color:#991B1B;cursor:pointer;font-family:inherit">❌ Refuser</button>
+                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;color:#991B1B;cursor:pointer;font-family:inherit"><span class="icon-err">✗</span> Refuser</button>
                   </form>
                 </div>
               </td>
@@ -201,14 +201,14 @@ $initials = substr($initials ?: 'O', 0, 2);
                     <input type="hidden" name="action" value="approve"/>
                     <input type="hidden" name="type" value="stock_out"/>
                     <input type="hidden" name="request_id" value="<?=(int)$r['request_id']?>"/>
-                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;color:#166534;cursor:pointer;font-family:inherit">✅ Approuver</button>
+                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;color:#166534;cursor:pointer;font-family:inherit"><span class="icon-ok">✓</span> Approuver</button>
                   </form>
                   <form method="POST">
                     <input type="hidden" name="action" value="reject"/>
                     <input type="hidden" name="type" value="stock_out"/>
                     <input type="hidden" name="request_id" value="<?=(int)$r['request_id']?>"/>
                     <input type="hidden" name="rejection_reason" value="Rejeté après vérification"/>
-                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;color:#991B1B;cursor:pointer;font-family:inherit">❌ Refuser</button>
+                    <button type="submit" style="padding:6px 12px;font-size:12px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;color:#991B1B;cursor:pointer;font-family:inherit"><span class="icon-err">✗</span> Refuser</button>
                   </form>
                 </div>
               </td>

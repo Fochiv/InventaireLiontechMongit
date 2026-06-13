@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   subscription_billing.php — LionTech Business Manager
+   subscription_billing.php — Tally Business Manager
    Owner submits payment — pending until super admin approves.
    Path: LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/
    ============================================================ */
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submi
                     'bank_transfer' => 'Virement Bancaire',
                     'cash'          => 'Espèces',
                 ];
-                $waText = "🦁 *Nouveau paiement LionTech*\n\nBusiness: *{$bizName}*\nMontant: *" . number_format($amount,0,'.',' ') . " XAF*\nDurée: *{$months} mois*\nMéthode: *" . ($methodLabels[$method] ?? $method) . "*\nRéf: *" . ($reference ?: 'Espèces') . "*\n\nVeuillez valider sur le tableau de bord Super Admin.";
+                $waText = "<span class="icon-brand">T</span> *Nouveau paiement LionTech*\n\nBusiness: *{$bizName}*\nMontant: *" . number_format($amount,0,'.',' ') . " XAF*\nDurée: *{$months} mois*\nMéthode: *" . ($methodLabels[$method] ?? $method) . "*\nRéf: *" . ($reference ?: 'Espèces') . "*\n\nVeuillez valider sur le tableau de bord Super Admin.";
                 $waUrl = 'https://wa.me/237688203095?text=' . urlencode($waText);
 
                 /* Reload payments */
@@ -159,7 +159,7 @@ $methodLabels = [
     'orange_money'  => '🟠 Orange Money',
     'mtn_momo'      => '🟡 MTN MoMo',
     'bank_transfer' => '🏦 Virement Bancaire',
-    'cash'          => '💵 Espèces',
+    'cash'          => '<span class="icon-money">&#36;</span> Espèces',
 ];
 ?>
 <!DOCTYPE html>
@@ -167,7 +167,7 @@ $methodLabels = [
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Abonnement — LionTech</title>
+  <title>Abonnement — Tally</title>
 </head>
 <body>
 <div class="od-layout">
@@ -186,25 +186,25 @@ $methodLabels = [
 
     <?php if ($isExpired): ?>
     <div style="background:#FEF2F2;border:1px solid #FECACA;padding:14px 24px;font-size:13px;color:#991B1B;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-size:20px">⚠️</span>
+      <span style="font-size:20px"><span class="icon-warn">⚠</span></span>
       <div style="flex:1"><strong>Abonnement expiré</strong><p style="margin:2px 0 0">Les actions d'inventaire sont limitées. Soumettez un paiement ci-dessous pour renouveler.</p></div>
     </div>
     <?php elseif ($daysLeft !== null && $daysLeft <= 14): ?>
     <div style="background:#FEF3C7;border:1px solid #FDE68A;padding:12px 24px;font-size:13px;color:#92400E">
-      ⚠️ Votre abonnement expire dans <strong><?= (int)$daysLeft ?> jour(s)</strong>. Pensez à renouveler.
+      <span class="icon-warn">⚠</span> Votre abonnement expire dans <strong><?= (int)$daysLeft ?> jour(s)</strong>. Pensez à renouveler.
     </div>
     <?php endif; ?>
 
     <?php if ($message): ?>
     <div style="background:<?=$messageType==='success'?'#F0FDF4':'#FEF2F2'?>;border:1px solid <?=$messageType==='success'?'#86EFAC':'#FECACA'?>;padding:12px 24px;font-size:13px;color:<?=$messageType==='success'?'#166534':'#991B1B'?>">
-      <?=$messageType==='success'?'✅':'⚠️'?> <?= e($message) ?>
+      <?=$messageType==='success'?'<span class="icon-ok">✓</span>':'<span class="icon-warn">⚠</span>'?> <?= e($message) ?>
     </div>
     <?php endif; ?>
 
     <?php if ($waUrl): ?>
     <!-- WhatsApp notify LionTech -->
     <div style="background:#ECFDF5;border:2px solid #1A9E7A;border-radius:14px;padding:16px 20px;margin:16px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-      <span style="font-size:24px">💬</span>
+      <span style="font-size:24px"><span class="icon-msg">▷</span></span>
       <div style="flex:1">
         <div style="font-size:14px;font-weight:700;color:#0B1F3A">Notifier LionTech sur WhatsApp</div>
         <div style="font-size:12.5px;color:#6B7280;margin-top:3px">Cliquez pour envoyer les détails de votre paiement à LionTech pour accélérer la validation.</div>
@@ -257,7 +257,7 @@ $methodLabels = [
         <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;font-size:13.5px">
           <?php foreach(['Gestion inventaire','Stock entrant / sortant','Gestion des employés','Clock in / Clock out GPS','Rapports et analyses','Validations et approbations'] as $feat): ?>
           <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #F9FAFB">
-            <span style="color:#16A34A">✅</span><span><?= $feat ?></span>
+            <span style="color:#16A34A"><span class="icon-ok">✓</span></span><span><?= $feat ?></span>
           </div>
           <?php endforeach; ?>
         </div>
@@ -307,7 +307,7 @@ $methodLabels = [
                 'orange_money'  => ['icon'=>'🟠','label'=>'Orange Money',   'color'=>'#FF6600'],
                 'mtn_momo'      => ['icon'=>'🟡','label'=>'MTN MoMo',       'color'=>'#FFCC00'],
                 'bank_transfer' => ['icon'=>'🏦','label'=>'Virement Bancaire','color'=>'#1E40AF'],
-                'cash'          => ['icon'=>'💵','label'=>'Espèces',         'color'=>'#166534'],
+                'cash'          => ['icon'=>'<span class="icon-money">&#36;</span>','label'=>'Espèces',         'color'=>'#166534'],
               ];
               foreach ($methods as $val => $m):
               ?>
@@ -361,12 +361,12 @@ $methodLabels = [
             <!-- Cash info -->
             <div class="method-detail" id="info-cash"
               style="display:none;background:#F0FDF4;border:1.5px solid #166534;border-radius:12px;padding:16px">
-              <div style="font-size:13.5px;color:#166534;font-weight:600">💵 Payez directement à un agent ou administrateur LionTech.</div>
+              <div style="font-size:13.5px;color:#166534;font-weight:600"><span class="icon-money">&#36;</span> Payez directement à un agent ou administrateur LionTech.</div>
               <div style="font-size:13px;color:#6B7280;margin-top:8px">L'administrateur confirmera manuellement votre paiement dans le tableau de bord.</div>
               <a href="https://wa.me/237688203095?text=Bonjour%20LionTech%2C%20je%20souhaite%20payer%20mon%20abonnement%20en%20esp%C3%A8ces%20pour%20<?= urlencode($business['business_name'] ?? '') ?>."
                 target="_blank" rel="noopener noreferrer"
                 style="display:inline-block;margin-top:12px;background:#25D366;color:#fff;padding:9px 16px;border-radius:9px;text-decoration:none;font-size:13px;font-weight:700">
-                💬 Contacter LionTech sur WhatsApp
+                <span class="icon-msg">▷</span> Contacter LionTech sur WhatsApp
               </a>
             </div>
 
@@ -421,7 +421,7 @@ $methodLabels = [
               <td>
                 <span class="od-badge <?= $p['status']==='approved'?'success':($p['status']==='pending'?'':'danger') ?>"
                   style="<?= $p['status']==='pending'?'background:#FEF3C7;color:#92400E':'' ?>">
-                  <?= $p['status']==='approved'?'✅ Approuvé':($p['status']==='pending'?'⏳ En attente':'❌ Rejeté') ?>
+                  <?= $p['status']==='approved'?'<span class="icon-ok">✓</span> Approuvé':($p['status']==='pending'?'⏳ En attente':'<span class="icon-err">✗</span> Rejeté') ?>
                 </span>
               </td>
               <td style="font-size:12px;color:#6B7280"><?= e($p['rejection_reason'] ?? '') ?></td>

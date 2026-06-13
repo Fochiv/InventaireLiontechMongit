@@ -213,8 +213,8 @@ function saIcon(string $name, int $size=18): string {
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta name="robots" content="noindex,nofollow"/>
-  <title>Super Admin — LionTech</title>
-  <link rel="icon" href="<?= $url ?>/Image/logo_lionTechhead.jpeg"/>
+  <title>Super Admin — Tally</title>
+  <link rel="icon" href="<?= $url ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="super_admin.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>window.SA_CHART_DATA=<?= json_encode($chartData) ?>;</script>
@@ -224,6 +224,7 @@ function saIcon(string $name, int $size=18): string {
       50%      { opacity:.6; transform:scale(1.2); }
     }
   </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="sa-layout">
@@ -232,9 +233,9 @@ function saIcon(string $name, int $size=18): string {
 <aside class="sa-sidebar" id="sa-sidebar">
   <div class="sa-sidebar-header">
     <div class="sa-logo">
-      <img src="<?= $url ?>/Image/logo_lionTechhead.jpeg" alt="LionTech"
+      <img src="<?= $url ?>/Image/TALLYLOGO.png" alt="Tally"
            style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0">
-      <div><div class="sa-logo-name">LionTech</div><div class="sa-logo-tag">Business Manager</div></div>
+      <div><div class="sb-logo-name">Tally</div><div class="sa-logo-tag">Business Manager</div></div>
     </div>
     <button class="sa-sidebar-close" id="sa-sidebar-close"><?= saIcon('close') ?></button>
   </div>
@@ -356,7 +357,7 @@ function saIcon(string $name, int $size=18): string {
 
           <?php if ($pendingBizReq > 0): ?>
           <div class="sa-notif-item">
-            <div class="sa-notif-ico" style="background:#FFF7ED">📋</div>
+            <div class="sa-notif-ico" style="background:#FFF7ED"><span class="icon-list">≡</span></div>
             <div>
               <div class="sa-notif-txt"><?= $pendingBizReq ?> demande(s) business en attente</div>
               <div class="sa-notif-time">
@@ -416,7 +417,7 @@ function saIcon(string $name, int $size=18): string {
     ?>
     <div style="background:#D1FAE5;border:2px solid #10B981;border-radius:12px;padding:20px 24px;margin:0 0 24px;">
       <h3 style="color:#065F46;margin:0 0 12px;font-size:16px">
-        ✅ Business créé : <?= htmlspecialchars($creds['business_name']) ?>
+        <span class="icon-ok">✓</span> Business créé : <?= htmlspecialchars($creds['business_name']) ?>
       </h3>
       <p style="margin:8px 0;font-size:14px">
         <strong>Propriétaire :</strong> <?= htmlspecialchars($creds['owner_name']) ?>
@@ -434,7 +435,7 @@ function saIcon(string $name, int $size=18): string {
         </span>
       </p>
       <p style="margin:14px 0 0;color:#065F46;font-size:13px">
-        ⚠️ Copiez ces informations et transmettez-les au propriétaire. Le PIN ne sera plus affiché.
+        <span class="icon-warn">⚠</span> Copiez ces informations et transmettez-les au propriétaire. Le PIN ne sera plus affiché.
       </p>
     </div>
     <?php endif; ?>
@@ -446,7 +447,7 @@ function saIcon(string $name, int $size=18): string {
       <?php if ($pendingBizReq > 0): ?>
       <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:12px;padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:24px">📋</span>
+          <span style="font-size:24px"><span class="icon-list">≡</span></span>
           <div>
             <strong style="color:#92400E;font-size:15px">
               <?= $pendingBizReq ?> nouvelle(s) demande(s) de création de business en attente

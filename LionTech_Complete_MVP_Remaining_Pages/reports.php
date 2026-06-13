@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   reports.php — LionTech Business Manager
+   reports.php — Tally Business Manager
    Owner: full access | Manager: view only (no export)
    FIXED: correct table names (stock_in_requests, stock_out_requests)
    ============================================================ */
@@ -87,8 +87,8 @@ $initials=substr($initials?:'O',0,2);
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta name="robots" content="noindex,nofollow"/>
-  <title>Rapports — LionTech</title>
-  <link rel="icon" type="image/jpeg" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
+  <title>Rapports — Tally</title>
+  <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>window.REPORT_CHARTS = <?= json_encode($chartData) ?>;</script>
@@ -96,6 +96,7 @@ $initials=substr($initials?:'O',0,2);
     #rp-menu-btn{display:none}
     @media(max-width:1050px){#rp-menu-btn{display:flex!important;align-items:center}}
   </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">

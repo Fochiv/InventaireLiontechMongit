@@ -26,7 +26,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <title>Connexion Client — Tally</title>
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?=$LOGO?>"/>
-<link rel="stylesheet" href="client.css"/></head>
+<link rel="stylesheet" href="client.css"/><link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+</head>
 <body class="cl-body cl-auth-body">
 
 <div class="cl-auth-wrap">
@@ -40,10 +41,10 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     </div>
     <h2 class="cl-auth-tagline" data-i="auth_tagline">Tous vos reçus, en un seul endroit.</h2>
     <ul class="cl-auth-feats">
-      <li>🧾 <span data-i="feat_receipts">Historique de vos achats</span></li>
-      <li>⭐ <span data-i="feat_save">Sauvegarde permanente</span></li>
-      <li>🔲 <span data-i="feat_qr">QR Code personnel</span></li>
-      <li>📊 <span data-i="feat_stats">Analyse des dépenses</span></li>
+      <li><span class="icon-receipt">▤</span> <span data-i="feat_receipts">Historique de vos achats</span></li>
+      <li><span class="icon-star">★</span> <span data-i="feat_save">Sauvegarde permanente</span></li>
+      <li><span class="icon-sq">▪</span> <span data-i="feat_qr">QR Code personnel</span></li>
+      <li><span class="icon-chart">▦</span> <span data-i="feat_stats">Analyse des dépenses</span></li>
     </ul>
   </div>
 
@@ -63,18 +64,18 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
       <p class="cl-auth-sub" data-i="login_sub">Accédez à vos reçus et votre historique</p>
 
       <?php if($err): ?>
-      <div class="cl-auth-err">⚠️ <?=h($err)?></div>
+      <div class="cl-auth-err"><span class="icon-warn">⚠</span> <?=h($err)?></div>
       <?php endif; ?>
 
       <form method="POST">
         <?php if($back): ?><input type="hidden" name="back" value="<?=h($back)?>"/><?php endif; ?>
         <div class="cl-field">
-          <label data-i="phone_label">📱 Numéro de téléphone</label>
+          <label data-i="phone_label"><span class="icon-phone"><span class="icon-phone">☎</span></span> Numéro de téléphone</label>
           <input type="tel" name="phone" placeholder="+237 6XX XXX XXX" inputmode="tel" required
                  value="<?=h($_POST['phone']??'')?>"/>
         </div>
         <div class="cl-field">
-          <label data-i="password_label">🔒 Mot de passe / PIN</label>
+          <label data-i="password_label"><span class="icon-lock">🔒</span> Mot de passe / PIN</label>
           <div class="cl-input-wrap">
             <input type="password" id="passInput" name="password" placeholder="••••••" required/>
             <button type="button" class="cl-eye-btn" onclick="togglePass('passInput')">👁</button>

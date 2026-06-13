@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   access_denied.php — LionTech Business Manager
+   access_denied.php — Tally Business Manager
    Shown when a user tries to access a page they don't have
    permission for.
    ============================================================ */
@@ -17,7 +17,7 @@ $dashUrl = APP_URL . '/' . ($routes[$role] ?? 'Logininventory/login.php');
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Accès refusé — LionTech</title>
+  <title>Accès refusé — Tally</title>
 </head>
 <body>
 <div class="od-layout">
@@ -31,7 +31,7 @@ $dashUrl = APP_URL . '/' . ($routes[$role] ?? 'Logininventory/login.php');
   <main class="od-main" style="display:grid;place-items:center;min-height:100vh">
     <div class="od-card" style="max-width:480px;text-align:center;padding:48px 36px">
 
-      <div style="font-size:60px;margin-bottom:16px">🚫</div>
+      <div style="font-size:60px;margin-bottom:16px"><span class="icon-no">⊘</span></div>
 
       <h1 style="font-size:24px;font-weight:800;color:#0B1F3A;margin-bottom:10px">
         Accès refusé
@@ -49,7 +49,7 @@ $dashUrl = APP_URL . '/' . ($routes[$role] ?? 'Logininventory/login.php');
         </a>
         <a href="<?= APP_URL ?>/Logininventory/login.php"
           style="background:#fff;color:#0B1F3A;border:1.5px solid #E5E7EB;padding:12px 22px;border-radius:12px;text-decoration:none;font-size:14px;font-weight:600">
-          🔑 Se reconnecter
+          <span class="icon-key">⚿</span> Se reconnecter
         </a>
       </div>
 

@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   clock_attendance.php — LionTech Business Manager
+   clock_attendance.php — Tally Business Manager
    Path: C:\Xampp\htdocs\InventoryLiontech\LionTech_Complete_MVP_Remaining_Pages\
          LionTech_MVP_Complete\clock_attendance.php
    ============================================================ */
@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ->execute([$businessId, $userId, $lat, $lng, $accuracy, $gpsStatus, $distance !== null ? round($distance, 2) : null, $gpsNote]);
 
                 logActivity($pdo, $userId, $businessId, 'clock_in', 'Clock in: ' . ($user['full_name'] ?? 'Employé'));
-                $success = '✅ Clock in enregistré avec succès !';
+                $success = '<span class="icon-ok">✓</span> Clock in enregistré avec succès !';
             }
 
             if ($action === 'clock_out') {
@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ->execute([$lat, $lng, $accuracy, $gpsStatus, (int)$open['attendance_id'], $userId, $businessId]);
 
                 logActivity($pdo, $userId, $businessId, 'clock_out', 'Clock out: ' . ($user['full_name'] ?? 'Employé'));
-                $success = '✅ Clock out enregistré avec succès !';
+                $success = '<span class="icon-ok">✓</span> Clock out enregistré avec succès !';
             }
         }
     } catch (Throwable $e) {
@@ -268,7 +268,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Clock In / Clock Out — LionTech</title>
+<title>Clock In / Clock Out — Tally</title>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 <style>
 *{box-sizing:border-box}
@@ -363,6 +363,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
   .team-grid{grid-template-columns:1fr}
 }
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -389,16 +390,16 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
   <div class="ca-wrap">
 
     <?php if ($isExpired): ?>
-    <div class="ca-alert warning">⚠️ <span data-i18n="expired_warning">Votre abonnement est expiré. Les actions sont désactivées.</span></div>
+    <div class="ca-alert warning"><span class="icon-warn">⚠</span> <span data-i18n="expired_warning">Votre abonnement est expiré. Les actions sont désactivées.</span></div>
     <?php endif; ?>
     <?php if ($success): ?><div class="ca-alert success"><?= e($success) ?></div><?php endif; ?>
-    <?php if ($error):   ?><div class="ca-alert error">⚠️ <?= e($error) ?></div><?php endif; ?>
+    <?php if ($error):   ?><div class="ca-alert error"><span class="icon-warn">⚠</span> <?= e($error) ?></div><?php endif; ?>
 
     <!-- Stats -->
     <div class="ca-stats">
       <div class="ca-stat">
         <div class="ca-stat-icon <?= $currentAttendance ? 'green' : 'blue' ?>">
-          <?= $currentAttendance ? '🟢' : '⚪' ?>
+          <?= $currentAttendance ? '<span class="dot-green">●</span>' : '<span class="dot-gray">○</span>' ?>
         </div>
         <div>
           <small data-i18n="stat_status">Statut actuel</small>
@@ -422,7 +423,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
         </div>
       </div>
       <div class="ca-stat">
-        <div class="ca-stat-icon purple">📍</div>
+        <div class="ca-stat-icon purple"><span class="icon-pin">●</span></div>
         <div>
           <small data-i18n="stat_radius">Rayon GPS</small>
           <strong><?= $gpsRadius ?>m</strong>
@@ -441,18 +442,18 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
         <div class="ca-card-body">
 
           <div class="gps-box waiting" id="gpsBox">
-            <span id="gpsIcon">📍</span>
+            <span id="gpsIcon"><span class="icon-pin">●</span></span>
             <span id="gpsText" data-i18n="gps_waiting">En attente du GPS — cliquez sur "Activer GPS"</span>
           </div>
 
           <button type="button" id="activateGps"
             style="width:100%;padding:11px;background:#0B1F3A;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;font-family:inherit">
-            📍 <span data-i18n="btn_activate_gps">Activer la localisation GPS</span>
+            <span class="icon-pin">●</span> <span data-i18n="btn_activate_gps">Activer la localisation GPS</span>
           </button>
 
           <button type="button" id="skipGps"
             style="width:100%;padding:9px;background:#fff;color:#64748B;border:1.5px solid #E5E7EB;border-radius:10px;font-size:12.5px;cursor:pointer;margin-bottom:14px;font-family:inherit;display:none">
-            ⚠️ <span data-i18n="btn_skip_gps">Continuer sans GPS (sera validé par le manager)</span>
+            <span class="icon-warn">⚠</span> <span data-i18n="btn_skip_gps">Continuer sans GPS (sera validé par le manager)</span>
           </button>
 
           <?php if ($currentAttendance): ?>
@@ -485,7 +486,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
             <input type="hidden" name="longitude" id="gpsLng">
             <input type="hidden" name="accuracy"  id="gpsAcc">
             <button type="submit" class="clock-btn in" id="clockBtn" disabled <?= $isExpired ? 'disabled' : '' ?>>
-              🟢 <span data-i18n="btn_clock_in">Clock In</span>
+              <span class="dot-green">●</span> <span data-i18n="btn_clock_in">Clock In</span>
             </button>
           </form>
           <?php endif; ?>
@@ -505,9 +506,9 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
         <div class="ca-card-body">
           <?php
           $steps = [
-            ['icon'=>'📱','fr'=>'Connectez-vous sur votre téléphone ou ordinateur.',      'en'=>'Log in on your phone or computer.'],
-            ['icon'=>'📍','fr'=>'Cliquez sur "Activer GPS" et autorisez la localisation.', 'en'=>'Click "Activate GPS" and allow location access.'],
-            ['icon'=>'🟢','fr'=>'Cliquez Clock In en arrivant au travail.',                'en'=>'Click Clock In when you arrive at work.'],
+            ['icon'=>'<span class="icon-phone"><span class="icon-phone">☎</span></span>','fr'=>'Connectez-vous sur votre téléphone ou ordinateur.',      'en'=>'Log in on your phone or computer.'],
+            ['icon'=>'<span class="icon-pin">●</span>','fr'=>'Cliquez sur "Activer GPS" et autorisez la localisation.', 'en'=>'Click "Activate GPS" and allow location access.'],
+            ['icon'=>'<span class="dot-green">●</span>','fr'=>'Cliquez Clock In en arrivant au travail.',                'en'=>'Click Clock In when you arrive at work.'],
             ['icon'=>'🔴','fr'=>'Cliquez Clock Out en quittant.',                          'en'=>'Click Clock Out when you leave.'],
             ['icon'=>'👀','fr'=>'Le patron voit vos présences en temps réel.',             'en'=>'The owner sees your attendance in real time.'],
           ];
@@ -525,12 +526,12 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
           </div>
           <?php if ($businessLat && $businessLng): ?>
           <div style="margin-top:16px;padding:12px;background:#F0FDF4;border-radius:10px;font-size:12.5px;color:#166534">
-            ✅ <strong data-i18n="gps_configured">GPS configuré</strong> —
+            <span class="icon-ok">✓</span> <strong data-i18n="gps_configured">GPS configuré</strong> —
             <span data-i18n="radius_text">Rayon autorisé :</span> <strong><?= $gpsRadius ?>m</strong>
           </div>
           <?php else: ?>
           <div style="margin-top:16px;padding:12px;background:#FEF3C7;border-radius:10px;font-size:12.5px;color:#92400E">
-            ⚠️ <span data-i18n="gps_not_configured">GPS business non configuré — pointage marqué "en révision".</span>
+            <span class="icon-warn">⚠</span> <span data-i18n="gps_not_configured">GPS business non configuré — pointage marqué "en révision".</span>
           </div>
           <?php endif; ?>
         </div>
@@ -542,7 +543,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
     <?php if ($currentAttendance): ?>
     <div class="ca-card">
       <div class="ca-card-head">
-        <h2 data-i18n="team_title">👥 Qui est au travail maintenant ?</h2>
+        <h2 data-i18n="team_title"><span class="icon-users">◎</span> Qui est au travail maintenant ?</h2>
         <p data-i18n="team_sub">Collègues actuellement clockés in</p>
       </div>
       <?php if (!empty($teamClockedIn)): ?>
@@ -557,7 +558,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
           <div>
             <div class="team-name"><?= e($col['full_name']) ?></div>
             <div class="team-role"><?= e($col['job_title'] ?: ucwords(str_replace('_',' ', $col['employee_role'] ?: $col['role']))) ?></div>
-            <div class="team-time">🟢 <?= e(date('H:i', strtotime($col['clock_in_at']))) ?></div>
+            <div class="team-time"><span class="dot-green">●</span> <?= e(date('H:i', strtotime($col['clock_in_at']))) ?></div>
           </div>
         </div>
         <?php endforeach; ?>
@@ -574,7 +575,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
     <?php if ($isEmployee): ?>
     <div class="ca-card">
       <div class="ca-card-head">
-        <h2 data-i18n="schedule_title">📅 Mon horaire de travail</h2>
+        <h2 data-i18n="schedule_title"><span class="icon-cal">▦</span> Mon horaire de travail</h2>
         <p data-i18n="schedule_sub">Votre patron et manager peuvent consulter cet horaire.</p>
       </div>
       <div class="ca-card-body">
@@ -627,7 +628,7 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
             <textarea name="schedule_notes" rows="2" style="resize:none"
                       placeholder="Ex: Je travaille le matin seulement le samedi..."><?= e($mySchedule['notes'] ?? '') ?></textarea>
           </div>
-          <button type="submit" class="save-btn" data-i18n="btn_save_schedule">💾 Sauvegarder l'horaire</button>
+          <button type="submit" class="save-btn" data-i18n="btn_save_schedule"><span class="icon-save">▣</span> Sauvegarder l'horaire</button>
         </form>
       </div>
     </div>
@@ -702,8 +703,8 @@ const T = {
     clock_title:'Action de présence', clock_sub:'Autorisez la localisation GPS avant de pointer.',
     gps_waiting:'En attente du GPS — cliquez sur "Activer GPS"',
     gps_loading:'Localisation en cours...',
-    gps_denied:'❌ GPS refusé — autorisez la localisation dans votre navigateur',
-    gps_unavailable:'⚠️ GPS indisponible — pointage sera marqué "à vérifier"',
+    gps_denied:'<span class="icon-err">✗</span> GPS refusé — autorisez la localisation dans votre navigateur',
+    gps_unavailable:'<span class="icon-warn">⚠</span> GPS indisponible — pointage sera marqué "à vérifier"',
     btn_activate_gps:'Activer la localisation GPS',
     btn_skip_gps:'Continuer sans GPS (sera validé par le manager)',
     clocked_since:'Clocké in depuis',
@@ -713,16 +714,16 @@ const T = {
     how_title:'Comment ça marche', how_sub:'Processus de pointage GPS',
     gps_configured:'GPS configuré', radius_text:'Rayon autorisé :',
     gps_not_configured:'GPS business non configuré — pointage marqué "en révision".',
-    team_title:'👥 Qui est au travail maintenant ?',
+    team_title:'<span class="icon-users">◎</span> Qui est au travail maintenant ?',
     team_sub:'Collègues actuellement clockés in',
     team_alone:'Vous êtes le seul au travail pour le moment.',
-    schedule_title:'📅 Mon horaire de travail',
+    schedule_title:'<span class="icon-cal">▦</span> Mon horaire de travail',
     schedule_sub:'Votre patron et manager peuvent consulter cet horaire.',
     current_schedule:'Horaire actuel', update_schedule:'Modifier votre horaire :',
     days_label:'Jours de travail', start_time:'Début :', end_time:'Fin :',
     start_time_label:'Heure de début', end_time_label:'Heure de fin',
     schedule_notes_label:'Notes (optionnel)',
-    btn_save_schedule:"💾 Sauvegarder l'horaire",
+    btn_save_schedule:"<span class="icon-save">▣</span> Sauvegarder l'horaire",
     history_title:'Historique de présence', history_sub:'15 derniers enregistrements',
     col_date:'Date', col_in:'Clock In', col_out:'Clock Out',
     col_duration:'Durée', col_gps:'GPS', col_status:'Statut',
@@ -736,8 +737,8 @@ const T = {
     clock_title:'Attendance action', clock_sub:'Allow GPS location before clocking.',
     gps_waiting:'Waiting for GPS — click "Activate GPS"',
     gps_loading:'Getting location...',
-    gps_denied:'❌ GPS denied — allow location in browser settings',
-    gps_unavailable:'⚠️ GPS unavailable — attendance will be marked "pending review"',
+    gps_denied:'<span class="icon-err">✗</span> GPS denied — allow location in browser settings',
+    gps_unavailable:'<span class="icon-warn">⚠</span> GPS unavailable — attendance will be marked "pending review"',
     btn_activate_gps:'Activate GPS location',
     btn_skip_gps:'Continue without GPS (needs manager approval)',
     clocked_since:'Clocked in since',
@@ -747,16 +748,16 @@ const T = {
     how_title:'How it works', how_sub:'GPS clock-in process',
     gps_configured:'GPS configured', radius_text:'Allowed radius:',
     gps_not_configured:'Business GPS not configured — attendance will be marked "pending review".',
-    team_title:'👥 Who is at work right now?',
+    team_title:'<span class="icon-users">◎</span> Who is at work right now?',
     team_sub:'Colleagues currently clocked in',
     team_alone:'You are the only one at work right now.',
-    schedule_title:'📅 My work schedule',
+    schedule_title:'<span class="icon-cal">▦</span> My work schedule',
     schedule_sub:'Your owner and manager can view this schedule.',
     current_schedule:'Current schedule', update_schedule:'Update your schedule:',
     days_label:'Working days', start_time:'Start:', end_time:'End:',
     start_time_label:'Start time', end_time_label:'End time',
     schedule_notes_label:'Notes (optional)',
-    btn_save_schedule:'💾 Save schedule',
+    btn_save_schedule:'<span class="icon-save">▣</span> Save schedule',
     history_title:'Attendance history', history_sub:'Last 15 records',
     col_date:'Date', col_in:'Clock In', col_out:'Clock Out',
     col_duration:'Duration', col_gps:'GPS', col_status:'Status',
@@ -808,8 +809,8 @@ const GPS = window.LT_GPS;
 function setGpsBox(state, text) {
   gpsBox.className = 'gps-box ' + state;
   gpsText.textContent = text;
-  const icons = { waiting:'📍', loading:'🔄', ok:'✅', denied:'❌', far:'🚫', review:'⚠️' };
-  gpsIcon.textContent = icons[state] || '📍';
+  const icons = { waiting:'<span class="icon-pin">●</span>', loading:'🔄', ok:'<span class="icon-ok">✓</span>', denied:'<span class="icon-err">✗</span>', far:'<span class="icon-no">⊘</span>', review:'<span class="icon-warn">⚠</span>' };
+  gpsIcon.textContent = icons[state] || '<span class="icon-pin">●</span>';
 }
 
 function enableClockBtn() {
@@ -836,17 +837,17 @@ function onGpsSuccess(pos) {
     const dist = haversine(lat, lng, GPS.businessLat, GPS.businessLng);
     const d = Math.round(dist);
     if (dist <= GPS.gpsRadius) {
-      setGpsBox('ok', (lang==='fr'?'✅ Sur place — ':'✅ On site — ') + d + 'm');
+      setGpsBox('ok', (lang==='fr'?'<span class="icon-ok">✓</span> Sur place — ':'<span class="icon-ok">✓</span> On site — ') + d + 'm');
       enableClockBtn();
     } else if (dist <= GPS.gpsRadius + GPS.reviewBuffer) {
-      setGpsBox('review', (lang==='fr'?'⚠️ Légèrement hors zone (':'⚠️ Slightly outside zone (') + d + 'm)');
+      setGpsBox('review', (lang==='fr'?'<span class="icon-warn">⚠</span> Légèrement hors zone (':'<span class="icon-warn">⚠</span> Slightly outside zone (') + d + 'm)');
       enableClockBtn();
     } else {
-      setGpsBox('far', (lang==='fr'?'🚫 Trop loin : ':'🚫 Too far: ') + d + 'm');
+      setGpsBox('far', (lang==='fr'?'<span class="icon-no">⊘</span> Trop loin : ':'<span class="icon-no">⊘</span> Too far: ') + d + 'm');
       if (skipBtn) skipBtn.style.display = 'block';
     }
   } else {
-    setGpsBox('ok', lang==='fr'?'📍 Position obtenue':'📍 Position obtained');
+    setGpsBox('ok', lang==='fr'?'<span class="icon-pin">●</span> Position obtenue':'<span class="icon-pin">●</span> Position obtained');
     enableClockBtn();
   }
 }
@@ -881,8 +882,8 @@ activateBtn?.addEventListener('click', () => {
 
 skipBtn?.addEventListener('click', () => {
   setGpsBox('review', lang==='fr'
-    ? '⚠️ Sans GPS — sera soumis pour validation manager'
-    : '⚠️ No GPS — will need manager approval');
+    ? '<span class="icon-warn">⚠</span> Sans GPS — sera soumis pour validation manager'
+    : '<span class="icon-warn">⚠</span> No GPS — will need manager approval');
   enableClockBtn();
   skipBtn.style.display = 'none';
 });

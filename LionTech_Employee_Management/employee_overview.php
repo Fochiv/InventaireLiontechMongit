@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   employee_overview.php — LionTech Business Manager
+   employee_overview.php — Tally Business Manager
    Owner / Manager: view all employees, clock status, profile
    Path: C:\Xampp\htdocs\InventoryLiontech\LionTech_Complete_MVP_Remaining_Pages\employee_overview.php
    ============================================================ */
@@ -138,7 +138,7 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Employés — LionTech</title>
+<title>Employés — Tally</title>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 <style>
 *{box-sizing:border-box}
@@ -242,6 +242,7 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
   .eo-wrap{padding:14px 16px 30px}
 }
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -265,21 +266,21 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
 
   <div class="eo-wrap">
 
-    <?php if ($success): ?><div class="eo-alert success">✅ <?= e($success) ?></div><?php endif; ?>
-    <?php if ($error):   ?><div class="eo-alert error">⚠️ <?= e($error) ?></div><?php endif; ?>
+    <?php if ($success): ?><div class="eo-alert success"><span class="icon-ok">✓</span> <?= e($success) ?></div><?php endif; ?>
+    <?php if ($error):   ?><div class="eo-alert error"><span class="icon-warn">⚠</span> <?= e($error) ?></div><?php endif; ?>
 
     <!-- Stats -->
     <div class="eo-stats">
       <div class="eo-stat">
-        <div class="eo-stat-icon blue">👥</div>
+        <div class="eo-stat-icon blue"><span class="icon-users">◎</span></div>
         <div><small data-i18n="stat_total">Total employés</small><strong><?= $totalEmp ?></strong></div>
       </div>
       <div class="eo-stat">
-        <div class="eo-stat-icon green">🟢</div>
+        <div class="eo-stat-icon green"><span class="dot-green">●</span></div>
         <div><small data-i18n="stat_clocked">Au travail</small><strong><?= $clockedInN ?></strong></div>
       </div>
       <div class="eo-stat">
-        <div class="eo-stat-icon purple">✅</div>
+        <div class="eo-stat-icon purple"><span class="icon-ok">✓</span></div>
         <div><small data-i18n="stat_active">Actifs</small><strong><?= $activeN ?></strong></div>
       </div>
       <div class="eo-stat">
@@ -299,7 +300,7 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
                  placeholder="Rechercher..." data-i18n-ph="search_ph"/>
           <a class="eo-add-btn"
              href="<?= APP_URL ?>/LionTech_Employee_Management/employees.php">
-            ➕ <span data-i18n="btn_add">Ajouter employé</span>
+            <span class="icon-add">+</span> <span data-i18n="btn_add">Ajouter employé</span>
           </a>
         </div>
       </div>
@@ -339,7 +340,7 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
                   <div class="eo-name"><?= e($emp['full_name'] ?? '—') ?></div>
                   <div class="eo-sub"><?= e($emp['job_title'] ?: $emp['login_id']) ?></div>
                   <?php if ($emp['pin_must_change']): ?>
-                  <div style="font-size:11px;color:#F97316;font-weight:700">⚠️ PIN à changer</div>
+                  <div style="font-size:11px;color:#F97316;font-weight:700"><span class="icon-warn">⚠</span> PIN à changer</div>
                   <?php endif; ?>
                 </div>
               </div>
@@ -352,12 +353,12 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
             <td style="color:#374151"><?= e($emp['phone'] ?: '—') ?></td>
             <td>
               <?php if ($clockedIn): ?>
-              <span class="badge clocked-in">🟢 <span data-i18n="on_clock">Au travail</span></span>
+              <span class="badge clocked-in"><span class="dot-green">●</span> <span data-i18n="on_clock">Au travail</span></span>
               <div style="font-size:11px;color:#6B7280;margin-top:3px">
                 <?= e(date('H:i', strtotime($emp['clock_in_at']))) ?>
               </div>
               <?php else: ?>
-              <span class="badge clocked-out">⚪ <span data-i18n="off_clock">Absent</span></span>
+              <span class="badge clocked-out"><span class="dot-gray">○</span> <span data-i18n="off_clock">Absent</span></span>
               <?php endif; ?>
             </td>
             <td><span class="badge <?= e($status) ?>"><?= e(ucfirst($status)) ?></span></td>
@@ -413,7 +414,7 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
         <div class="eo-modal-name" id="modalName">—</div>
         <div class="eo-modal-role" id="modalRole">—</div>
       </div>
-      <button class="eo-modal-close" onclick="closeModal()">✕</button>
+      <button class="eo-modal-close" onclick="closeModal()">✗</button>
     </div>
 
     <div class="eo-modal-body" id="modalBody">
@@ -424,7 +425,7 @@ $dayNamesEn = ['monday'=>'Mon','tuesday'=>'Tue','wednesday'=>'Wed','thursday'=>'
       <!-- PIN reset -->
       <?php if ($isOwner): ?>
       <button class="eo-modal-btn pin" id="resetPinBtn" onclick="resetPin()">
-        🔑 <span data-i18n="btn_reset_pin">Nouveau PIN temporaire</span>
+        <span class="icon-key">⚿</span> <span data-i18n="btn_reset_pin">Nouveau PIN temporaire</span>
       </button>
       <?php endif; ?>
       <button class="eo-modal-btn close" onclick="closeModal()" data-i18n="btn_close">Fermer</button>
@@ -453,16 +454,16 @@ const T = {
     on_clock:'Au travail', off_clock:'Absent',
     btn_view:'Voir', btn_leave:'Congé', btn_deactivate:'Désactiver', btn_activate:'Activer',
     no_employees:'Aucun employé.',
-    sec_identity:'👤 Identité', sec_contact:'📞 Contact',
-    sec_role:'💼 Rôle & Poste', sec_schedule:'📅 Horaire de travail',
-    sec_account:'🔐 Compte',
+    sec_identity:'<span class="icon-user">◉</span> Identité', sec_contact:'<span class="icon-phone">☎</span> Contact',
+    sec_role:'💼 Rôle & Poste', sec_schedule:'<span class="icon-cal">▦</span> Horaire de travail',
+    sec_account:'<span class="icon-lock"><span class="icon-lock">🔒</span></span> Compte',
     label_login:'Identifiant', label_status:'Statut', label_pin:'PIN à changer',
     label_dob:'Date de naissance', label_gender:'Genre', label_phone:'Téléphone',
     label_emergency:'Téléphone d\'urgence', label_address:'Adresse',
     label_role:'Rôle', label_title:'Titre du poste',
     label_start:'Heure début', label_end:'Heure fin', label_schedule_notes:'Notes',
-    label_clock:'Statut présence', clocked_in:'🟢 Au travail depuis',
-    clocked_out:'⚪ Absent', no_schedule:'Aucun horaire défini',
+    label_clock:'Statut présence', clocked_in:'<span class="dot-green">●</span> Au travail depuis',
+    clocked_out:'<span class="dot-gray">○</span> Absent', no_schedule:'Aucun horaire défini',
     yes:'Oui', no:'Non', not_set:'Non renseigné',
     btn_reset_pin:'Nouveau PIN temporaire', btn_close:'Fermer',
     new_pin_label:'Nouveau PIN temporaire :', pin_notice:'Montrez ce PIN à l\'employé une seule fois.',
@@ -476,16 +477,16 @@ const T = {
     on_clock:'At work', off_clock:'Absent',
     btn_view:'View', btn_leave:'Leave', btn_deactivate:'Deactivate', btn_activate:'Activate',
     no_employees:'No employees.',
-    sec_identity:'👤 Identity', sec_contact:'📞 Contact',
-    sec_role:'💼 Role & Position', sec_schedule:'📅 Work Schedule',
-    sec_account:'🔐 Account',
+    sec_identity:'<span class="icon-user">◉</span> Identity', sec_contact:'<span class="icon-phone">☎</span> Contact',
+    sec_role:'💼 Role & Position', sec_schedule:'<span class="icon-cal">▦</span> Work Schedule',
+    sec_account:'<span class="icon-lock"><span class="icon-lock">🔒</span></span> Account',
     label_login:'Login ID', label_status:'Status', label_pin:'PIN change required',
     label_dob:'Date of birth', label_gender:'Gender', label_phone:'Phone',
     label_emergency:'Emergency phone', label_address:'Address',
     label_role:'Role', label_title:'Job title',
     label_start:'Start time', label_end:'End time', label_schedule_notes:'Notes',
-    label_clock:'Attendance status', clocked_in:'🟢 At work since',
-    clocked_out:'⚪ Absent', no_schedule:'No schedule set',
+    label_clock:'Attendance status', clocked_in:'<span class="dot-green">●</span> At work since',
+    clocked_out:'<span class="dot-gray">○</span> Absent', no_schedule:'No schedule set',
     yes:'Yes', no:'No', not_set:'Not provided',
     btn_reset_pin:'New temporary PIN', btn_close:'Close',
     new_pin_label:'New temporary PIN:', pin_notice:'Show this PIN to the employee once. They must change it after login.',
@@ -578,7 +579,7 @@ function viewEmployee(userId) {
           <div class="eo-info-item"><div class="eo-info-label">${t.label_login}</div><div class="eo-info-val" style="font-family:monospace">${emp.login_id||'—'}</div></div>
           <div class="eo-info-item"><div class="eo-info-label">${t.label_status}</div><div class="eo-info-val">${statusMap[emp.status]||emp.status||'—'}</div></div>
           <div class="eo-info-item"><div class="eo-info-label">${t.label_clock}</div><div class="eo-info-val">${emp.clock_in_at ? t.clocked_in + ' ' + emp.clock_in_at.slice(11,16) : t.clocked_out}</div></div>
-          <div class="eo-info-item"><div class="eo-info-label">${t.label_pin}</div><div class="eo-info-val">${emp.pin_must_change ? '⚠️ ' + t.yes : t.no}</div></div>
+          <div class="eo-info-item"><div class="eo-info-label">${t.label_pin}</div><div class="eo-info-val">${emp.pin_must_change ? '<span class="icon-warn">⚠</span> ' + t.yes : t.no}</div></div>
         </div>
       </div>`;
 

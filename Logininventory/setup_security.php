@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   setup_security.php — LionTech Business Manager
+   setup_security.php — Tally Business Manager
    First login: change PIN + set 3 security questions
    Path: C:\Xampp\htdocs\InventoryLiontech\Logininventory\setup_security.php
    ============================================================ */
@@ -132,7 +132,7 @@ $questionsJson = json_encode(array_values($QUESTIONS), JSON_UNESCAPED_UNICODE);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Configuration sécurité — LionTech</title>
+  <title>Configuration sécurité — Tally</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#0F172A;min-height:100vh;display:grid;place-items:center;padding:20px}
@@ -171,10 +171,10 @@ $questionsJson = json_encode(array_values($QUESTIONS), JSON_UNESCAPED_UNICODE);
   <div class="card-head">
     <div class="head-top">
       <div class="logo-row">
-        <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech"
+        <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally"
              style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0">
         <div>
-          <div class="logo-name">LionTech</div>
+          <div class="sb-logo-name">Tally</div>
           <div class="logo-tag">Business Manager</div>
         </div>
       </div>
@@ -197,9 +197,9 @@ $questionsJson = json_encode(array_values($QUESTIONS), JSON_UNESCAPED_UNICODE);
     </div>
 
     <?php if ($error && !str_starts_with($error, '__db_error__')): ?>
-    <div class="alert-error" id="errorBox">⚠️ <span id="errorMsg"></span></div>
+    <div class="alert-error" id="errorBox"><span class="icon-warn">⚠</span> <span id="errorMsg"></span></div>
     <?php elseif (str_starts_with($error ?? '', '__db_error__')): ?>
-    <div class="alert-error">⚠️ <?= e(substr($error, 11)) ?></div>
+    <div class="alert-error"><span class="icon-warn">⚠</span> <?= e(substr($error, 11)) ?></div>
     <?php endif; ?>
 
     <?php if ($step === 1): ?>
@@ -228,7 +228,7 @@ $questionsJson = json_encode(array_values($QUESTIONS), JSON_UNESCAPED_UNICODE);
     <div class="sub" data-i18n="step2_sub">Étape 2 sur 2 — Choisissez 3 questions et répondez-y pour sécuriser votre compte.</div>
 
     <div class="note-box" data-i18n="questions_note">
-      ⚠️ Les questions sont en français uniquement. Les réponses sont insensibles à la casse.
+      <span class="icon-warn">⚠</span> Les questions sont en français uniquement. Les réponses sont insensibles à la casse.
     </div>
 
     <form method="POST">
@@ -259,7 +259,7 @@ $questionsJson = json_encode(array_values($QUESTIONS), JSON_UNESCAPED_UNICODE);
       </div>
       <?php endfor; ?>
 
-      <button type="submit" class="btn" data-i18n="btn_finish">✅ Terminer la configuration</button>
+      <button type="submit" class="btn" data-i18n="btn_finish"><span class="icon-ok">✓</span> Terminer la configuration</button>
     </form>
     <?php endif; ?>
 
@@ -273,13 +273,13 @@ const T = {
     step1_sub:'Étape 1 sur 2 — Définissez un nouveau PIN ou mot de passe sécurisé.',
     step2_title:'Questions de sécurité',
     step2_sub:'Étape 2 sur 2 — Choisissez 3 questions et répondez-y pour sécuriser votre compte.',
-    questions_note:'⚠️ Les questions sont en français uniquement. Les réponses sont insensibles à la casse.',
+    questions_note:'<span class="icon-warn">⚠</span> Les questions sont en français uniquement. Les réponses sont insensibles à la casse.',
     new_pin_label:'Nouveau PIN / mot de passe',   new_pin_ph:'Minimum 6 caractères',
     confirm_pin_label:'Confirmer le PIN',          confirm_pin_ph:'Répéter le PIN',
     btn_continue:'Continuer →',
     question_label:'Question', choose_question:'Choisir une question',
     select_ph:'— Sélectionner —', your_answer:'Votre réponse', answer_ph:'Réponse...',
-    btn_finish:'✅ Terminer la configuration',
+    btn_finish:'<span class="icon-ok">✓</span> Terminer la configuration',
     err_pin_short:'Le PIN doit contenir au moins 6 caractères.',
     err_pin_mismatch:'Les PIN ne correspondent pas.',
     err_choose_3:'Veuillez choisir 3 questions de sécurité.',
@@ -291,13 +291,13 @@ const T = {
     step1_sub:'Step 1 of 2 — Set a new secure PIN or password.',
     step2_title:'Security Questions',
     step2_sub:'Step 2 of 2 — Choose 3 questions and answer them to secure your account.',
-    questions_note:'⚠️ Questions are in French only. Answers are case-insensitive.',
+    questions_note:'<span class="icon-warn">⚠</span> Questions are in French only. Answers are case-insensitive.',
     new_pin_label:'New PIN / password',           new_pin_ph:'Minimum 6 characters',
     confirm_pin_label:'Confirm PIN',               confirm_pin_ph:'Repeat PIN',
     btn_continue:'Continue →',
     question_label:'Question', choose_question:'Choose a question',
     select_ph:'— Select —', your_answer:'Your answer', answer_ph:'Answer...',
-    btn_finish:'✅ Finish Setup',
+    btn_finish:'<span class="icon-ok">✓</span> Finish Setup',
     err_pin_short:'PIN must be at least 6 characters.',
     err_pin_mismatch:'PINs do not match.',
     err_choose_3:'Please choose 3 security questions.',

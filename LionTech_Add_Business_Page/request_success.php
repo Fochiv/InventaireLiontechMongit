@@ -6,7 +6,7 @@ require_once __DIR__ . '/../Config.php';
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Request Submitted - LionTech</title>
+<title>Request Submitted - Tally</title>
 
 <style>
 *{
@@ -83,11 +83,11 @@ h1{
 
     <div class="logo">
         <img
-            src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"
-            alt="LionTech">
+            src="<?= APP_URL ?>/Image/TALLYLOGO.png"
+            alt="Tally">
     </div>
 
-    <div class="check">✅</div>
+    <div class="check"><span class="icon-ok">✓</span></div>
 
     <h1>Business Request Submitted</h1>
 

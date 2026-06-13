@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   Vente.php — LionTech Business Manager / Sales Control Page
+   Vente.php — Tally Business Manager / Sales Control Page
    Owner + Manager only · FR/EN · Mobile responsive tables
    Path: C:\Xampp\htdocs\InventoryLiontech\Vente_cashier\Vente.php
    ============================================================ */
@@ -311,6 +311,7 @@ try {
 <link rel="stylesheet" href="<?= $url ?>/LionTech_Owner_Dashboard/owner_dashboard.css">
 <link rel="stylesheet" href="<?= $url ?>/Vente_cashier/Vente.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -319,18 +320,18 @@ try {
 
 <div class="od-topbar">
     <div>
-        <h1 class="page-title">📊 <span data-i18n="title">Contrôle des ventes</span></h1>
+        <h1 class="page-title"><span class="icon-chart">▦</span> <span data-i18n="title">Contrôle des ventes</span></h1>
         <p class="page-subtitle"><?= e($bizName) ?> · <?= e($dateFrom) ?> → <?= e($dateTo) ?></p>
     </div>
     <div class="top-actions">
-        <?php if(count($fraudRows)>0): ?><a class="alert-pill" href="#fraudTable">⚠️ <?= count($fraudRows) ?></a><?php endif; ?>
+        <?php if(count($fraudRows)>0): ?><a class="alert-pill" href="#fraudTable"><span class="icon-warn">⚠</span> <?= count($fraudRows) ?></a><?php endif; ?>
         <button class="lang-btn" id="salesLangBtn" onclick="toggleSalesLang()">FR</button>
         <div class="od-avatar"><?= e($initials) ?></div>
     </div>
 </div>
 
 <div class="vd-wrap">
-<?php if($permSaved): ?><div class="vd-alert success">✅ Permissions manager mises à jour.</div><?php endif; ?>
+<?php if($permSaved): ?><div class="vd-alert success"><span class="icon-ok">✓</span> Permissions manager mises à jour.</div><?php endif; ?>
 
 <div class="control-bar">
     <div class="period-box">
@@ -349,15 +350,15 @@ try {
     <div class="control-actions">
         <button class="btn secondary" onclick="window.print()">🖨️ <span data-i18n="print">Imprimer</span></button>
         <button class="btn secondary" onclick="exportCurrentTable()">⬇️ CSV</button>
-        <?php if($isOwner): ?><button class="btn gold" onclick="openPermModal()">⚙️ Manager</button><?php endif; ?>
+        <?php if($isOwner): ?><button class="btn gold" onclick="openPermModal()"><span class="icon-gear">⚙</span> Manager</button><?php endif; ?>
     </div>
 </div>
 
 <div class="kpi-grid">
-    <div class="kpi-card"><span>💰</span><small data-i18n="total_sales">Total vendu</small><strong><?= xaf($kpi['sales_total']) ?></strong></div>
-    <div class="kpi-card"><span>🧾</span><small data-i18n="receipts">Reçus</small><strong><?= n0($kpi['sales_count']) ?></strong></div>
-    <?php if(canSee('money',$isOwner,$managerPerms)): ?><div class="kpi-card"><span>📦</span><small data-i18n="stock_spent">Dépensé stock</small><strong><?= xaf($kpi['stock_spent']) ?></strong></div><?php endif; ?>
-    <div class="kpi-card danger"><span>⚠️</span><small data-i18n="losses">Pertes</small><strong><?= xaf($kpi['loss_total']) ?></strong></div>
+    <div class="kpi-card"><span><span class="icon-money">&#36;</span></span><small data-i18n="total_sales">Total vendu</small><strong><?= xaf($kpi['sales_total']) ?></strong></div>
+    <div class="kpi-card"><span><span class="icon-receipt">▤</span></span><small data-i18n="receipts">Reçus</small><strong><?= n0($kpi['sales_count']) ?></strong></div>
+    <?php if(canSee('money',$isOwner,$managerPerms)): ?><div class="kpi-card"><span><span class="icon-box">▣</span></span><small data-i18n="stock_spent">Dépensé stock</small><strong><?= xaf($kpi['stock_spent']) ?></strong></div><?php endif; ?>
+    <div class="kpi-card danger"><span><span class="icon-warn">⚠</span></span><small data-i18n="losses">Pertes</small><strong><?= xaf($kpi['loss_total']) ?></strong></div>
     <?php if(canSee('money',$isOwner,$managerPerms)): ?><div class="kpi-card success"><span>📈</span><small data-i18n="profit">Bénéfice estimé</small><strong><?= xaf($kpi['profit_est']) ?></strong></div><?php endif; ?>
 </div>
 
@@ -530,7 +531,7 @@ try {
 <?php if($isOwner): ?>
 <div id="permModal" class="modal-backdrop">
     <div class="modal-card">
-        <h2>⚙️ Permissions du Manager</h2>
+        <h2><span class="icon-gear">⚙</span> Permissions du Manager</h2>
         <p>Choisis les tables visibles pour le manager.</p>
         <form method="POST">
             <input type="hidden" name="save_perms" value="1">

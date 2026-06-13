@@ -24,6 +24,7 @@ $queryError = htmlspecialchars($_GET['error'] ?? '', ENT_QUOTES);
     <title>Connexion — Tally Business Manager</title>
     <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png?v=<?= time() ?>">
     <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 
@@ -32,7 +33,7 @@ $queryError = htmlspecialchars($_GET['error'] ?? '', ENT_QUOTES);
   <!-- RECEIPT BANNER -->
   <div class="lt-receipt-banner">
     <div class="lt-receipt-left">
-      <span class="lt-receipt-icon">🧾</span>
+      <span class="lt-receipt-icon"><span class="icon-receipt">▤</span></span>
       <div class="lt-receipt-text">
         <span class="lt-receipt-en">Are you a client? View your receipt or invoice here.</span>
         <span class="lt-receipt-fr">Êtes-vous un client&nbsp;? Consultez votre reçu ou facture ici.</span>
@@ -164,7 +165,7 @@ $queryError = htmlspecialchars($_GET['error'] ?? '', ENT_QUOTES);
             <a class="lt-link"
                href="https://wa.me/237688203095?text=Bonjour%20Tally%20Support%20%F0%9F%91%8B"
                target="_blank" rel="noopener noreferrer" data-lt="support">
-              💬 Contact Tally on WhatsApp
+              <span class="icon-msg">▷</span> Contact Tally on WhatsApp
             </a>
           </div>
 

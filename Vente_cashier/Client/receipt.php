@@ -33,9 +33,10 @@ if (!$snapshot && $receipt) {
     $snapshot = buildReceiptSnapshot($pdo, (int)$receipt['business_id'], (int)$receipt['transaction_id']);
 }
 if (!$snapshot) { http_response_code(404); ?>
-<!DOCTYPE html><html><head><meta charset="UTF-8"/><link rel="stylesheet" href="client.css"/></head>
+<!DOCTYPE html><html><head><meta charset="UTF-8"/><link rel="stylesheet" href="client.css"/><link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+</head>
 <body class="cl-body" style="display:flex;align-items:center;justify-content:center;min-height:100vh">
-<div style="text-align:center"><div style="font-size:48px">🔍</div>
+<div style="text-align:center"><div style="font-size:48px"><span class="icon-search">⌕</span></div>
 <h2 data-i="not_found">Reçu introuvable</h2>
 <a href="client.php" class="cl-btn-primary" style="margin-top:16px" data-i="back_home">← Accueil</a>
 </div><script src="i18n.js"></script><script src="client.js"></script></body></html>
@@ -77,7 +78,7 @@ $color  = $biz['brand_color'] ?? '#0B1F3A';
 $bizName= $biz['brand_name'] ?? 'Business';
 $typeOp = $tx['type_operation'] ?? 'vente';
 $invoice= $tx['numero_facture'] ?? ($receipt['receipt_number'] ?? '');
-$payLabels = ['especes'=>'💵 Espèces','mtn_momo'=>'📱 MTN MoMo','orange_money'=>'🟠 Orange Money'];
+$payLabels = ['especes'=>'<span class="icon-money">&#36;</span> Espèces','mtn_momo'=>'<span class="icon-phone"><span class="icon-phone">☎</span></span> MTN MoMo','orange_money'=>'🟠 Orange Money'];
 ?>
 
 <div class="rc-wrap">
@@ -86,9 +87,9 @@ $payLabels = ['especes'=>'💵 Espèces','mtn_momo'=>'📱 MTN MoMo','orange_mon
     <button onclick="window.print()" class="rc-btn-print">🖨️ <span data-i="print">Imprimer</span></button>
 
     <?php if($loggedIn): ?>
-    <button class="rc-btn-save" id="saveBtn" onclick="doSave()">☆ <span data-i="save_receipt">Sauvegarder</span></button>
+    <button class="rc-btn-save" id="saveBtn" onclick="doSave()"><span class="icon-star">★</span> <span data-i="save_receipt">Sauvegarder</span></button>
     <?php else: ?>
-    <a href="register.php?phone=<?=urlencode($phone)?>" class="rc-btn-save" data-i="save_receipt">☆ Sauvegarder</a>
+    <a href="register.php?phone=<?=urlencode($phone)?>" class="rc-btn-save" data-i="save_receipt"><span class="icon-star">★</span> Sauvegarder</a>
     <?php endif; ?>
 
     <button onclick="openReport()" class="rc-btn-report">🚩 <span data-i="report">Signaler</span></button>
@@ -107,7 +108,7 @@ $payLabels = ['especes'=>'💵 Espèces','mtn_momo'=>'📱 MTN MoMo','orange_mon
         <?php if($biz['city']||$biz['address']): ?>
         <div class="rc-biz-addr"><?=h(trim($biz['city'].' '.$biz['address']))?></div>
         <?php endif; ?>
-        <?php if($biz['phone']): ?><div class="rc-biz-phone">📞 <?=h($biz['phone'])?></div><?php endif; ?>
+        <?php if($biz['phone']): ?><div class="rc-biz-phone"><span class="icon-phone">☎</span> <?=h($biz['phone'])?></div><?php endif; ?>
         <?php if($biz['email']): ?><div class="rc-biz-email">✉️ <?=h($biz['email'])?></div><?php endif; ?>
       </div>
     </div>
@@ -115,11 +116,11 @@ $payLabels = ['especes'=>'💵 Espèces','mtn_momo'=>'📱 MTN MoMo','orange_mon
     <!-- Invoice info -->
     <div class="rc-invoice-band">
       <div>
-        <div class="rc-invoice-num">🧾 <?=h($invoice)?></div>
-        <div class="rc-invoice-date">📅 <?=date('d/m/Y H:i',strtotime($tx['created_at']??'now'))?></div>
+        <div class="rc-invoice-num"><span class="icon-receipt">▤</span> <?=h($invoice)?></div>
+        <div class="rc-invoice-date"><span class="icon-cal">▦</span> <?=date('d/m/Y H:i',strtotime($tx['created_at']??'now'))?></div>
       </div>
       <div class="rc-badge rc-badge-<?=$typeOp==='vente'?'paid':($typeOp==='remboursement'?'remb':'warn')?>">
-        <?=$typeOp==='vente'?'✓ PAYÉ':($typeOp==='remboursement'?'↩ REMB':'⚠️')?>
+        <?=$typeOp==='vente'?'✓ PAYÉ':($typeOp==='remboursement'?'↩ REMB':'<span class="icon-warn">⚠</span>')?>
       </div>
     </div>
 
@@ -139,7 +140,7 @@ $payLabels = ['especes'=>'💵 Espèces','mtn_momo'=>'📱 MTN MoMo','orange_mon
       <?php endif; ?>
       <?php if(!empty($tx['client_phone']) && ($biz['show_client_phone']??1)): ?>
       <div class="rc-meta-item">
-        <span class="rc-meta-lbl">📱</span>
+        <span class="rc-meta-lbl"><span class="icon-phone"><span class="icon-phone">☎</span></span></span>
         <span><?=h($tx['client_phone'])?></span>
       </div>
       <?php endif; ?>
@@ -204,7 +205,7 @@ $payLabels = ['especes'=>'💵 Espèces','mtn_momo'=>'📱 MTN MoMo','orange_mon
 
     <!-- Return policy -->
     <?php if(!empty($biz['return_policy'])): ?>
-    <div class="rc-policy">📋 <?=h($biz['return_policy'])?></div>
+    <div class="rc-policy"><span class="icon-list">≡</span> <?=h($biz['return_policy'])?></div>
     <?php endif; ?>
 
     <!-- Footer -->

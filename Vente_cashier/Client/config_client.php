@@ -123,7 +123,7 @@ const CAT_ICONS = [
     'food'        => ['icon'=>'🍔','fr'=>'Alimentation','en'=>'Food'],
     'clothes'     => ['icon'=>'👗','fr'=>'Vêtements','en'=>'Clothes'],
     'pharmacy'    => ['icon'=>'💊','fr'=>'Pharmacie','en'=>'Pharmacy'],
-    'electronics' => ['icon'=>'📱','fr'=>'Électronique','en'=>'Electronics'],
+    'electronics' => ['icon'=>'<span class="icon-phone"><span class="icon-phone">☎</span></span>','fr'=>'Électronique','en'=>'Electronics'],
     'beauty'      => ['icon'=>'💄','fr'=>'Beauté','en'=>'Beauty'],
     'transport'   => ['icon'=>'🚗','fr'=>'Transport','en'=>'Transport'],
     'restaurant'  => ['icon'=>'🍽️','fr'=>'Restaurant','en'=>'Restaurant'],

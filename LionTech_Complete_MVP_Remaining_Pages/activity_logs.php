@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   activity_logs.php — LionTech Business Manager
+   activity_logs.php — Tally Business Manager
    Owner: full access | Manager: view only
    ============================================================ */
 require_once __DIR__ . '/../Config.php';
@@ -79,8 +79,8 @@ try {
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <meta name="robots" content="noindex,nofollow"/>
-  <title>Journal d'Activité — LionTech</title>
-  <link rel="icon" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
+  <title>Journal d'Activité — Tally</title>
+  <link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <style>
     .al-menu-btn{display:none;border:1.5px solid #E5E7EB;background:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;color:#0B1F3A}
@@ -105,6 +105,7 @@ try {
     .al-action-cell{display:flex;align-items:center;gap:7px}
     .action-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:50px;font-size:11.5px;font-weight:600;background:#EEF2F7;color:#334155}
   </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">

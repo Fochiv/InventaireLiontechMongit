@@ -206,7 +206,7 @@ if ($action === 'save_sale' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             ")->execute([
                 $userId, $businessId,
                 "Vente {$numeroFacture} — {$totalTtc} XAF",
-                '🧾',
+                '<span class="icon-receipt">▤</span>',
                 $_SERVER['REMOTE_ADDR'] ?? null
             ]);
         } catch (Throwable $e) {}

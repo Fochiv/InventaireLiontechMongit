@@ -477,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `work_schedules` (
     FOREIGN KEY (`business_id`) REFERENCES `businesses` (`business_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
----- receipt /feacture system.
+-- receipt /feacture system.
 CREATE TABLE IF NOT EXISTS receipt_settings (
   setting_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   business_id INT UNSIGNED NOT NULL,
@@ -511,27 +511,12 @@ CREATE TABLE IF NOT EXISTS receipts (
   KEY idx_receipt_business_phone (business_id, client_phone),
   KEY idx_receipt_number (receipt_number)
 );
------owner receipt custom-----
-CREATE TABLE IF NOT EXISTS receipt_settings (
-  setting_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  business_id INT UNSIGNED NOT NULL,
-  brand_name VARCHAR(255) DEFAULT NULL,
-  logo_url VARCHAR(500) DEFAULT NULL,
-  brand_color VARCHAR(20) NOT NULL DEFAULT '#0B1F3A',
-  return_policy TEXT DEFAULT NULL,
-  footer_message TEXT DEFAULT NULL,
-  show_cashier TINYINT(1) NOT NULL DEFAULT 1,
-  show_client_phone TINYINT(1) NOT NULL DEFAULT 1,
-  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (setting_id),
-  UNIQUE KEY uq_receipt_settings_business (business_id)
-);
+-- owner receipt customization (receipt_settings already defined above)
 
 
 
 
------ partie client------
+-- partie client------
 -- 1. Client accounts (new table)
 CREATE TABLE IF NOT EXISTS clients (
     client_id     INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -573,7 +558,7 @@ CREATE TABLE IF NOT EXISTS client_receipt_actions (
 ALTER TABLE receipts ADD COLUMN IF NOT EXISTS public_token VARCHAR(80) DEFAULT NULL;
 ALTER TABLE receipts ADD UNIQUE KEY IF NOT EXISTS uq_receipt_token (public_token);
 
------- pin reset clinet, changer pin client-----
+-- pin reset clinet, changer pin client-----
 ALTER TABLE clients ADD COLUMN secret_key      VARCHAR(30) DEFAULT NULL;
 ALTER TABLE clients ADD COLUMN secret_category VARCHAR(20) DEFAULT NULL;
 
@@ -587,5 +572,18 @@ CREATE TABLE IF NOT EXISTS client_reset_attempts (
 
 
 -- ============================================================
---  END — LionTech Business Manager db-config.sql
+--  login_attempts — brute-force protection
+-- ============================================================
+CREATE TABLE IF NOT EXISTS login_attempts (
+  attempt_id   INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+  login_id     VARCHAR(255)    NOT NULL,
+  ip_address   VARCHAR(45)     NOT NULL DEFAULT '',
+  attempted_at DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (attempt_id),
+  KEY idx_la_login_time (login_id, attempted_at),
+  KEY idx_la_ip_time    (ip_address, attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ============================================================
+--  END — Tally Business Manager db-config.sql
 -- ============================================================

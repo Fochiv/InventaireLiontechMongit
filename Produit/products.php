@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   products.php — LionTech Business Manager
+   products.php — Tally Business Manager
    FIXED: all roles allowed, correct redirects, od-layout
    Path: C:\Xampp\htdocs\InventoryLiontech\Produit\products.php
    ============================================================ */
@@ -150,8 +150,9 @@ $initials = substr($initials?:'U',0,2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Produits — LionTech</title>
+  <title>Produits — Tally</title>
   <link rel="stylesheet" href="products.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -174,7 +175,7 @@ $initials = substr($initials?:'U',0,2);
 
     <?php if (!$inventoryEnabled): ?>
     <div style="padding:40px 24px;text-align:center">
-      <div style="font-size:40px">🔒</div>
+      <div style="font-size:40px"><span class="icon-lock">🔒</span></div>
       <h2 style="color:#0B1F3A;margin:12px 0 8px">Inventaire non activé</h2>
       <p style="color:#6B7280;font-size:14px">Contactez LionTech pour activer cette fonctionnalité.</p>
     </div>
@@ -182,7 +183,7 @@ $initials = substr($initials?:'U',0,2);
 
     <?php if ($isExpired): ?>
     <div style="background:#FEF3C7;border:1px solid #FDE68A;padding:12px 24px;font-size:13px;color:#92400E">
-      ⚠️ Abonnement expiré. Vous pouvez consulter les produits mais les modifications sont désactivées.
+      <span class="icon-warn">⚠</span> Abonnement expiré. Vous pouvez consulter les produits mais les modifications sont désactivées.
     </div>
     <?php endif; ?>
 
@@ -194,15 +195,15 @@ $initials = substr($initials?:'U',0,2);
 
     <?php if ($message): ?>
     <div style="background:<?=$messageType==='success'?'#F0FDF4':'#FEF2F2'?>;border:1px solid <?=$messageType==='success'?'#86EFAC':'#FECACA'?>;padding:12px 24px;font-size:13px;color:<?=$messageType==='success'?'#166534':'#991B1B'?>">
-      <?=$messageType==='success'?'✅':'⚠️'?> <?=e($message)?>
+      <?=$messageType==='success'?'<span class="icon-ok">✓</span>':'<span class="icon-warn">⚠</span>'?> <?=e($message)?>
     </div>
     <?php endif; ?>
 
     <!-- Stat cards -->
     <div style="padding:20px 24px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
-      <div class="od-card stat"><span class="stat-icon blue">📦</span><div><small>Total Produits</small><strong><?=e($totalProducts)?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon amber">⚠️</span><div><small>Stock Faible</small><strong><?=e($lowStock)?></strong></div></div>
-      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2">❌</span><div><small>Rupture</small><strong><?=e($outOfStock)?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon blue"><span class="icon-box">▣</span></span><div><small>Total Produits</small><strong><?=e($totalProducts)?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon amber"><span class="icon-warn">⚠</span></span><div><small>Stock Faible</small><strong><?=e($lowStock)?></strong></div></div>
+      <div class="od-card stat"><span class="stat-icon" style="background:#FEE2E2"><span class="icon-err">✗</span></span><div><small>Rupture</small><strong><?=e($outOfStock)?></strong></div></div>
       <div class="od-card stat"><span class="stat-icon" style="background:#F1F5F9">🗂️</span><div><small>Archivés</small><strong><?=e($archived)?></strong></div></div>
     </div>
 
@@ -261,7 +262,7 @@ $initials = substr($initials?:'U',0,2);
                 <td>
                   <div class="product-cell">
                     <div class="product-img">
-                      <?php if(!empty($p['image_url'])): ?><img src="<?=e($p['image_url'])?>" alt=""/><?php else: ?>📦<?php endif; ?>
+                      <?php if(!empty($p['image_url'])): ?><img src="<?=e($p['image_url'])?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?>
                     </div>
                     <div><strong><?=e($p['name'])?></strong><small><?=e($p['sku']??'')?></small></div>
                   </div>

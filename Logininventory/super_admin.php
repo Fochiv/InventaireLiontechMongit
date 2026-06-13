@@ -5,11 +5,12 @@ $user = currentUser();
 ?>
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Super Admin Dashboard — LionTech</title>
-<link rel="stylesheet" href="../style.css"/></head>
+<title>Super Admin Dashboard — Tally</title>
+<link rel="stylesheet" href="../style.css"/><link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+</head>
 <body>
 <div class="dash-page">
-  <div class="dash-badge">🦁 Super Admin</div>
+  <div class="dash-badge"><span class="icon-brand">T</span> Super Admin</div>
   <h1 class="dash-title">Super Admin Dashboard</h1>
   <p class="dash-sub">Welcome, <strong><?= htmlspecialchars($user['full_name']) ?></strong>!<br>
   You have full access to all businesses and system settings.</p>

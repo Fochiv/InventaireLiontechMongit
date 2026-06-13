@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   Config.php — LionTech Business Manager
+   Config.php — Tally Business Manager
    ============================================================ */
 
 /* ── Auto-detect APP_URL (works with any subfolder or root) ── */
@@ -21,9 +21,11 @@ define('DB_USER',    'root');
 define('DB_PASS',    '');
 define('DB_NAME',    'InventaireLiontech_db');
 define('DB_CHARSET', 'utf8mb4');
+/* ── MySQL socket (Replit uses Unix socket, WAMP uses TCP) ── */
+define('DB_SOCKET',  file_exists('/tmp/mysql.sock') ? '/tmp/mysql.sock' : '');
 
 /* ── App constants ── */
-define('APP_NAME',    'LionTech Business Manager');
+define('APP_NAME',    'Tally Business Manager');
 define('APP_VERSION', '1.0.0');
 
 /* ── Session lifetime ── */
@@ -59,10 +61,17 @@ function getDB(): PDO {
     static $pdo = null;
     if ($pdo !== null) return $pdo;
 
-    $dsn = sprintf(
-        'mysql:host=%s;dbname=%s;charset=%s',
-        DB_HOST, DB_NAME, DB_CHARSET
-    );
+    if (DB_SOCKET !== '') {
+        $dsn = sprintf(
+            'mysql:unix_socket=%s;dbname=%s;charset=%s',
+            DB_SOCKET, DB_NAME, DB_CHARSET
+        );
+    } else {
+        $dsn = sprintf(
+            'mysql:host=%s;dbname=%s;charset=%s',
+            DB_HOST, DB_NAME, DB_CHARSET
+        );
+    }
     $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

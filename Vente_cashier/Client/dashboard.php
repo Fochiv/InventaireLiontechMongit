@@ -69,6 +69,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?= $LOGO ?>"/>
 <link rel="stylesheet" href="client.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body class="cl-body">
 
@@ -93,7 +94,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
 
   <!-- SIDEBAR FILTERS -->
   <aside class="db-sidebar">
-    <div class="db-sidebar-title">🔍 <span data-i="filters">Filtres</span></div>
+    <div class="db-sidebar-title"><span class="icon-search">⌕</span> <span data-i="filters">Filtres</span></div>
     <form method="GET" action="dashboard.php">
       <input type="hidden" name="phone" value="<?= h($phone) ?>"/>
       <div class="db-fgroup">
@@ -143,7 +144,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
       <div class="db-header-left">
         <h1 class="db-title">
           <?php if($loggedIn): ?>👋 <?= h($client['name']) ?>
-          <?php else: ?>📱 <?= h($phone) ?><?php endif; ?>
+          <?php else: ?><span class="icon-phone"><span class="icon-phone">☎</span></span> <?= h($phone) ?><?php endif; ?>
         </h1>
         <p class="db-subtitle">
           <?=count($rows)?> <span data-i="receipts_found">reçu(s) trouvé(s)</span>
@@ -153,7 +154,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
       <?php if(!$loggedIn): ?>
       <a href="register.php?phone=<?=urlencode($phone)?>" class="cl-btn-pink" data-i="save_permanently">✨ Sauvegarder mes reçus</a>
       <?php else: ?>
-      <a href="profile.php" class="cl-btn-pink" data-i="my_qr">🔲 Mon QR Code</a>
+      <a href="profile.php" class="cl-btn-pink" data-i="my_qr"><span class="icon-sq">▪</span> Mon QR Code</a>
       <?php endif; ?>
     </div>
 
@@ -188,7 +189,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
     <!-- Cards -->
     <?php if(empty($rows)): ?>
     <div class="db-empty">
-      <div class="db-empty-icon">🧾</div>
+      <div class="db-empty-icon"><span class="icon-receipt">▤</span></div>
       <div class="db-empty-title" data-i="no_receipts">Aucun reçu trouvé</div>
       <div class="db-empty-sub" data-i="no_receipts_sub">Aucun achat enregistré pour ce numéro.</div>
       <a href="client.php" class="cl-btn-primary" style="margin-top:16px" data-i="back_home">← Accueil</a>
@@ -207,24 +208,24 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
     ?>
     <div class="db-card db-card-<?=$color?>" data-rid="<?=$r['receipt_id']?>">
       <?php if($isToday): ?><span class="db-today-badge" data-i="today">Aujourd'hui</span><?php endif; ?>
-      <?php if($isSaved): ?><span class="db-saved-badge">⭐</span><?php endif; ?>
+      <?php if($isSaved): ?><span class="db-saved-badge"><span class="icon-star">★</span></span><?php endif; ?>
 
       <div class="db-card-top">
         <div class="db-card-cat-icon"><?=$ci['icon']?></div>
         <div class="db-card-biz">
           <div class="db-card-bizname"><?=h($r['business_name'])?></div>
-          <?php if($r['biz_phone']): ?><div class="db-card-bizphone">📞 <?=h($r['biz_phone'])?></div><?php endif; ?>
+          <?php if($r['biz_phone']): ?><div class="db-card-bizphone"><span class="icon-phone">☎</span> <?=h($r['biz_phone'])?></div><?php endif; ?>
         </div>
         <div class="db-card-amount"><?=fmtXAF($r['total_amount'])?></div>
       </div>
 
       <div class="db-card-meta">
-        <span>🧾 <?=h($r['receipt_number'])?></span>
-        <span>📅 <?=date('d/m/Y H:i',strtotime($r['created_at']))?></span>
+        <span><span class="icon-receipt">▤</span> <?=h($r['receipt_number'])?></span>
+        <span><span class="icon-cal">▦</span> <?=date('d/m/Y H:i',strtotime($r['created_at']))?></span>
       </div>
 
       <?php if($isWarn): ?>
-      <div class="db-warranty-note">🛡️ <span data-i="warranty_note">Conservez ce reçu pour la garantie</span></div>
+      <div class="db-warranty-note"><span class="icon-shield">⛉</span> <span data-i="warranty_note">Conservez ce reçu pour la garantie</span></div>
       <?php endif; ?>
 
       <div class="db-card-actions">
@@ -234,7 +235,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
         <?php if($loggedIn): ?>
         <button class="db-act-save <?=$isSaved?'is-saved':''?>"
                 onclick="toggleSave(<?=$r['receipt_id']?>,this)">
-          <?=$isSaved?'★':'☆'?> <span data-i-save="save" data-i-unsave="saved"><?=$isSaved?'Sauvegardé':'Sauvegarder'?></span>
+          <?=$isSaved?'★':'<span class="icon-star">★</span>'?> <span data-i-save="save" data-i-unsave="saved"><?=$isSaved?'Sauvegardé':'Sauvegarder'?></span>
         </button>
         <div class="db-more-wrap">
           <button class="db-act-more-btn" onclick="toggleMore(this)">⋯</button>
@@ -245,7 +246,7 @@ $todayCount = count(array_filter($rows, fn($r)=>date('Y-m-d',strtotime($r['creat
           </div>
         </div>
         <?php else: ?>
-        <a href="register.php?phone=<?=urlencode($phone)?>" class="db-act-save-guest">☆ <span data-i="login_to_save">Connexion</span></a>
+        <a href="register.php?phone=<?=urlencode($phone)?>" class="db-act-save-guest"><span class="icon-star">★</span> <span data-i="login_to_save">Connexion</span></a>
         <?php endif; ?>
       </div>
 
@@ -288,7 +289,7 @@ function toggleSave(rid,btn){
     if(!j.success)return;
     btn.classList.toggle('is-saved');
     btn.querySelector('span').textContent=saved?I18N[CL_LANG].save:I18N[CL_LANG].saved;
-    btn.firstChild.textContent=saved?'☆':'★';
+    btn.firstChild.textContent=saved?'<span class="icon-star">★</span>':'★';
     clToast(saved?I18N[CL_LANG].unsaved:I18N[CL_LANG].saved_ok);
   });
 }
@@ -301,7 +302,7 @@ function doHide(rid,btn){
 function openCats(rid){ const el=document.getElementById('cats-'+rid); el.style.display=el.style.display==='none'?'flex':'none'; }
 function doSetCat(rid,cat){
   clApi({action:'set_category',receipt_id:rid,category:cat}).then(j=>{
-    if(j.success){ document.getElementById('cats-'+rid).style.display='none'; clToast('✅'); }
+    if(j.success){ document.getElementById('cats-'+rid).style.display='none'; clToast('<span class="icon-ok">✓</span>'); }
   });
 }
 function openReport(rid){ _repId=rid; document.getElementById('reportModal').style.display='flex'; }

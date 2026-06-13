@@ -108,8 +108,9 @@ $initials = substr($initials, 0, 2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Paramètres Paiement — LionTech</title>
+  <title>Paramètres Paiement — Tally</title>
   <link rel="stylesheet" href="super_admin.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="sa-layout">

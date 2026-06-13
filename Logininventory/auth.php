@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   auth.php — LionTech Business Manager
+   auth.php — Tally Business Manager
    Path: C:\Xampp\htdocs\InventoryLiontech\Logininventory\auth.php
    ============================================================ */
 

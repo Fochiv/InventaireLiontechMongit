@@ -29,7 +29,7 @@ $msg='';
 if($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['name'])){
     $newName=trim($_POST['name']??'');
     if($newName){ $pdo->prepare("UPDATE clients SET full_name=? WHERE client_id=?")->execute([$newName,$cl['client_id']]);
-        $_SESSION['cl_name']=$newName; $msg='✅ Profil mis à jour'; }
+        $_SESSION['cl_name']=$newName; $msg='<span class="icon-ok">✓</span> Profil mis à jour'; }
 }
 ?>
 <!DOCTYPE html><html lang="fr">
@@ -39,6 +39,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['name'])){
 <link rel="manifest" href="manifest.webmanifest"/>
 <link rel="icon" type="image/png" href="<?=$LOGO?>"/>
 <link rel="stylesheet" href="client.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body class="cl-body">
 
@@ -60,7 +61,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['name'])){
   <div class="pf-card">
     <div class="pf-avatar"><?=strtoupper(substr($cl['name']?:'C',0,2))?></div>
     <div class="pf-name"><?=h($cl['name'])?></div>
-    <div class="pf-phone">📱 <?=h($cl['phone'])?></div>
+    <div class="pf-phone"><span class="icon-phone"><span class="icon-phone">☎</span></span> <?=h($cl['phone'])?></div>
     <?php if($msg): ?><div class="cl-success-msg"><?=h($msg)?></div><?php endif; ?>
     <form method="POST" class="pf-edit-form">
       <input type="text" name="name" value="<?=h($cl['name'])?>" placeholder="Nom complet"/>
@@ -77,20 +78,20 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['name'])){
 
   <!-- QR CODE section -->
   <div class="pf-qr-card">
-    <h2 class="pf-qr-title">🔲 <span data-i="qr_title">Mon QR Code</span></h2>
+    <h2 class="pf-qr-title"><span class="icon-sq">▪</span> <span data-i="qr_title">Mon QR Code</span></h2>
     <p class="pf-qr-sub" data-i="qr_sub">Montrez ce QR au caissier pour lier vos reçus automatiquement à votre compte.</p>
     <div id="qrcode" class="pf-qr-box"></div>
     <div class="pf-qr-token">Token: <code><?=h(substr($qrToken,0,12))?>...</code></div>
     <div class="pf-qr-actions">
       <button onclick="downloadQR()" class="cl-btn-sm" data-i="download_qr">⬇️ Télécharger</button>
-      <button onclick="copyPhone()" class="cl-btn-sm cl-btn-outline-sm" data-i="copy_phone">📋 Copier le numéro</button>
+      <button onclick="copyPhone()" class="cl-btn-sm cl-btn-outline-sm" data-i="copy_phone"><span class="icon-list">≡</span> Copier le numéro</button>
     </div>
   </div>
 
   <!-- Favorite shops -->
   <?php if(!empty($favs)): ?>
   <div class="pf-favs">
-    <h3 data-i="fav_shops">⭐ Mes commerces favoris</h3>
+    <h3 data-i="fav_shops"><span class="icon-star">★</span> Mes commerces favoris</h3>
     <div class="pf-fav-grid">
       <?php foreach($favs as $f): ?>
       <div class="pf-fav-chip">
@@ -104,7 +105,7 @@ if($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['name'])){
   <?php endif; ?>
 
   <div style="text-align:center;margin-top:24px">
-    <a href="dashboard.php" class="cl-btn-primary" data-i="view_receipts">🧾 Voir mes reçus</a>
+    <a href="dashboard.php" class="cl-btn-primary" data-i="view_receipts"><span class="icon-receipt">▤</span> Voir mes reçus</a>
   </div>
 </div>
 
@@ -125,7 +126,7 @@ function downloadQR(){
   },200);
 }
 function copyPhone(){
-  navigator.clipboard.writeText(<?=json_encode($cl['phone'])?>).then(()=>clToast('📋 Copié !'));
+  navigator.clipboard.writeText(<?=json_encode($cl['phone'])?>).then(()=>clToast('<span class="icon-list">≡</span> Copié !'));
 }
 </script>
 </body></html>

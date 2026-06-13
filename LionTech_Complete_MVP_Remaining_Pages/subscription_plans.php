@@ -10,7 +10,7 @@ function e($v): string {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Choose a Subscription — LionTech</title>
+<title>Choose a Subscription — Tally</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -262,8 +262,8 @@ body{
     <header class="plans-header">
         <div class="logo">
             <img
-                src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"
-                alt="LionTech"
+                src="<?= APP_URL ?>/Image/TALLYLOGO.png"
+                alt="Tally"
                 style="width:60px;height:60px;border-radius:50%;object-fit:cover;"
             />
         </div>
@@ -281,7 +281,7 @@ body{
     <section class="plans-grid">
 
         <div class="plan-card plan-basic">
-            <div class="plan-tag">🟢 BASIC</div>
+            <div class="plan-tag"><span class="dot-green">●</span> BASIC</div>
             <h2>Basic</h2>
             <div class="plan-price">2,000 XAF <span data-en="/ month" data-fr="/ mois">/ month</span></div>
 
@@ -295,9 +295,9 @@ body{
                 <li><span class="yes">✓</span> <span data-en="Inventory management" data-fr="Gestion d’inventaire">Inventory management</span></li>
                 <li><span class="yes">✓</span> <span data-en="Low stock alerts" data-fr="Alertes stock faible">Low stock alerts</span></li>
                 <li><span class="yes">✓</span> <span data-en="Simple reports" data-fr="Rapports simples">Simple reports</span></li>
-                <li><span class="no">✕</span> <span data-en="Employee creation" data-fr="Création d’employés">Employee creation</span></li>
-                <li><span class="no">✕</span> <span data-en="Employee accounts" data-fr="Comptes employés">Employee accounts</span></li>
-                <li><span class="no">✕</span> <span data-en="Clock in / Clock out" data-fr="Clock in / Clock out">Clock in / Clock out</span></li>
+                <li><span class="no">✗</span> <span data-en="Employee creation" data-fr="Création d’employés">Employee creation</span></li>
+                <li><span class="no">✗</span> <span data-en="Employee accounts" data-fr="Comptes employés">Employee accounts</span></li>
+                <li><span class="no">✗</span> <span data-en="Clock in / Clock out" data-fr="Clock in / Clock out">Clock in / Clock out</span></li>
             </ul>
 
             <a href="../LionTech_Add_Business_Page/Ajoute_business_login.php?plan=Basic" class="plan-btn"
@@ -320,9 +320,9 @@ body{
                 <li><span class="yes">✓</span> <span data-en="Create employees" data-fr="Créer des employés">Create employees</span></li>
                 <li><span class="yes">✓</span> <span data-en="Employee list" data-fr="Liste des employés">Employee list</span></li>
                 <li><span class="yes">✓</span> <span data-en="Employee information and roles" data-fr="Informations et rôles employés">Employee information and roles</span></li>
-                <li><span class="no">✕</span> <span data-en="Employee login" data-fr="Connexion employé">Employee login</span></li>
-                <li><span class="no">✕</span> <span data-en="Clock in / Clock out" data-fr="Clock in / Clock out">Clock in / Clock out</span></li>
-                <li><span class="no">✕</span> <span data-en="Stock changes by employees" data-fr="Modification de stock par employé">Stock changes by employees</span></li>
+                <li><span class="no">✗</span> <span data-en="Employee login" data-fr="Connexion employé">Employee login</span></li>
+                <li><span class="no">✗</span> <span data-en="Clock in / Clock out" data-fr="Clock in / Clock out">Clock in / Clock out</span></li>
+                <li><span class="no">✗</span> <span data-en="Stock changes by employees" data-fr="Modification de stock par employé">Stock changes by employees</span></li>
             </ul>
 
             <a href="../LionTech_Add_Business_Page/Ajoute_business_login.php?plan=Standard" class="plan-btn"

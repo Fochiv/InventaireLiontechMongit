@@ -5,8 +5,9 @@ $user = currentUser();
 ?>
 <!DOCTYPE html>
 <html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Tableau de bord Manager — LionTech</title>
-<link rel="stylesheet" href="../style.css"/></head>
+<title>Tableau de bord Manager — Tally</title>
+<link rel="stylesheet" href="../style.css"/><link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
+</head>
 <body>
 <div class="dash-page">
   <div class="dash-badge">Manager</div>

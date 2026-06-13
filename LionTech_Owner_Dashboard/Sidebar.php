@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   Sidebar.php — LionTech Business Manager
+   Sidebar.php — Tally Business Manager
    Mobile hamburger · EN/FR i18n · All roles
    ============================================================ */
 $currentPage  = basename($_SERVER['PHP_SELF']);
@@ -110,10 +110,10 @@ if (!function_exists('sbA')) {
 <aside class="od-sidebar" id="od-sidebar">
   <div class="od-sidebar-header">
     <div class="sb-logo">
-      <img src="<?= $url ?>/Image/logo_lionTechhead.jpeg" alt="LionTech"
+      <img src="<?= $url ?>/Image/TALLYLOGO.png" alt="Tally"
            onerror="this.style.display='none'">
       <div>
-        <div class="sb-logo-name">LionTech</div>
+        <div class="sb-logo-name">Tally</div>
         <div class="sb-logo-tag">Business Manager</div>
       </div>
     </div>

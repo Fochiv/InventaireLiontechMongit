@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   employee_dashboard.php — LionTech Business Manager
+   employee_dashboard.php — Tally Business Manager
    Role: employee / cashier / stock_manager / manager
    Landing page after employee logs in.
    ============================================================ */
@@ -248,8 +248,9 @@ $initials = substr($initials ?: 'E',0,2);
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
 <meta name="theme-color" content="#0B1F3A"/>
-<title>Dashboard Employé — LionTech</title>
+<title>Dashboard Employé — Tally</title>
 <link rel="stylesheet" href="employee_dashboard.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="ed-layout">
@@ -270,13 +271,13 @@ $initials = substr($initials ?: 'E',0,2);
     </header>
 
     <?php if ($isExpired): ?>
-      <div class="alert warning">⚠️ <span data-i18n="sub_expired">L’abonnement du business est expiré. Les actions sont limitées.</span></div>
+      <div class="alert warning"><span class="icon-warn">⚠</span> <span data-i18n="sub_expired">L’abonnement du business est expiré. Les actions sont limitées.</span></div>
     <?php endif; ?>
     <?php if ($pinMustChange): ?>
-      <div class="alert info">🔐 <span data-i18n="pin_warning">Vous utilisez encore un PIN temporaire. Changez votre PIN dans le profil.</span></div>
+      <div class="alert info"><span class="icon-lock"><span class="icon-lock">🔒</span></span> <span data-i18n="pin_warning">Vous utilisez encore un PIN temporaire. Changez votre PIN dans le profil.</span></div>
     <?php endif; ?>
-    <?php if ($success): ?><div class="alert success">✅ <?= e($success) ?></div><?php endif; ?>
-    <?php if ($error): ?><div class="alert error">⚠️ <?= e($error) ?></div><?php endif; ?>
+    <?php if ($success): ?><div class="alert success"><span class="icon-ok">✓</span> <?= e($success) ?></div><?php endif; ?>
+    <?php if ($error): ?><div class="alert error"><span class="icon-warn">⚠</span> <?= e($error) ?></div><?php endif; ?>
 
     <section class="hero-card">
       <div>
@@ -292,15 +293,15 @@ $initials = substr($initials ?: 'E',0,2);
 
     <section class="cards-grid">
       <div class="stat-card"><span>🕒</span><strong><?= count($todayHistory) ?></strong><small data-i18n="today_records">Présences aujourd’hui</small></div>
-      <div class="stat-card"><span>📦</span><strong><?= count($products) ?></strong><small data-i18n="visible_products">Produits visibles</small></div>
-      <div class="stat-card"><span>✅</span><strong><?= count($tasks) ?></strong><small data-i18n="open_tasks">Tâches ouvertes</small></div>
+      <div class="stat-card"><span><span class="icon-box">▣</span></span><strong><?= count($products) ?></strong><small data-i18n="visible_products">Produits visibles</small></div>
+      <div class="stat-card"><span><span class="icon-ok">✓</span></span><strong><?= count($tasks) ?></strong><small data-i18n="open_tasks">Tâches ouvertes</small></div>
       <div class="stat-card"><span>⏳</span><strong><?= $pendingStockActions ?></strong><small data-i18n="pending_actions">Actions en attente</small></div>
     </section>
 
     <section class="content-grid">
       <div class="panel clock-panel" id="attendance">
         <div class="panel-head"><h3 data-i18n="clock_title">Clock In / Clock Out</h3><p data-i18n="clock_sub">Le système utilise l’heure du serveur. L’employé ne peut pas modifier l’heure.</p></div>
-        <div class="gps-status" id="gps-status">📍 GPS: attente de permission</div>
+        <div class="gps-status" id="gps-status"><span class="icon-pin">●</span> GPS: attente de permission</div>
         <div class="clock-actions">
           <?php if (!$currentAttendance): ?>
           <form method="POST" class="geo-form">
@@ -308,7 +309,7 @@ $initials = substr($initials ?: 'E',0,2);
             <input type="hidden" name="latitude" class="lat"/>
             <input type="hidden" name="longitude" class="lng"/>
             <input type="hidden" name="accuracy" class="acc"/>
-            <button class="primary-btn" type="submit" <?= $isExpired ? 'disabled' : '' ?>>🟢 <span data-i18n="clock_in">Clock In</span></button>
+            <button class="primary-btn" type="submit" <?= $isExpired ? 'disabled' : '' ?>><span class="dot-green">●</span> <span data-i18n="clock_in">Clock In</span></button>
           </form>
           <?php else: ?>
           <form method="POST" class="geo-form">
@@ -327,10 +328,10 @@ $initials = substr($initials ?: 'E',0,2);
       <div class="panel quick-panel">
         <div class="panel-head"><h3 data-i18n="quick_actions">Actions rapides</h3></div>
         <div class="quick-grid">
-          <a href="<?= APP_URL ?>/LionTech_Stock_In_Page/stock_in.php" class="quick-action">➕ <span data-i18n="add_stock_in">Ajouter stock entrant</span></a>
+          <a href="<?= APP_URL ?>/LionTech_Stock_In_Page/stock_in.php" class="quick-action"><span class="icon-add">+</span> <span data-i18n="add_stock_in">Ajouter stock entrant</span></a>
 <a href="<?= APP_URL ?>/stockout_stockfinis/stock_out.php" class="quick-action">➖ <span data-i18n="add_stock_out">Ajouter stock sortant</span></a>
-<a href="<?= APP_URL ?>/Produit/products.php" class="quick-action">📦 <span data-i18n="view_products">Voir produits</span></a>
-<a href="<?= APP_URL ?>/change_pin.php" class="quick-action">🔐 <span data-i18n="change_pin">Changer PIN</span></a>
+<a href="<?= APP_URL ?>/Produit/products.php" class="quick-action"><span class="icon-box">▣</span> <span data-i18n="view_products">Voir produits</span></a>
+<a href="<?= APP_URL ?>/change_pin.php" class="quick-action"><span class="icon-lock"><span class="icon-lock">🔒</span></span> <span data-i18n="change_pin">Changer PIN</span></a>
       </div>
       </div>
     </section>
@@ -342,7 +343,7 @@ $initials = substr($initials ?: 'E',0,2);
       <?php else: ?>
         <div class="task-list">
           <?php foreach ($tasks as $task): ?>
-            <div class="task-item"><span>✅</span><div><strong><?= e($task['title'] ?? 'Tâche') ?></strong><p><?= e($task['description'] ?? '') ?></p></div><small><?= e($task['due_date'] ?? '') ?></small></div>
+            <div class="task-item"><span><span class="icon-ok">✓</span></span><div><strong><?= e($task['title'] ?? 'Tâche') ?></strong><p><?= e($task['description'] ?? '') ?></p></div><small><?= e($task['due_date'] ?? '') ?></small></div>
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
@@ -355,7 +356,7 @@ $initials = substr($initials ?: 'E',0,2);
         <?php foreach ($products as $p): ?>
           <?php $low = isset($p['low_stock_level']) && $p['low_stock_level'] !== null && (float)$p['quantity'] <= (float)$p['low_stock_level']; ?>
           <div class="product-card <?= $low ? 'low' : '' ?>">
-            <div class="product-img"><?php if (!empty($p['image_url'])): ?><img src="<?= e($p['image_url']) ?>" alt=""/><?php else: ?>📦<?php endif; ?></div>
+            <div class="product-img"><?php if (!empty($p['image_url'])): ?><img src="<?= e($p['image_url']) ?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?></div>
             <div><strong><?= e($p['name']) ?></strong><p><?= e($p['category'] ?? 'Autre') ?></p><span><?= e($p['quantity'] ?? 0) ?> <?= e($p['unit'] ?? '') ?></span></div>
           </div>
         <?php endforeach; ?>

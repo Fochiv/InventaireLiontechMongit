@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   notifications.php — LionTech Business Manager
+   notifications.php — Tally Business Manager
    Access: ALL roles (owner, manager, employee)
    ============================================================ */
 require_once __DIR__ . '/../Config.php';
@@ -28,9 +28,10 @@ $initials = substr($initials ?: 'U', 0, 2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Notifications — LionTech</title>
+  <title>Notifications — Tally</title>
   <link rel="stylesheet" href="remaining_pages.css"/>
   <script src="remaining_pages.js" defer></script>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -140,15 +141,15 @@ $initials = substr($initials ?: 'U', 0, 2);
           <div class="od-card-head"><div><h2>Résumé</h2></div></div>
           <div style="display:flex;flex-direction:column;gap:12px;padding:0 4px 12px">
             <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#F8FAFC;border-radius:12px">
-              <span style="font-size:22px">⚠️</span>
+              <span style="font-size:22px"><span class="icon-warn">⚠</span></span>
               <div><small style="color:#6B7280;font-size:12px">Stock faible</small><strong style="display:block;font-size:20px;color:#0B1F3A">3</strong></div>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#F8FAFC;border-radius:12px">
-              <span style="font-size:22px">✅</span>
+              <span style="font-size:22px"><span class="icon-ok">✓</span></span>
               <div><small style="color:#6B7280;font-size:12px">Validations</small><strong style="display:block;font-size:20px;color:#0B1F3A">5</strong></div>
             </div>
             <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#F8FAFC;border-radius:12px">
-              <span style="font-size:22px">👥</span>
+              <span style="font-size:22px"><span class="icon-users">◎</span></span>
               <div><small style="color:#6B7280;font-size:12px">Employés</small><strong style="display:block;font-size:20px;color:#0B1F3A">2</strong></div>
             </div>
           </div>

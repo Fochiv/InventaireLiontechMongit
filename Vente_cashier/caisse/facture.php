@@ -277,14 +277,14 @@ $brandColor = $business['brand_color'] ?? '#0B1F3A';
 $brandName  = $business['brand_name'] ?? 'Mon Business';
 
 $modeLabels = [
-    'especes'      => '💵 Espèces',
-    'mtn_momo'     => '📱 MTN MoMo',
+    'especes'      => '<span class="icon-money">&#36;</span> Espèces',
+    'mtn_momo'     => '<span class="icon-phone"><span class="icon-phone">☎</span></span> MTN MoMo',
     'orange_money' => '🟠 Orange Money',
 ];
 
 $typeOperation = $transaction['type_operation'] ?? 'vente';
 $badgeClass = $typeOperation === 'remboursement' ? 'remb' : ($typeOperation === 'abime' ? 'abime' : '');
-$badgeText  = $typeOperation === 'vente' ? '✓ PAYÉ' : ($typeOperation === 'remboursement' ? '↩ REMBOURSEMENT' : '⚠️ ABÎMÉ');
+$badgeText  = $typeOperation === 'vente' ? '✓ PAYÉ' : ($typeOperation === 'remboursement' ? '↩ REMBOURSEMENT' : '<span class="icon-warn">⚠</span> ABÎMÉ');
 
 $printTitle = $transaction['numero_facture'] ?? ($snapshot['receipt_number'] ?? 'Facture');
 ?>
@@ -586,7 +586,7 @@ body {
 <body>
 
 <div class="action-bar">
-    <h1>🦁 <?= e($brandName) ?> — Facture <?= e($printTitle) ?></h1>
+    <h1><span class="icon-brand">T</span> <?= e($brandName) ?> — Facture <?= e($printTitle) ?></h1>
     <div>
         <?php if ($token === ''): ?>
         <a href="<?= APP_URL ?>/Vente_cashier/Vente.php#receiptsTable" class="action-btn btn-back">← Retour</a>
@@ -596,7 +596,7 @@ body {
 </div>
 
 <?php if ($isNew): ?>
-<div class="new-alert">✅ Vente enregistrée avec succès ! Imprimez cette facture pour le client.</div>
+<div class="new-alert"><span class="icon-ok">✓</span> Vente enregistrée avec succès ! Imprimez cette facture pour le client.</div>
 <?php endif; ?>
 
 <div class="facture-wrap">
@@ -630,7 +630,7 @@ body {
 
     <?php if ($typeOperation !== 'vente'): ?>
     <div class="fac-type-bar">
-        <?= $typeOperation === 'remboursement' ? '↩ NOTE DE CRÉDIT / REMBOURSEMENT' : '⚠️ DÉCLARATION PRODUIT ABÎMÉ' ?>
+        <?= $typeOperation === 'remboursement' ? '↩ NOTE DE CRÉDIT / REMBOURSEMENT' : '<span class="icon-warn">⚠</span> DÉCLARATION PRODUIT ABÎMÉ' ?>
     </div>
     <?php endif; ?>
 
@@ -740,7 +740,7 @@ body {
 
         <?php if (($transaction['monnaie_rendue'] ?? 0) > 0): ?>
         <div class="fac-monnaie">
-            <span>💵 Monnaie rendue au client</span>
+            <span><span class="icon-money">&#36;</span> Monnaie rendue au client</span>
             <strong><?= fmtXAF($transaction['monnaie_rendue']) ?></strong>
         </div>
         <?php endif; ?>
@@ -756,7 +756,7 @@ body {
 
     <div class="fac-footer">
         <div><?= e($business['footer_message'] ?? 'Merci pour votre achat.') ?></div>
-        <div>Généré par <strong>LionTech Business Manager</strong></div>
+        <div>Généré par <strong>Tally Business Manager</strong></div>
         <div>Facture N° <strong><?= e($printTitle) ?></strong></div>
     </div>
 

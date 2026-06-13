@@ -195,7 +195,7 @@ $initials = substr($initials, 0, 2);
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
-<title>Ajouter un business — LionTech</title>
+<title>Ajouter un business — Tally</title>
 <link rel="stylesheet" href="../SuperAdmin/super_admin.css"/>
 <link rel="stylesheet" href="add_business.css"/>
 <style>
@@ -211,6 +211,7 @@ $initials = substr($initials, 0, 2);
 .plan-standard .plan-card-sel h4 { color:#2563EB; }
 .plan-premium .plan-card-sel h4  { color:#D4A017; }
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="sa-layout">
@@ -261,7 +262,7 @@ $initials = substr($initials, 0, 2);
 
           <!-- SECTION: Business -->
           <section class="ab-section">
-            <div class="ab-section-title">🏢 Business</div>
+            <div class="ab-section-title"><span class="icon-biz">⌂</span> Business</div>
             <div class="ab-form-grid">
 
               <div class="ab-field">
@@ -325,7 +326,7 @@ $initials = substr($initials, 0, 2);
 
           <!-- SECTION: Owner -->
           <section class="ab-section">
-            <div class="ab-section-title">👤 Propriétaire</div>
+            <div class="ab-section-title"><span class="icon-user">◉</span> Propriétaire</div>
             <div class="ab-form-grid">
 
               <div class="ab-field">
@@ -367,7 +368,7 @@ $initials = substr($initials, 0, 2);
 
           <!-- SECTION: Plan -->
           <section class="ab-section">
-            <div class="ab-section-title">💳 Plan d'abonnement</div>
+            <div class="ab-section-title"><span class="icon-card">▬</span> Plan d'abonnement</div>
 
             <div class="plan-cards">
               <?php
@@ -423,7 +424,7 @@ $initials = substr($initials, 0, 2);
 
           <!-- SECTION: Modules -->
           <section class="ab-section">
-            <div class="ab-section-title">⚙️ Modules activés</div>
+            <div class="ab-section-title"><span class="icon-gear">⚙</span> Modules activés</div>
             <div class="ab-checks">
               <label class="ab-check">
                 <input type="checkbox" name="features[]" value="inventory_management" <?= checkedFeature($old,'inventory_management') ?>>
@@ -461,7 +462,7 @@ $initials = substr($initials, 0, 2);
         <div class="ab-footer-actions">
           <a class="ab-btn ab-btn-outline" href="<?= APP_URL ?>/SuperAdmin/super_admin.php">Annuler</a>
           <button class="ab-btn ab-btn-primary" id="btn-create-business" type="submit">
-            ✅ Créer le business
+            <span class="icon-ok">✓</span> Créer le business
           </button>
         </div>
       </div>
@@ -486,17 +487,17 @@ $initials = substr($initials, 0, 2);
 
           <div class="ab-side-list" style="margin-top:18px">
             <div class="ab-info-box" style="background:#FFF7ED;border-color:#FED7AA">
-              <strong>💳 Plans & Prix</strong>
+              <strong><span class="icon-card">▬</span> Plans & Prix</strong>
               <p>Basic: 2,000 XAF/mois</p>
               <p>Standard: 5,000 XAF/mois</p>
               <p>Premium: 10,000 XAF/mois</p>
             </div>
             <div class="ab-info-box">
-              <strong>🔑 PIN temporaire</strong>
+              <strong><span class="icon-key">⚿</span> PIN temporaire</strong>
               <p>Un PIN de 6 chiffres sera généré automatiquement et affiché une seule fois.</p>
             </div>
             <div class="ab-info-box">
-              <strong>🔒 Séparation des données</strong>
+              <strong><span class="icon-lock">🔒</span> Séparation des données</strong>
               <p>Ce business ne verra jamais les données des autres business.</p>
             </div>
           </div>

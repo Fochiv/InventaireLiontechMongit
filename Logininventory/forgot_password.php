@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   forgot_password.php — LionTech Business Manager
+   forgot_password.php — Tally Business Manager
    Reset PIN/password via security questions.
    Path: C:\Xampp\htdocs\InventoryLiontech\Logininventory\forgot_password.php
    ============================================================ */
@@ -153,7 +153,7 @@ $sq    = $_SESSION['fp_sq']    ?? [];
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Mot de passe oublié — LionTech</title>
+  <title>Mot de passe oublié — Tally</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#F0F4F8;color:#0F172A;min-height:100vh;display:grid;place-items:center;padding:20px}
@@ -194,10 +194,10 @@ $sq    = $_SESSION['fp_sq']    ?? [];
 
   <div class="card-head">
     <div class="logo-row">
-      <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech"
+      <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally"
            style="width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0">
       <div>
-        <div class="logo-name">LionTech</div>
+        <div class="sb-logo-name">Tally</div>
         <div class="logo-tag">Business Manager</div>
       </div>
     </div>
@@ -211,7 +211,7 @@ $sq    = $_SESSION['fp_sq']    ?? [];
     <div class="sub" data-i18n="identify_sub">Entrez votre identifiant de connexion pour continuer.</div>
 
     <?php if ($errorCode): ?>
-    <div class="alert-error" id="errorBox">⚠️ <span id="errorMsg"></span></div>
+    <div class="alert-error" id="errorBox"><span class="icon-warn">⚠</span> <span id="errorMsg"></span></div>
     <?php endif; ?>
 
     <form method="POST">
@@ -229,7 +229,7 @@ $sq    = $_SESSION['fp_sq']    ?? [];
     <div class="sub" data-i18n="questions_sub">Répondez à vos 3 questions. Les réponses sont insensibles à la casse.</div>
 
     <?php if ($errorCode): ?>
-    <div class="alert-error" id="errorBox">⚠️ <span id="errorMsg"></span></div>
+    <div class="alert-error" id="errorBox"><span class="icon-warn">⚠</span> <span id="errorMsg"></span></div>
     <?php endif; ?>
 
     <form method="POST">
@@ -256,10 +256,10 @@ $sq    = $_SESSION['fp_sq']    ?? [];
 
     <?php elseif ($stage === 'reset'): ?>
     <div class="title" data-i18n="reset_title">Nouveau PIN</div>
-    <div class="sub" data-i18n="reset_sub">Identité vérifiée ✅ — Définissez votre nouveau PIN.</div>
+    <div class="sub" data-i18n="reset_sub">Identité vérifiée <span class="icon-ok">✓</span> — Définissez votre nouveau PIN.</div>
 
     <?php if ($errorCode): ?>
-    <div class="alert-error" id="errorBox">⚠️ <span id="errorMsg"></span></div>
+    <div class="alert-error" id="errorBox"><span class="icon-warn">⚠</span> <span id="errorMsg"></span></div>
     <?php endif; ?>
 
     <form method="POST">
@@ -273,12 +273,12 @@ $sq    = $_SESSION['fp_sq']    ?? [];
         <input type="password" name="confirm_pin" minlength="6" required
                data-i18n-ph="confirm_pin_ph" placeholder="Répéter le PIN"/>
       </div>
-      <button type="submit" class="btn btn-primary" data-i18n="btn_save">✅ Sauvegarder</button>
+      <button type="submit" class="btn btn-primary" data-i18n="btn_save"><span class="icon-ok">✓</span> Sauvegarder</button>
     </form>
 
     <?php elseif ($stage === 'done'): ?>
-    <div class="alert-success" data-i18n="done_msg">✅ PIN changé avec succès ! Vous pouvez maintenant vous connecter.</div>
-    <a href="login.php" class="btn btn-primary" data-i18n="btn_login">🔑 Se connecter</a>
+    <div class="alert-success" data-i18n="done_msg"><span class="icon-ok">✓</span> PIN changé avec succès ! Vous pouvez maintenant vous connecter.</div>
+    <a href="login.php" class="btn btn-primary" data-i18n="btn_login"><span class="icon-key">⚿</span> Se connecter</a>
     <?php unset($_SESSION['fp_stage']); ?>
 
     <?php elseif ($stage === 'done_admin'): ?>
@@ -288,32 +288,32 @@ $sq    = $_SESSION['fp_sq']    ?? [];
       <div class="pin-val"><?= e($_SESSION['fp_temp_pin'] ?? '——') ?></div>
       <div class="pin-sub" data-i18n="admin_pin_note">PIN temporaire — à changer immédiatement</div>
     </div>
-    <a href="login.php" class="btn btn-primary" data-i18n="btn_login">🔑 Se connecter</a>
+    <a href="login.php" class="btn btn-primary" data-i18n="btn_login"><span class="icon-key">⚿</span> Se connecter</a>
     <?php unset($_SESSION['fp_temp_pin'], $_SESSION['fp_name'], $_SESSION['fp_stage']); ?>
 
     <?php elseif ($stage === 'employee_contact'): ?>
     <div class="title" data-i18n="employee_title">Réinitialisation employé</div>
     <div class="alert-warning" data-i18n="employee_msg">
-      👤 Contactez votre propriétaire ou manager pour réinitialiser votre PIN.
+      <span class="icon-user">◉</span> Contactez votre propriétaire ou manager pour réinitialiser votre PIN.
     </div>
     <p style="font-size:13px;color:#6B7280;line-height:1.7;margin-bottom:18px" data-i18n="employee_reason">
       Pour des raisons de sécurité, les employés ne peuvent pas réinitialiser leur propre PIN.
     </p>
     <a href="https://wa.me/237688203095?text=Bonjour%20LionTech%20%F0%9F%91%8B%0AUn%20employ%C3%A9%20a%20besoin%20d%27aide%20pour%20r%C3%A9initialiser%20son%20PIN."
        target="_blank" rel="noopener" class="btn btn-green" data-i18n="btn_whatsapp">
-      💬 Contacter LionTech sur WhatsApp
+      <span class="icon-msg">▷</span> Contacter LionTech sur WhatsApp
     </a>
     <a class="back-link" href="login.php" data-i18n="back_login">← Retour à la connexion</a>
     <?php unset($_SESSION['fp_stage']); ?>
 
     <?php elseif ($stage === 'locked'): ?>
-    <div class="title" data-i18n="locked_title">Compte verrouillé 🔒</div>
+    <div class="title" data-i18n="locked_title">Compte verrouillé <span class="icon-lock">🔒</span></div>
     <div class="alert-error" data-i18n="locked_msg">
       Votre compte a été verrouillé après <?= $MAX_ATTEMPTS ?> tentatives incorrectes. Contactez votre propriétaire ou LionTech.
     </div>
     <a href="https://wa.me/237688203095?text=Bonjour%20LionTech%20%F0%9F%91%8B%0AMon%20compte%20est%20verrouill%C3%A9."
        target="_blank" rel="noopener" class="btn btn-green" data-i18n="btn_whatsapp">
-      💬 Contacter LionTech sur WhatsApp
+      <span class="icon-msg">▷</span> Contacter LionTech sur WhatsApp
     </a>
     <a class="back-link" href="login.php" data-i18n="back_login">← Retour à la connexion</a>
     <?php unset($_SESSION['fp_stage']); ?>
@@ -335,21 +335,21 @@ const T = {
     your_answer:'Votre réponse', answer_ph:'Réponse...',
     btn_verify:'Vérifier →',
     reset_title:'Nouveau PIN',
-    reset_sub:'Identité vérifiée ✅ — Définissez votre nouveau PIN.',
+    reset_sub:'Identité vérifiée <span class="icon-ok">✓</span> — Définissez votre nouveau PIN.',
     new_pin_label:'Nouveau PIN / mot de passe', new_pin_ph:'Minimum 6 caractères',
     confirm_pin_label:'Confirmer le PIN',       confirm_pin_ph:'Répéter le PIN',
-    btn_save:'✅ Sauvegarder',
-    done_msg:'✅ PIN changé avec succès ! Vous pouvez maintenant vous connecter.',
-    btn_login:'🔑 Se connecter',
+    btn_save:'<span class="icon-ok">✓</span> Sauvegarder',
+    done_msg:'<span class="icon-ok">✓</span> PIN changé avec succès ! Vous pouvez maintenant vous connecter.',
+    btn_login:'<span class="icon-key">⚿</span> Se connecter',
     admin_pin_title:'PIN temporaire Super Admin',
     admin_pin_sub:'Voici votre PIN temporaire. Changez-le immédiatement après connexion.',
     admin_pin_note:'PIN temporaire — à changer immédiatement',
     employee_title:'Réinitialisation employé',
-    employee_msg:'👤 Contactez votre propriétaire ou manager pour réinitialiser votre PIN.',
+    employee_msg:'<span class="icon-user">◉</span> Contactez votre propriétaire ou manager pour réinitialiser votre PIN.',
     employee_reason:'Pour des raisons de sécurité, les employés ne peuvent pas réinitialiser leur propre PIN.',
-    locked_title:'Compte verrouillé 🔒',
+    locked_title:'Compte verrouillé <span class="icon-lock">🔒</span>',
     locked_msg:'Votre compte a été verrouillé après plusieurs tentatives incorrectes. Contactez votre propriétaire ou LionTech.',
-    btn_whatsapp:'💬 Contacter LionTech sur WhatsApp',
+    btn_whatsapp:'<span class="icon-msg">▷</span> Contacter LionTech sur WhatsApp',
     back_login:'← Retour à la connexion',
     /* Errors */
     err_empty:'Veuillez entrer votre identifiant.',
@@ -370,21 +370,21 @@ const T = {
     your_answer:'Your answer', answer_ph:'Answer...',
     btn_verify:'Verify →',
     reset_title:'New PIN',
-    reset_sub:'Identity verified ✅ — Set your new PIN.',
+    reset_sub:'Identity verified <span class="icon-ok">✓</span> — Set your new PIN.',
     new_pin_label:'New PIN / password', new_pin_ph:'Minimum 6 characters',
     confirm_pin_label:'Confirm PIN',     confirm_pin_ph:'Repeat PIN',
-    btn_save:'✅ Save',
-    done_msg:'✅ PIN changed successfully! You can now log in.',
-    btn_login:'🔑 Log In',
+    btn_save:'<span class="icon-ok">✓</span> Save',
+    done_msg:'<span class="icon-ok">✓</span> PIN changed successfully! You can now log in.',
+    btn_login:'<span class="icon-key">⚿</span> Log In',
     admin_pin_title:'Super Admin Temporary PIN',
     admin_pin_sub:'Here is your temporary PIN. Change it immediately after login.',
     admin_pin_note:'Temporary PIN — change immediately',
     employee_title:'Employee PIN Reset',
-    employee_msg:'👤 Contact your owner or manager to reset your PIN.',
+    employee_msg:'<span class="icon-user">◉</span> Contact your owner or manager to reset your PIN.',
     employee_reason:'For security reasons, employees cannot self-reset their PIN.',
-    locked_title:'Account Locked 🔒',
+    locked_title:'Account Locked <span class="icon-lock">🔒</span>',
     locked_msg:'Your account has been locked after too many incorrect attempts. Contact your owner or LionTech.',
-    btn_whatsapp:'💬 Contact LionTech on WhatsApp',
+    btn_whatsapp:'<span class="icon-msg">▷</span> Contact LionTech on WhatsApp',
     back_login:'← Back to Login',
     /* Errors */
     err_empty:'Please enter your login ID.',

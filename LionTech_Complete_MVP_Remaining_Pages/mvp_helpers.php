@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   mvp_helpers.php — LionTech Business Manager
+   mvp_helpers.php — Tally Business Manager
    Path: LionTech_Complete_MVP_Remaining_Pages/LionTech_MVP_Complete/
    ============================================================ */
 require_once __DIR__ . '/../Config.php';
@@ -59,17 +59,17 @@ function lt_sidebar(string $active = 'dashboard'): void {
     $base  = APP_URL;
     $links = [
         [$base . '/LionTech_Owner_Dashboard/owner_dashboard.php',               '🏠', 'Dashboard',     'dashboard'],
-        [$base . '/LionTech_Employee_Management/liontech_employee_management/employees.php',              '👥', 'Employés',      'employees'],
-        [$base . '/Produit/products.php',                                                                 '📦', 'Produits',      'products'],
+        [$base . '/LionTech_Employee_Management/liontech_employee_management/employees.php',              '<span class="icon-users">◎</span>', 'Employés',      'employees'],
+        [$base . '/Produit/products.php',                                                                 '<span class="icon-box">▣</span>', 'Produits',      'products'],
         [$base . '/LionTech_Stock_In_Page/liontech_stock_in_page/stock_in.php',                          '📥', 'Stock entrant', 'stock_in'],
         [$base . '/stockout_stockfinis/stock_out.php',                                                    '📤', 'Stock sortant', 'stock_out'],
         [$base . '/Attendance_presenceemployer/clock_attendance.php',                                     '⏱️', 'Présence',      'attendance'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/approval_center.php',      '✅', 'Validations',   'approval'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/reports.php',              '📊', 'Rapports',      'reports'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/approval_center.php',      '<span class="icon-ok">✓</span>', 'Validations',   'approval'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/reports.php',              '<span class="icon-chart">▦</span>', 'Rapports',      'reports'],
         [$base . '/LionTech_Complete_MVP_Remaining_Pages/notifications.php',        '🔔', 'Notifications', 'notifications'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/activity_logs.php',        '🧾', 'Activité',      'logs'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php', '💳', 'Abonnement',    'subscription'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/settings.php',             '⚙️', 'Paramètres',    'settings'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/activity_logs.php',        '<span class="icon-receipt">▤</span>', 'Activité',      'logs'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php', '<span class="icon-card">▬</span>', 'Abonnement',    'subscription'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/settings.php',             '<span class="icon-gear">⚙</span>', 'Paramètres',    'settings'],
     ];
 
     $u        = lt_user();
@@ -82,7 +82,7 @@ function lt_sidebar(string $active = 'dashboard'): void {
 
     echo '<aside class="lt-sidebar" id="lt-sidebar">';
     echo   '<div class="lt-brand">';
-    echo     '<div class="lt-brand-icon">🦁</div>';
+    echo     '<div class="lt-brand-icon"><span class="icon-brand">T</span></div>';
     echo     '<div><strong>LionTech</strong><small>Business Manager</small></div>';
     echo   '</div>';
     echo   '<nav class="lt-nav">';
@@ -98,10 +98,10 @@ function lt_sidebar(string $active = 'dashboard'): void {
 
     echo '<div class="lt-nav-title">Compte</div>';
     echo '<a class="lt-nav-item" href="' . $base . '/change_pin.php">';
-    echo   '<span class="lt-nav-icon">🔐</span><span>Changer PIN</span>';
+    echo   '<span class="lt-nav-icon"><span class="icon-lock"><span class="icon-lock">🔒</span></span></span><span>Changer PIN</span>';
     echo '</a>';
     echo '<a class="lt-nav-item" href="' . $base . '/Logininventory/logout.php">';
-    echo   '<span class="lt-nav-icon">🚪</span><span>Déconnexion</span>';
+    echo   '<span class="lt-nav-icon"><span class="icon-door">▭</span></span><span>Déconnexion</span>';
     echo '</a>';
 
     echo   '</nav>';

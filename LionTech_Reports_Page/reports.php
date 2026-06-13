@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   reports.php — LionTech Business Manager
+   reports.php — Tally Business Manager
    Role: owner, manager
    ============================================================ */
 require_once __DIR__ . '/../Config.php';
@@ -200,8 +200,8 @@ $initials = substr($initials ?: 'O', 0, 2);
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
 <meta name="theme-color" content="#0B1F3A"/>
-<title>Rapports — LionTech</title>
-<link rel="icon" href="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg"/>
+<title>Rapports — Tally</title>
+<link rel="icon" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
 <link rel="stylesheet" href="reports.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
@@ -209,6 +209,7 @@ $initials = substr($initials ?: 'O', 0, 2);
   window.REPORT_FROM   = '<?= e($from) ?>';
   window.REPORT_TO     = '<?= e($to) ?>';
 </script>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="rp-layout">

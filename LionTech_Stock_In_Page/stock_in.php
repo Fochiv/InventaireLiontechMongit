@@ -81,8 +81,9 @@ $initials=substr($initials?:'U',0,2);
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Stock In — LionTech</title>
+<title>Stock In — Tally</title>
 <link rel="stylesheet" href="stock_in.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -167,7 +168,7 @@ $initials=substr($initials?:'U',0,2);
               <form method="POST" style="display:inline"><input type="hidden" name="action" value="approve_stock_in"><input type="hidden" name="request_id" value="<?=(int)$r['request_id']?>"><button type="submit" style="padding:5px 10px;font-size:12px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;color:#166534;cursor:pointer" data-i18n="btn_approve">Approve</button></form>
               <form method="POST" style="display:inline"><input type="hidden" name="action" value="reject_stock_in"><input type="hidden" name="request_id" value="<?=(int)$r['request_id']?>"><button type="submit" style="padding:5px 10px;font-size:12px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;color:#991B1B;cursor:pointer" data-i18n="btn_reject">Reject</button></form>
             </div>
-            <?php elseif($r['status']==='approved'): ?><small style="color:#166534">✅ <?=e($r['approved_by_name']??'OK')?></small>
+            <?php elseif($r['status']==='approved'): ?><small style="color:#166534"><span class="icon-ok">✓</span> <?=e($r['approved_by_name']??'OK')?></small>
             <?php else: ?><small style="color:#6B7280">—</small><?php endif; ?>
           </td>
         </tr>

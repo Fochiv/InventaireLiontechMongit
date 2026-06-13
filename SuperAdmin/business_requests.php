@@ -111,13 +111,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'appro
             if (strlen($waPhone) === 9) $waPhone = '237' . $waPhone;
             $waText = urlencode(
                 "Bonjour {$ownerName} 👋\n\n" .
-                "Votre compte business *{$bizName}* sur *LionTech Business Manager* a été activé ! ✅\n\n" .
-                "🔐 *Identifiant de connexion :* {$loginId}\n" .
-                "🔑 *PIN temporaire :* {$tempPin}\n\n" .
+                "Votre compte business *{$bizName}* sur *Tally Business Manager* a été activé ! <span class="icon-ok">✓</span>\n\n" .
+                "<span class="icon-lock"><span class="icon-lock">🔒</span></span> *Identifiant de connexion :* {$loginId}\n" .
+                "<span class="icon-key">⚿</span> *PIN temporaire :* {$tempPin}\n\n" .
                 "👉 Connectez-vous ici :\n" . APP_URL . "/Logininventory/login.php\n\n" .
-                "⚠️ Changez votre PIN dès la première connexion.\n\n" .
-                "Bienvenue sur LionTech ! 🦁\n" .
-                "— LionTech Business Manager"
+                "<span class="icon-warn">⚠</span> Changez votre PIN dès la première connexion.\n\n" .
+                "Bienvenue sur LionTech ! <span class="icon-brand">T</span>\n" .
+                "— Tally Business Manager"
             );
             $waLink = "https://wa.me/{$waPhone}?text={$waText}";
 
@@ -197,7 +197,7 @@ $url = APP_URL;
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Business Requests — LionTech Super Admin</title>
+<title>Business Requests — Tally Super Admin</title>
 <link rel="stylesheet" href="super_admin.css"/>
 <style>
 .br-layout { display:grid; grid-template-columns:320px 1fr; gap:24px; }
@@ -240,6 +240,7 @@ $url = APP_URL;
 .alert-box.success { background:#DCFCE7; color:#166534; border:1px solid #86EFAC; }
 @media(max-width:900px){ .br-layout{ grid-template-columns:1fr; } .br-row{ grid-template-columns:1fr; } }
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="sa-layout">
@@ -263,9 +264,9 @@ $url = APP_URL;
   <main class="sa-content">
 
     <?php if ($approvedCreds): ?>
-    <!-- ✅ Credentials box shown after approval -->
+    <!-- <span class="icon-ok">✓</span> Credentials box shown after approval -->
     <div class="creds-box">
-      <h3>✅ Business activé avec succès — <?= e($approvedCreds['biz_name']) ?></h3>
+      <h3><span class="icon-ok">✓</span> Business activé avec succès — <?= e($approvedCreds['biz_name']) ?></h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
         <div>
           <p style="font-size:12px;color:#065F46;font-weight:700;margin-bottom:6px">PROPRIÉTAIRE</p>
@@ -282,7 +283,7 @@ $url = APP_URL;
           <span class="creds-pin"><?= e($approvedCreds['temp_pin']) ?></span>
         </div>
       </div>
-      <p style="font-size:13px;color:#065F46;margin-bottom:4px">⚠️ Copiez ces informations maintenant, puis envoyez-les via WhatsApp.</p>
+      <p style="font-size:13px;color:#065F46;margin-bottom:4px"><span class="icon-warn">⚠</span> Copiez ces informations maintenant, puis envoyez-les via WhatsApp.</p>
       <a class="wa-btn" href="<?= e($approvedCreds['wa_link']) ?>" target="_blank">
         📲 Envoyer les identifiants via WhatsApp
       </a>
@@ -290,12 +291,12 @@ $url = APP_URL;
     <?php endif; ?>
 
     <?php if (isset($_GET['rejected'])): ?>
-    <div class="alert-box success">✅ Demande rejetée avec succès.</div>
+    <div class="alert-box success"><span class="icon-ok">✓</span> Demande rejetée avec succès.</div>
     <?php endif; ?>
 
     <?php if ($message): ?>
     <div class="alert-box <?= $messageType ?>">
-      <?= $messageType === 'error' ? '⚠️' : '✅' ?> <?= e($message) ?>
+      <?= $messageType === 'error' ? '<span class="icon-warn">⚠</span>' : '<span class="icon-ok">✓</span>' ?> <?= e($message) ?>
     </div>
     <?php endif; ?>
 
@@ -317,7 +318,7 @@ $url = APP_URL;
              onclick="window.location='?view=<?= $r['request_id'] ?>'">
           <h4><?= e($r['business_name']) ?></h4>
           <p><?= e($r['owner_full_name']) ?> · <?= e($r['city']) ?>, <?= e($r['country']) ?></p>
-          <p>📞 <?= e($r['owner_phone']) ?></p>
+          <p><span class="icon-phone">☎</span> <?= e($r['owner_phone']) ?></p>
           <p style="margin-top:6px">
             <span class="br-badge pending"><?= e($r['plan_name']) ?></span>
             <span style="font-size:11px;color:#94A3B8;margin-left:8px">
@@ -354,7 +355,7 @@ $url = APP_URL;
 
           <!-- Read-only submitted info -->
           <div class="br-sec">
-            <div class="br-sec-title">📋 Informations soumises</div>
+            <div class="br-sec-title"><span class="icon-list">≡</span> Informations soumises</div>
             <div class="info-row"><span class="lbl">Business</span><span class="val"><?= e($selectedRequest['business_name']) ?></span></div>
             <div class="info-row"><span class="lbl">Type</span><span class="val"><?= e($selectedRequest['business_type'] ?? '—') ?></span></div>
             <div class="info-row"><span class="lbl">Ville / Pays</span><span class="val"><?= e($selectedRequest['city']) ?>, <?= e($selectedRequest['country']) ?></span></div>
@@ -385,7 +386,7 @@ $url = APP_URL;
             <input type="hidden" name="request_id" value="<?= (int)$selectedRequest['request_id'] ?>">
 
             <div class="br-sec">
-              <div class="br-sec-title">🏢 Confirmer informations business</div>
+              <div class="br-sec-title"><span class="icon-biz">⌂</span> Confirmer informations business</div>
               <div class="br-row">
                 <div class="br-field">
                   <label>Nom du business</label>
@@ -415,7 +416,7 @@ $url = APP_URL;
             </div>
 
             <div class="br-sec">
-              <div class="br-sec-title">👤 Créer l'identifiant propriétaire</div>
+              <div class="br-sec-title"><span class="icon-user">◉</span> Créer l'identifiant propriétaire</div>
               <div class="br-row">
                 <div class="br-field">
                   <label>Nom complet</label>
@@ -437,12 +438,12 @@ $url = APP_URL;
                 </div>
               </div>
               <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:12px;font-size:13px;color:#9A3412;margin-top:8px">
-                🔑 Un PIN temporaire à 6 chiffres sera généré automatiquement par le système.
+                <span class="icon-key">⚿</span> Un PIN temporaire à 6 chiffres sera généré automatiquement par le système.
               </div>
             </div>
 
             <div class="br-sec">
-              <div class="br-sec-title">💳 Abonnement</div>
+              <div class="br-sec-title"><span class="icon-card">▬</span> Abonnement</div>
               <div class="br-row">
                 <div class="br-field">
                   <label>Plan</label>
@@ -464,16 +465,16 @@ $url = APP_URL;
             </div>
 
             <div class="br-sec">
-              <div class="br-sec-title">⚙️ Modules à activer</div>
+              <div class="br-sec-title"><span class="icon-gear">⚙</span> Modules à activer</div>
               <?php
               $allFeatures = [
-                'inventory_management'   => '📦 Inventaire',
-                'employee_management'    => '👥 Gestion employés',
+                'inventory_management'   => '<span class="icon-box">▣</span> Inventaire',
+                'employee_management'    => '<span class="icon-users">◎</span> Gestion employés',
                 'employee_attendance'    => '⏱️ Présence (Clock in/out)',
-                'sales_tracking'         => '💰 Ventes',
-                'reports'                => '📊 Rapports',
-                'low_stock_alerts'       => '⚠️ Alertes stock faible',
-                'mobile_employee_access' => '📱 Accès mobile employés',
+                'sales_tracking'         => '<span class="icon-money">&#36;</span> Ventes',
+                'reports'                => '<span class="icon-chart">▦</span> Rapports',
+                'low_stock_alerts'       => '<span class="icon-warn">⚠</span> Alertes stock faible',
+                'mobile_employee_access' => '<span class="icon-phone"><span class="icon-phone">☎</span></span> Accès mobile employés',
               ];
               ?>
               <div class="br-checks">
@@ -488,7 +489,7 @@ $url = APP_URL;
             </div>
 
             <button type="submit" class="btn-approve">
-              ✅ Approuver et créer le compte
+              <span class="icon-ok">✓</span> Approuver et créer le compte
             </button>
           </form>
 
@@ -497,7 +498,7 @@ $url = APP_URL;
                 onsubmit="return confirm('Rejeter définitivement cette demande ?')">
             <input type="hidden" name="action" value="reject_request">
             <input type="hidden" name="request_id" value="<?= (int)$selectedRequest['request_id'] ?>">
-            <button type="submit" class="btn-reject">✕ Rejeter la demande</button>
+            <button type="submit" class="btn-reject">✗ Rejeter la demande</button>
           </form>
 
         </div>

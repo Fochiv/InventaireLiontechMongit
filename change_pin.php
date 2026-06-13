@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   change_pin.php — LionTech Business Manager
+   change_pin.php — Tally Business Manager
    FIXED: all roles can change their own PIN
    Path: C:\Xampp\htdocs\InventoryLiontech\change_pin.php
    ============================================================ */
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ->execute([$user['user_id']]);
                 } catch (Throwable $e) {}
 
-                $success = 'PIN changé avec succès. ✅';
+                $success = 'PIN changé avec succès. <span class="icon-ok">✓</span>';
             }
         } catch (Throwable $ex) {
             $error = 'Erreur: ' . $ex->getMessage();
@@ -70,7 +70,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Changer PIN — LionTech</title>
+  <title>Changer PIN — Tally</title>
 </head>
 <body>
 <div class="od-layout">
@@ -99,7 +99,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 
       <?php if ($error): ?>
       <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:13px 18px;margin-bottom:20px;color:#991B1B;font-size:13.5px">
-        ⚠️ <?= htmlspecialchars($error) ?>
+        <span class="icon-warn">⚠</span> <?= htmlspecialchars($error) ?>
       </div>
       <?php endif; ?>
 
@@ -139,7 +139,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 
           <button type="submit"
             style="background:#0B1F3A;color:#fff;border:none;padding:13px 28px;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;width:fit-content">
-            🔐 Changer le PIN
+            <span class="icon-lock"><span class="icon-lock">🔒</span></span> Changer le PIN
           </button>
 
         </form>

@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   caisse/validations.php — LionTech Business Manager
+   caisse/validations.php — Tally Business Manager
    Validation remboursements (Owner) + produits abîmés (Manager)
    ============================================================ */
 require_once dirname(dirname(__DIR__)) . '/Config.php';
@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ->execute([$userId, $transId]);
             // Remettre stock si remboursement total lié à une vente
             $pdo->prepare("INSERT INTO notifications (business_id, title, message, type, created_at) VALUES (?,?,?,'info',NOW())")
-                ->execute([$businessId, '✅ Remboursement validé', "Remboursement de " . fmtXAF($t['total_ttc']) . " validé par le owner."]);
-            $msg = '✅ Remboursement validé.'; $msgType = 'success';
+                ->execute([$businessId, '<span class="icon-ok">✓</span> Remboursement validé', "Remboursement de " . fmtXAF($t['total_ttc']) . " validé par le owner."]);
+            $msg = '<span class="icon-ok">✓</span> Remboursement validé.'; $msgType = 'success';
         }
     }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $motif = trim($_POST['motif_rejet'] ?? '');
         $pdo->prepare("UPDATE transactions_caisse SET statut='remb_rejetee', validee_par=?, validee_at=NOW(), note=CONCAT(COALESCE(note,''), ' | Rejet: ', ?) WHERE transaction_id=? AND business_id=?")
             ->execute([$userId, $motif, $transId, $businessId]);
-        $msg = '⚠️ Remboursement rejeté.'; $msgType = 'warning';
+        $msg = '<span class="icon-warn">⚠</span> Remboursement rejeté.'; $msgType = 'warning';
     }
 
     /* Manager : confirmer produit abîmé */
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($t) {
             $pdo->prepare("UPDATE transactions_caisse SET statut='abime_validee', validee_par=?, validee_at=NOW() WHERE transaction_id=?")
                 ->execute([$userId, $transId]);
-            $msg = '✅ Produit abîmé confirmé.'; $msgType = 'success';
+            $msg = '<span class="icon-ok">✓</span> Produit abîmé confirmé.'; $msgType = 'success';
         }
     }
 }
@@ -103,7 +103,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Validations Caisse — LionTech</title>
+<title>Validations Caisse — Tally</title>
 <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
 <style>
 .val-tabs { display:flex; gap:4px; margin-bottom:20px; background:#F3F4F6; border-radius:12px; padding:4px; width:fit-content; }
@@ -131,6 +131,7 @@ $initials = substr($initials ?: 'U', 0, 2);
   
   
   
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -139,7 +140,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 
   <div class="od-topbar">
     <div class="od-business-title">
-      <h1>💰 Validations Caisse</h1>
+      <h1><span class="icon-money">&#36;</span> Validations Caisse</h1>
       <p>Remboursements et produits abîmés</p>
     </div>
     <div class="od-top-actions">
@@ -163,12 +164,12 @@ $initials = substr($initials ?: 'U', 0, 2);
     <div class="val-tabs">
       <?php if ($isOwner): ?>
       <button class="val-tab active" onclick="showTab('remb')">
-        💰 Remboursements
+        <span class="icon-money">&#36;</span> Remboursements
         <?php if ($nbRembs > 0): ?><span class="nb-badge"><?= $nbRembs ?></span><?php endif; ?>
       </button>
       <?php endif; ?>
       <button class="val-tab <?= !$isOwner ? 'active' : '' ?>" onclick="showTab('abime')">
-        ⚠️ Produits abîmés
+        <span class="icon-warn">⚠</span> Produits abîmés
         <?php if ($nbAbimes > 0): ?><span class="nb-badge"><?= $nbAbimes ?></span><?php endif; ?>
       </button>
     </div>
@@ -214,7 +215,7 @@ $initials = substr($initials ?: 'U', 0, 2);
                   <input type="hidden" name="trans_id" value="<?= $r['transaction_id'] ?>">
                   <button type="submit" class="btn-val" onclick="return confirm('Valider ce remboursement ?')">✓ Valider</button>
                 </form>
-                <button class="btn-rej" onclick="openRejet(<?= $r['transaction_id'] ?>)">✕ Rejeter</button>
+                <button class="btn-rej" onclick="openRejet(<?= $r['transaction_id'] ?>)">✗ Rejeter</button>
                 <?php else: ?>
                 <span style="font-size:11px;color:#9CA3AF">—</span>
                 <?php endif; ?>
@@ -294,7 +295,7 @@ $initials = substr($initials ?: 'U', 0, 2);
 <!-- Modal Rejet -->
 <div class="modal-overlay" id="modalRejet">
   <div class="modal-box">
-    <h3 style="font-size:16px;font-weight:800;color:#0B1F3A;margin-bottom:16px">✕ Rejeter le remboursement</h3>
+    <h3 style="font-size:16px;font-weight:800;color:#0B1F3A;margin-bottom:16px">✗ Rejeter le remboursement</h3>
     <form method="POST">
       <input type="hidden" name="action" value="rejeter_remb">
       <input type="hidden" name="trans_id" id="rejetTransId">
@@ -305,7 +306,7 @@ $initials = substr($initials ?: 'U', 0, 2);
       </div>
       <div style="display:flex;gap:10px">
         <button type="button" onclick="closeModal('modalRejet')" style="flex:1;background:#F3F4F6;color:#374151;border:none;padding:11px;border-radius:10px;font-weight:700;cursor:pointer">Annuler</button>
-        <button type="submit" style="flex:2;background:#EF4444;color:#fff;border:none;padding:11px;border-radius:10px;font-weight:700;cursor:pointer">✕ Confirmer le rejet</button>
+        <button type="submit" style="flex:2;background:#EF4444;color:#fff;border:none;padding:11px;border-radius:10px;font-weight:700;cursor:pointer">✗ Confirmer le rejet</button>
       </div>
     </form>
   </div>

@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $bizName     = $owner['business_name'] ?? 'votre business';
                 $ownerName   = $owner['full_name']     ?? 'Propriétaire';
                 $newExpiryFmt= date('d/m/Y', strtotime($newExpiry));
-                $waMsg       = urlencode("✅ Bonjour {$ownerName},\n\nVotre paiement LionTech a été *approuvé* pour *{$bizName}*.\n\n📅 Abonnement valide jusqu'au: *{$newExpiryFmt}*\n💳 Montant: " . number_format((float)$payment['amount'], 0, '.', ' ') . " XAF\n\nMerci pour votre confiance. 🦁\n— LionTech Business Manager");
+                $waMsg       = urlencode("<span class="icon-ok">✓</span> Bonjour {$ownerName},\n\nVotre paiement LionTech a été *approuvé* pour *{$bizName}*.\n\n<span class="icon-cal">▦</span> Abonnement valide jusqu'au: *{$newExpiryFmt}*\n<span class="icon-card">▬</span> Montant: " . number_format((float)$payment['amount'], 0, '.', ' ') . " XAF\n\nMerci pour votre confiance. <span class="icon-brand">T</span>\n— Tally Business Manager");
                 $waUrl = "https://wa.me/{$ownerPhone}?text={$waMsg}";
 
                 $message    = "Paiement approuvé. Abonnement étendu jusqu'au {$newExpiryFmt}.";
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ownerPhone = preg_replace('/\D/', '', $owner['phone'] ?? '');
             $bizName    = $owner['business_name'] ?? 'votre business';
             $ownerName  = $owner['full_name']     ?? 'Propriétaire';
-            $waMsg      = urlencode("❌ Bonjour {$ownerName},\n\nVotre paiement LionTech pour *{$bizName}* a été *rejeté*.\n\n📋 Raison: {$fullReason}\n\nVeuillez soumettre un nouveau paiement ou nous contacter.\n— LionTech Business Manager");
+            $waMsg      = urlencode("<span class="icon-err">✗</span> Bonjour {$ownerName},\n\nVotre paiement LionTech pour *{$bizName}* a été *rejeté*.\n\n<span class="icon-list">≡</span> Raison: {$fullReason}\n\nVeuillez soumettre un nouveau paiement ou nous contacter.\n— Tally Business Manager");
             $waUrl      = "https://wa.me/{$ownerPhone}?text={$waMsg}";
 
             $message    = 'Paiement rejeté.';
@@ -152,8 +152,9 @@ $methodLabels = [
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Valider Paiements — LionTech</title>
+  <title>Valider Paiements — Tally</title>
   <link rel="stylesheet" href="super_admin.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="sa-layout">

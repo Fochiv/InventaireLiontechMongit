@@ -10,7 +10,7 @@ function e($v): string { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Abonnement expiré — LionTech</title>
+<title>Abonnement expiré — Tally</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF7ED;color:#0F172A;min-height:100vh;display:grid;place-items:center;padding:20px}
@@ -42,10 +42,10 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF7ED;color:#0F172A;mi
 
   <div class="card-head">
     <div class="logo-row">
-      <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech"
+      <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally"
            style="width:42px;height:42px;border-radius:50%;object-fit:cover;flex-shrink:0">
       <div>
-        <div class="logo-name">LionTech</div>
+        <div class="sb-logo-name">Tally</div>
         <div class="logo-tag">Business Manager</div>
       </div>
     </div>
@@ -74,7 +74,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF7ED;color:#0F172A;mi
 
     <a href="https://wa.me/237688203095?text=Bonjour%20LionTech%20%F0%9F%91%8B%0AJe%20voudrais%20renouveler%20mon%20abonnement.%0A%0ANom%3A%20<?= urlencode($user['full_name']) ?>%0A"
        target="_blank" rel="noopener" class="btn btn-whatsapp">
-      💬 <span data-i18n="btn_whatsapp">Renouveler via WhatsApp</span>
+      <span class="icon-msg">▷</span> <span data-i18n="btn_whatsapp">Renouveler via WhatsApp</span>
     </a>
 
     <a href="mailto:billing@liontech.cm?subject=Renouvellement%20abonnement%20-%20<?= urlencode($user['full_name']) ?>"
@@ -85,7 +85,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF7ED;color:#0F172A;mi
     <hr class="divider">
 
     <a href="<?= APP_URL ?>/Logininventory/logout.php" class="btn btn-logout">
-      🚪 <span data-i18n="btn_logout">Se déconnecter</span>
+      <span class="icon-door">▭</span> <span data-i18n="btn_logout">Se déconnecter</span>
     </a>
   </div>
 </div>

@@ -86,8 +86,9 @@ $methodLabels = [
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Reports — LionTech Super Admin</title>
+  <title>Reports — Tally Super Admin</title>
   <link rel="stylesheet" href="super_admin.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="sa-layout">

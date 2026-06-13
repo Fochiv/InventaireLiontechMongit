@@ -50,6 +50,7 @@ $bizName = $biz['business_name'] ?? 'LionTech';
 .role-manager{background:#F3E8FF;color:#6B21A8}
 .role-employee{background:#F3F4F6;color:#374151}
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -57,7 +58,7 @@ $bizName = $biz['business_name'] ?? 'LionTech';
 <main class="od-main">
   <div class="od-topbar">
     <div>
-      <h1 style="font-size:20px;font-weight:800;color:#0B1F3A;margin:0">🔐 Gestion des PINs</h1>
+      <h1 style="font-size:20px;font-weight:800;color:#0B1F3A;margin:0"><span class="icon-lock"><span class="icon-lock">🔒</span></span> Gestion des PINs</h1>
       <p style="font-size:13px;color:#6B7280;margin:2px 0 0">Générez les PINs d'accès à la caisse pour vos employés</p>
     </div>
     <div class="od-avatar"><?= htmlspecialchars($initials) ?></div>
@@ -82,18 +83,18 @@ $bizName = $biz['business_name'] ?? 'LionTech';
 <!-- PIN Modal -->
 <div class="pin-modal-bg" id="pinModal">
   <div class="pin-modal">
-    <div style="font-size:24px;margin-bottom:8px">🔐</div>
+    <div style="font-size:24px;margin-bottom:8px"><span class="icon-lock"><span class="icon-lock">🔒</span></span></div>
     <div style="font-size:16px;font-weight:800;color:#0B1F3A" id="pinModalTitle">PIN généré</div>
     <div style="font-size:13px;color:#6B7280;margin:4px 0 12px" id="pinModalSub"></div>
     <div class="pin-display" id="pinDisplay">----</div>
     <div class="pin-warning">
-      ⚠️ <strong>Notez ce PIN maintenant.</strong><br>
+      <span class="icon-warn">⚠</span> <strong>Notez ce PIN maintenant.</strong><br>
       Il ne sera plus affiché après fermeture de cette fenêtre.<br>
       Donnez ce code à l'employé.
     </div>
     <div style="display:flex;gap:8px">
-      <button onclick="copyPin()" class="pm-btn secondary" style="flex:1">📋 Copier</button>
-      <button onclick="closePinModal()" class="pm-btn" style="flex:1">✅ Compris</button>
+      <button onclick="copyPin()" class="pm-btn secondary" style="flex:1"><span class="icon-list">≡</span> Copier</button>
+      <button onclick="closePinModal()" class="pm-btn" style="flex:1"><span class="icon-ok">✓</span> Compris</button>
     </div>
   </div>
 </div>
@@ -135,7 +136,7 @@ async function loadEmployees(){
       </div>
       ${e.has_pin?`<div style="font-size:11px;color:#9CA3AF;margin-bottom:10px">Mis à jour: ${e.pin_updated_at?e.pin_updated_at.slice(0,10):'—'}</div>`:''}
       <button class="pm-btn" onclick="generatePin(${e.user_id},'${e.full_name.replace(/'/g,"\\'")}',${e.has_pin?1:0})">
-        ${e.has_pin?'🔄 Réinitialiser PIN':'🔐 Générer PIN'}
+        ${e.has_pin?'🔄 Réinitialiser PIN':'<span class="icon-lock"><span class="icon-lock">🔒</span></span> Générer PIN'}
       </button>
     </div>`).join('');
 }
@@ -156,7 +157,7 @@ async function generatePin(userId, name, alreadyHas){
 
 function copyPin(){
   navigator.clipboard.writeText(lastPin).then(()=>{
-    const btn=event.target;btn.textContent='✅ Copié!';setTimeout(()=>btn.textContent='📋 Copier',2000);
+    const btn=event.target;btn.textContent='<span class="icon-ok">✓</span> Copié!';setTimeout(()=>btn.textContent='<span class="icon-list">≡</span> Copier',2000);
   });
 }
 function closePinModal(){

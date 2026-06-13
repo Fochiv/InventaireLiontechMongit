@@ -83,12 +83,12 @@ try {
   <div class="sa-sidebar-header">
     <div class="sa-logo">
       <img
-        src="<?= $saUrl ?>/Image/logo_lionTechhead.jpeg"
-        alt="LionTech"
+        src="<?= $saUrl ?>/Image/TALLYLOGO.png"
+        alt="Tally"
         style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0"
       >
       <div>
-        <div class="sa-logo-name">LionTech</div>
+        <div class="sb-logo-name">Tally</div>
         <div class="sa-logo-tag">Business Manager</div>
       </div>
     </div>

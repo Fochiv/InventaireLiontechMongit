@@ -103,9 +103,10 @@ $initials=substr($initials?:'U',0,2);
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Add Product — LionTech</title>
+  <title>Add Product — Tally</title>
   <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
   <link rel="stylesheet" href="products.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="od-layout">
@@ -128,7 +129,7 @@ $initials=substr($initials?:'U',0,2);
 
       <?php if($message): ?>
       <div class="ap-alert ap-alert-<?= $messageType ?>" id="apAlert">
-        <?= $messageType==='success' ? '✅' : '⚠️' ?>
+        <?= $messageType==='success' ? '<span class="icon-ok">✓</span>' : '<span class="icon-warn">⚠</span>' ?>
         <span><?= e($message) ?></span>
         <?php if($messageType==='success'): ?>
         <a href="<?= APP_URL ?>/Produit/products.php" style="margin-left:16px;font-weight:700;color:#166534;text-decoration:underline" data-i18n="view_products">View all products →</a>

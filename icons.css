@@ -1,0 +1,23 @@
+/* icons.css — Tally Business Manager icon styles */
+.icon-ok    { color: #22c55e; font-style: normal; }
+.icon-warn  { color: #f59e0b; font-style: normal; }
+.icon-err   { color: #ef4444; font-style: normal; }
+.icon-lock, .icon-unlock { color: #6b7280; font-style: normal; }
+.icon-user, .icon-users  { color: #3b82f6; font-style: normal; }
+.icon-box, .icon-list, .icon-chart { color: #6366f1; font-style: normal; }
+.icon-key, .icon-card    { color: #8b5cf6; font-style: normal; }
+.icon-gear, .icon-shield { color: #6b7280; font-style: normal; }
+.icon-brand { color: #0B1F3A; font-weight: 700; font-style: normal; }
+.icon-phone, .icon-msg   { color: #10b981; font-style: normal; }
+.icon-money, .icon-receipt { color: #f59e0b; font-style: normal; }
+.icon-biz, .icon-pin     { color: #0B1F3A; font-style: normal; }
+.icon-search, .icon-add  { color: #6b7280; font-style: normal; }
+.icon-star   { color: #f59e0b; font-style: normal; }
+.icon-no, .icon-door     { color: #ef4444; font-style: normal; }
+.icon-save, .icon-cal    { color: #3b82f6; font-style: normal; }
+.icon-sq     { color: #6b7280; font-style: normal; }
+.dot-green   { color: #22c55e; font-style: normal; }
+.dot-gray    { color: #9ca3af; font-style: normal; }
+[class^="icon-"], [class*=" icon-"], .dot-green, .dot-gray {
+  display: inline-block; vertical-align: middle; line-height: 1;
+}

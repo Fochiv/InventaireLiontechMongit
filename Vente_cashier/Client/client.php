@@ -22,6 +22,7 @@ $LOGO     = APP_URL . '/Image/TALLYLOGO.png';
 <link rel="icon" type="image/png" href="<?= $LOGO ?>"/>
 <link rel="apple-touch-icon" href="<?= $LOGO ?>"/>
 <link rel="stylesheet" href="client.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body class="cl-body">
 
@@ -55,7 +56,7 @@ $LOGO     = APP_URL . '/Image/TALLYLOGO.png';
 
   <div class="cl-hero-inner">
     <div class="cl-hero-badge">
-      <span>🧾</span><span data-i="hero_badge">Portail Clients · Tally Business Manager</span>
+      <span><span class="icon-receipt">▤</span></span><span data-i="hero_badge">Portail Clients · Tally Business Manager</span>
     </div>
     <h1 class="cl-hero-title" data-i="hero_title">
       Retrouvez tous vos reçus en un instant
@@ -67,7 +68,7 @@ $LOGO     = APP_URL . '/Image/TALLYLOGO.png';
     <!-- Phone lookup -->
     <div class="cl-lookup-card">
       <div class="cl-lookup-label">
-        <span>📱</span>
+        <span><span class="icon-phone"><span class="icon-phone">☎</span></span></span>
         <span data-i="phone_label">Mon numéro de téléphone</span>
       </div>
       <div class="cl-lookup-row">
@@ -90,18 +91,18 @@ $LOGO     = APP_URL . '/Image/TALLYLOGO.png';
       <a href="register.php" class="cl-btn-primary" data-i="create_account">✨ Créer un compte</a>
       <a href="login.php"    class="cl-btn-pink"     data-i="login">Se connecter</a>
       <?php else: ?>
-      <a href="dashboard.php" class="cl-btn-primary" data-i="my_dashboard">📊 Mon tableau de bord</a>
-      <a href="profile.php"   class="cl-btn-outline"  data-i="my_qr">🔲 Mon QR Code</a>
+      <a href="dashboard.php" class="cl-btn-primary" data-i="my_dashboard"><span class="icon-chart">▦</span> Mon tableau de bord</a>
+      <a href="profile.php"   class="cl-btn-outline"  data-i="my_qr"><span class="icon-sq">▪</span> Mon QR Code</a>
       <?php endif; ?>
     </div>
   </div>
 
   <!-- Feature chips -->
   <div class="cl-chips">
-    <div class="cl-chip"><span>🧾</span><span data-i="chip_receipts">Tous vos reçus</span></div>
-    <div class="cl-chip"><span>📊</span><span data-i="chip_stats">Dépenses mensuelles</span></div>
-    <div class="cl-chip"><span>🛡️</span><span data-i="chip_warranty">Rappels garantie</span></div>
-    <div class="cl-chip"><span>⭐</span><span data-i="chip_save">Sauvegarder</span></div>
+    <div class="cl-chip"><span><span class="icon-receipt">▤</span></span><span data-i="chip_receipts">Tous vos reçus</span></div>
+    <div class="cl-chip"><span><span class="icon-chart">▦</span></span><span data-i="chip_stats">Dépenses mensuelles</span></div>
+    <div class="cl-chip"><span><span class="icon-shield">⛉</span></span><span data-i="chip_warranty">Rappels garantie</span></div>
+    <div class="cl-chip"><span><span class="icon-star">★</span></span><span data-i="chip_save">Sauvegarder</span></div>
     <div class="cl-chip cl-chip-install"><span>📲</span><span data-i="chip_pwa">Installer l'app</span></div>
   </div>
 </section>
@@ -112,21 +113,21 @@ $LOGO     = APP_URL . '/Image/TALLYLOGO.png';
   <div class="cl-steps">
     <div class="cl-step">
       <div class="cl-step-num">1</div>
-      <div class="cl-step-icon">📱</div>
+      <div class="cl-step-icon"><span class="icon-phone"><span class="icon-phone">☎</span></span></div>
       <h3 data-i="step1_title">Entrez votre numéro</h3>
       <p data-i="step1_sub">Le numéro utilisé lors de votre achat en boutique.</p>
     </div>
     <div class="cl-step-arrow">→</div>
     <div class="cl-step">
       <div class="cl-step-num">2</div>
-      <div class="cl-step-icon">🧾</div>
+      <div class="cl-step-icon"><span class="icon-receipt">▤</span></div>
       <h3 data-i="step2_title">Accédez à vos reçus</h3>
       <p data-i="step2_sub">Les achats du jour apparaissent en premier.</p>
     </div>
     <div class="cl-step-arrow">→</div>
     <div class="cl-step">
       <div class="cl-step-num">3</div>
-      <div class="cl-step-icon">⭐</div>
+      <div class="cl-step-icon"><span class="icon-star">★</span></div>
       <h3 data-i="step3_title">Sauvegardez</h3>
       <p data-i="step3_sub">Créez un compte pour sauvegarder définitivement.</p>
     </div>
@@ -138,9 +139,9 @@ $LOGO     = APP_URL . '/Image/TALLYLOGO.png';
 <section class="cl-benefits">
   <h2 data-i="benefits_title">Pourquoi créer un compte ?</h2>
   <div class="cl-benefits-grid">
-    <div class="cl-benefit"><div class="cl-benefit-icon">⭐</div><h3 data-i="b1_title">Sauvegarde permanente</h3><p data-i="b1_sub">Vos reçus sont conservés indéfiniment.</p></div>
-    <div class="cl-benefit"><div class="cl-benefit-icon">📊</div><h3 data-i="b2_title">Historique complet</h3><p data-i="b2_sub">Analysez vos dépenses par mois et par catégorie.</p></div>
-    <div class="cl-benefit"><div class="cl-benefit-icon">🔲</div><h3 data-i="b3_title">QR Code personnel</h3><p data-i="b3_sub">Le caissier scan votre QR pour lier vos reçus automatiquement.</p></div>
+    <div class="cl-benefit"><div class="cl-benefit-icon"><span class="icon-star">★</span></div><h3 data-i="b1_title">Sauvegarde permanente</h3><p data-i="b1_sub">Vos reçus sont conservés indéfiniment.</p></div>
+    <div class="cl-benefit"><div class="cl-benefit-icon"><span class="icon-chart">▦</span></div><h3 data-i="b2_title">Historique complet</h3><p data-i="b2_sub">Analysez vos dépenses par mois et par catégorie.</p></div>
+    <div class="cl-benefit"><div class="cl-benefit-icon"><span class="icon-sq">▪</span></div><h3 data-i="b3_title">QR Code personnel</h3><p data-i="b3_sub">Le caissier scan votre QR pour lier vos reçus automatiquement.</p></div>
     <div class="cl-benefit"><div class="cl-benefit-icon">🔔</div><h3 data-i="b4_title">Rappels garantie</h3><p data-i="b4_sub">Soyez averti pour les reçus d'électronique et pharmacie.</p></div>
   </div>
   <a href="register.php" class="cl-btn-primary cl-cta-center" data-i="create_free">✨ Créer mon compte gratuit</a>

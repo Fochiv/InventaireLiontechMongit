@@ -1,7 +1,7 @@
 
 <?php
 /* ============================================================
-   about.php — LionTech Business Manager
+   about.php — Tally Business Manager
    Public page — no login required
    Path: C:\Xampp\htdocs\InventoryLiontech\Logininventory\about.php
    ============================================================ */
@@ -15,7 +15,7 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title><?= $lang==='fr' ? 'À Propos — LionTech Business Manager' : 'About Us — LionTech Business Manager' ?></title>
+  <title><?= $lang==='fr' ? 'À Propos — Tally Business Manager' : 'About Us — Tally Business Manager' ?></title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:Inter,'Segoe UI',sans-serif;background:#F0F4F8;color:#0F172A}
@@ -74,9 +74,9 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
 
 <nav class="nav">
   <a class="nav-logo" href="<?= APP_URL ?>/Logininventory/login.php">
-    <img src="<?= APP_URL ?>/Image/logo_lionTechhead.jpeg" alt="LionTech" onerror="this.style.display='none'"/>
+    <img src="<?= APP_URL ?>/Image/TALLYLOGO.png" alt="Tally" onerror="this.style.display='none'"/>
     <div>
-      <div class="nav-logo-name">LionTech</div>
+      <div class="sb-logo-name">Tally</div>
       <div class="nav-logo-tag">Business Manager</div>
     </div>
   </a>
@@ -88,7 +88,7 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
 </nav>
 
 <div class="hero">
-  <div class="hero-badge">🦁 <?= $lang==='fr'?'Gestion d\'entreprise africaine':'African Business Management' ?></div>
+  <div class="hero-badge"><span class="icon-brand">T</span> <?= $lang==='fr'?'Gestion d\'entreprise africaine':'African Business Management' ?></div>
   <h1><?= $lang==='fr' ? 'À Propos de <span>LionTech</span>' : 'About <span>LionTech</span>' ?></h1>
   <p><?= $lang==='fr'
     ? 'Une plateforme complète de gestion d\'entreprise conçue pour les réalités des entreprises africaines.'
@@ -119,12 +119,12 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
   <div class="section">
     <h2>Pourquoi choisir LionTech Business Management ?</h2>
     <div class="feat-grid">
-      <div class="feat"><span>✅</span> Facile à utiliser</div>
-      <div class="feat"><span>🔐</span> Sécurisé et fiable</div>
-      <div class="feat"><span>📦</span> Gestion des stocks et inventaires</div>
-      <div class="feat"><span>👥</span> Gestion des employés</div>
-      <div class="feat"><span>📊</span> Rapports et analyses</div>
-      <div class="feat"><span>📱</span> Compatible mobile</div>
+      <div class="feat"><span><span class="icon-ok">✓</span></span> Facile à utiliser</div>
+      <div class="feat"><span><span class="icon-lock"><span class="icon-lock">🔒</span></span></span> Sécurisé et fiable</div>
+      <div class="feat"><span><span class="icon-box">▣</span></span> Gestion des stocks et inventaires</div>
+      <div class="feat"><span><span class="icon-users">◎</span></span> Gestion des employés</div>
+      <div class="feat"><span><span class="icon-chart">▦</span></span> Rapports et analyses</div>
+      <div class="feat"><span><span class="icon-phone"><span class="icon-phone">☎</span></span></span> Compatible mobile</div>
       <div class="feat"><span>⏰</span> Suivi des présences GPS</div>
       <div class="feat"><span>🌍</span> Conçu pour les entreprises africaines</div>
     </div>
@@ -133,7 +133,7 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
   <div class="section">
     <h2>Nous contacter</h2>
     <p>Pour toute question ou demande de démonstration, contactez-nous directement sur WhatsApp :</p>
-    <a class="wa-btn" href="https://wa.me/237688203095?text=Bonjour%20LionTech%2C%20je%20voudrais%20en%20savoir%20plus%20sur%20votre%20plateforme." target="_blank" rel="noopener">💬 Contacter LionTech sur WhatsApp</a>
+    <a class="wa-btn" href="https://wa.me/237688203095?text=Bonjour%20LionTech%2C%20je%20voudrais%20en%20savoir%20plus%20sur%20votre%20plateforme." target="_blank" rel="noopener"><span class="icon-msg">▷</span> Contacter LionTech sur WhatsApp</a>
   </div>
 
   <?php else: ?>
@@ -153,12 +153,12 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
   <div class="section">
     <h2>Why Choose LionTech Business Management?</h2>
     <div class="feat-grid">
-      <div class="feat"><span>✅</span> Easy to use</div>
-      <div class="feat"><span>🔐</span> Secure and reliable</div>
-      <div class="feat"><span>📦</span> Inventory and stock management</div>
-      <div class="feat"><span>👥</span> Employee management</div>
-      <div class="feat"><span>📊</span> Business reports and analytics</div>
-      <div class="feat"><span>📱</span> Mobile-friendly design</div>
+      <div class="feat"><span><span class="icon-ok">✓</span></span> Easy to use</div>
+      <div class="feat"><span><span class="icon-lock"><span class="icon-lock">🔒</span></span></span> Secure and reliable</div>
+      <div class="feat"><span><span class="icon-box">▣</span></span> Inventory and stock management</div>
+      <div class="feat"><span><span class="icon-users">◎</span></span> Employee management</div>
+      <div class="feat"><span><span class="icon-chart">▦</span></span> Business reports and analytics</div>
+      <div class="feat"><span><span class="icon-phone"><span class="icon-phone">☎</span></span></span> Mobile-friendly design</div>
       <div class="feat"><span>⏰</span> GPS attendance tracking</div>
       <div class="feat"><span>🌍</span> Built for African businesses</div>
     </div>
@@ -167,7 +167,7 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
   <div class="section">
     <h2>Contact Us</h2>
     <p>For any questions or to request a demo, contact us directly on WhatsApp:</p>
-    <a class="wa-btn" href="https://wa.me/237688203095?text=Hello%20LionTech%2C%20I%20would%20like%20to%20know%20more%20about%20your%20platform." target="_blank" rel="noopener">💬 Contact LionTech on WhatsApp</a>
+    <a class="wa-btn" href="https://wa.me/237688203095?text=Hello%20LionTech%2C%20I%20would%20like%20to%20know%20more%20about%20your%20platform." target="_blank" rel="noopener"><span class="icon-msg">▷</span> Contact LionTech on WhatsApp</a>
   </div>
 
   <?php endif; ?>
@@ -175,7 +175,7 @@ $lang = in_array($lang, ['fr','en']) ? $lang : 'fr';
 </div>
 
 <footer class="footer">
-  <div>© <?= date('Y') ?> LionTech Business Manager. <?= $lang==='fr'?'Tous droits réservés.':'All rights reserved.' ?></div>
+  <div>© <?= date('Y') ?> Tally Business Manager. <?= $lang==='fr'?'Tous droits réservés.':'All rights reserved.' ?></div>
   <div class="footer-links">
     <a href="about.php?lang=<?= $lang ?>"><?= $lang==='fr'?'À Propos':'About Us' ?></a>
     <a href="policy.php?lang=<?= $lang ?>"><?= $lang==='fr'?'Politique':'Policy & Terms' ?></a>

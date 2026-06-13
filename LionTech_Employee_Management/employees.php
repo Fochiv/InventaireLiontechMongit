@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   employees.php — LionTech Business Manager
+   employees.php — Tally Business Manager
    Employee Management — Add employees
    Path: C:\Xampp\htdocs\InventoryLiontech\LionTech_Employee_Management\employees.php
    ============================================================ */
@@ -244,7 +244,7 @@ $initials = substr($initials, 0, 2);
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <meta name="robots" content="noindex,nofollow"/>
-<title>Employees — LionTech</title>
+<title>Employees — Tally</title>
 <link rel="stylesheet" href="employees.css"/>
 <style>
 /* ══ MODAL ══ */
@@ -313,6 +313,7 @@ $initials = substr($initials, 0, 2);
   .em-modal-card{border-radius:12px}
 }
 </style>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="em-layout">
@@ -338,17 +339,17 @@ $initials = substr($initials, 0, 2);
 
   <?php if (!$featureEnabled): ?>
   <section class="em-lock-card">
-    <div class="em-lock-icon">🔒</div>
+    <div class="em-lock-icon"><span class="icon-lock">🔒</span></div>
     <h2 data-i18n="feature_locked_title">Employee feature not active</h2>
     <p data-i18n="feature_locked_text">This business does not have employee management enabled. Contact LionTech.</p>
   </section>
   <?php else: ?>
 
   <?php if ($subscriptionExpired): ?>
-  <div class="em-alert warning">⚠️ <span data-i18n="expired_warning">Subscription expired. Actions disabled.</span></div>
+  <div class="em-alert warning"><span class="icon-warn">⚠</span> <span data-i18n="expired_warning">Subscription expired. Actions disabled.</span></div>
   <?php endif; ?>
-  <?php if ($success): ?><div class="em-alert success">✅ <?= e($success) ?></div><?php endif; ?>
-  <?php if ($error):   ?><div class="em-alert error">⚠️ <?= e($error) ?></div><?php endif; ?>
+  <?php if ($success): ?><div class="em-alert success"><span class="icon-ok">✓</span> <?= e($success) ?></div><?php endif; ?>
+  <?php if ($error):   ?><div class="em-alert error"><span class="icon-warn">⚠</span> <?= e($error) ?></div><?php endif; ?>
 
   <?php if ($newCredentials): ?>
   <div class="em-credentials">
@@ -365,15 +366,15 @@ $initials = substr($initials, 0, 2);
 
   <!-- Stats -->
   <section class="em-cards">
-    <div class="em-card"><div class="em-card-icon">👥</div><div><span data-i18n="total_employees">Total employees</span><strong><?= $totalEmployees ?></strong></div></div>
-    <div class="em-card"><div class="em-card-icon green">✅</div><div><span data-i18n="active_employees">Active</span><strong><?= $activeEmployees ?></strong></div></div>
-    <div class="em-card"><div class="em-card-icon blue">🟢</div><div><span data-i18n="clocked_in">Clocked in today</span><strong><?= $clockedInToday ?></strong></div></div>
+    <div class="em-card"><div class="em-card-icon"><span class="icon-users">◎</span></div><div><span data-i18n="total_employees">Total employees</span><strong><?= $totalEmployees ?></strong></div></div>
+    <div class="em-card"><div class="em-card-icon green"><span class="icon-ok">✓</span></div><div><span data-i18n="active_employees">Active</span><strong><?= $activeEmployees ?></strong></div></div>
+    <div class="em-card"><div class="em-card-icon blue"><span class="dot-green">●</span></div><div><span data-i18n="clocked_in">Clocked in today</span><strong><?= $clockedInToday ?></strong></div></div>
     <div class="em-card"><div class="em-card-icon red">⏸️</div><div><span data-i18n="inactive_employees">Inactive</span><strong><?= $inactiveEmployees ?></strong></div></div>
   </section>
 
   <!-- Toolbar -->
   <section class="em-toolbar">
-    <div class="em-search"><span>🔍</span><input type="search" id="employeeSearch" placeholder="Search employees..." data-i18n-placeholder="search_placeholder"/></div>
+    <div class="em-search"><span><span class="icon-search">⌕</span></span><input type="search" id="employeeSearch" placeholder="Search employees..." data-i18n-placeholder="search_placeholder"/></div>
     <select id="roleFilter">
       <option value="" data-i18n="all_roles">All roles</option>
       <option value="employee">Employee</option>
@@ -425,7 +426,7 @@ $initials = substr($initials, 0, 2);
                 <strong><?= e($emp['full_name']) ?></strong>
                 <small><?= e($emp['job_title'] ?: '—') ?></small>
                 <?php if ($emp['pin_must_change']): ?>
-                <br><small style="color:#F97316;font-weight:700;font-size:11px">⚠️ PIN change required</small>
+                <br><small style="color:#F97316;font-weight:700;font-size:11px"><span class="icon-warn">⚠</span> PIN change required</small>
                 <?php endif; ?>
               </div>
             </div>
@@ -436,11 +437,11 @@ $initials = substr($initials, 0, 2);
           <td>
             <?php if ($clockedIn): ?>
             <span style="background:#DCFCE7;color:#166534;padding:3px 8px;border-radius:50px;font-size:11px;font-weight:700">
-              🟢 <span data-i18n="at_work">At work</span>
+              <span class="dot-green">●</span> <span data-i18n="at_work">At work</span>
             </span>
             <?php else: ?>
             <span style="background:#F1F5F9;color:#64748B;padding:3px 8px;border-radius:50px;font-size:11px;font-weight:700">
-              ⚪ <span data-i18n="off_work">Off</span>
+              <span class="dot-gray">○</span> <span data-i18n="off_work">Off</span>
             </span>
             <?php endif; ?>
           </td>
@@ -462,7 +463,7 @@ $initials = substr($initials, 0, 2);
   <!-- Schedule -->
   <button class="em-btn schedule" type="button"
           onclick="viewSchedule(<?= (int)$emp['user_id'] ?>,'<?= addslashes($emp['full_name']) ?>')">
-    📅 <span data-i18n="btn_schedule">Schedule</span>
+    <span class="icon-cal">▦</span> <span data-i18n="btn_schedule">Schedule</span>
   </button>
 
   <!-- Reset PIN -->
@@ -470,7 +471,7 @@ $initials = substr($initials, 0, 2);
     <input type="hidden" name="action" value="reset_pin"/>
     <input type="hidden" name="employee_id" value="<?= (int)$emp['user_id'] ?>"/>
     <button class="em-btn pin" type="submit">
-      🔑 <span data-i18n="btn_reset_pin">Reset PIN</span>
+      <span class="icon-key">⚿</span> <span data-i18n="btn_reset_pin">Reset PIN</span>
     </button>
   </form>
 
@@ -491,7 +492,7 @@ $initials = substr($initials, 0, 2);
     <input type="hidden" name="employee_id" value="<?= (int)$emp['user_id'] ?>"/>
     <input type="hidden" name="new_status" value="inactive"/>
     <button class="em-btn deactivate" type="submit">
-      🚫 <span data-i18n="btn_deactivate">Deactivate</span>
+      <span class="icon-no">⊘</span> <span data-i18n="btn_deactivate">Deactivate</span>
     </button>
   </form>
   <?php else: ?>
@@ -501,7 +502,7 @@ $initials = substr($initials, 0, 2);
     <input type="hidden" name="employee_id" value="<?= (int)$emp['user_id'] ?>"/>
     <input type="hidden" name="new_status" value="active"/>
     <button class="em-btn activate" type="submit">
-      ✅ <span data-i18n="btn_activate">Activate</span>
+      <span class="icon-ok">✓</span> <span data-i18n="btn_activate">Activate</span>
     </button>
   </form>
   <?php endif; ?>
@@ -533,7 +534,7 @@ $initials = substr($initials, 0, 2);
         <strong><?= e($row['full_name']) ?></strong>
         <span>In: <?= e(date('H:i', strtotime($row['clock_in_at']))) ?></span>
         <span>Out: <?= !empty($row['clock_out_at']) ? e(date('H:i', strtotime($row['clock_out_at']))) : '—' ?></span>
-        <small>🔒 Locked</small>
+        <small><span class="icon-lock">🔒</span> Locked</small>
       </div>
       <?php endforeach; endif; ?>
     </div>
@@ -548,7 +549,7 @@ $initials = substr($initials, 0, 2);
   <div class="em-modal-card">
     <div class="em-modal-header">
       <h2 data-i18n="add_employee_title">Add Employee</h2>
-      <button id="closeAddModal" type="button">✕</button>
+      <button id="closeAddModal" type="button">✗</button>
     </div>
     <form method="POST" class="em-form" enctype="multipart/form-data" id="addEmployeeForm">
       <input type="hidden" name="action" value="add_employee"/>
@@ -559,7 +560,7 @@ $initials = substr($initials, 0, 2);
       <div class="photo-upload-area" id="photoArea">
         <img id="photoPreview" class="photo-preview" src="" alt=""/>
         <div id="photoPlaceholder">
-          <div style="font-size:40px">👤</div>
+          <div style="font-size:40px"><span class="icon-user">◉</span></div>
           <p style="font-size:13px;color:#94A3B8;margin:6px 0 0" data-i18n="photo_hint">Click to upload a photo</p>
         </div>
         <input type="file" name="profile_photo" id="profilePhotoInput" accept="image/jpeg,image/png,image/webp"
@@ -572,7 +573,7 @@ $initials = substr($initials, 0, 2);
       </div>
 
       <!-- IDENTITY -->
-      <div class="em-section-title" data-i18n="section_identity">👤 Identity</div>
+      <div class="em-section-title" data-i18n="section_identity"><span class="icon-user">◉</span> Identity</div>
       <div class="em-form-grid">
         <div class="em-field">
           <label data-i18n="first_name">First Name <span style="color:#DC2626">*</span></label>
@@ -603,7 +604,7 @@ $initials = substr($initials, 0, 2);
       </div>
 
       <!-- CONTACT -->
-      <div class="em-section-title" data-i18n="section_contact">📞 Contact & Address</div>
+      <div class="em-section-title" data-i18n="section_contact"><span class="icon-phone">☎</span> Contact & Address</div>
       <div class="em-form-grid">
         <div class="em-field">
           <label data-i18n="phone_required">Phone <span style="color:#DC2626">*</span></label>
@@ -643,7 +644,7 @@ $initials = substr($initials, 0, 2);
       </div>
 
       <!-- PERMISSIONS -->
-      <div class="em-section-title" data-i18n="section_permissions">🔐 Access & Permissions</div>
+      <div class="em-section-title" data-i18n="section_permissions"><span class="icon-lock"><span class="icon-lock">🔒</span></span> Access & Permissions</div>
       <p style="font-size:13px;color:#64748B;margin-bottom:10px" data-i18n="permissions_hint">
         Choose what this employee can do in the system.
       </p>
@@ -659,7 +660,7 @@ $initials = substr($initials, 0, 2);
       </div>
 
       <!-- PAY -->
-      <div class="em-section-title" data-i18n="section_pay">💰 Pay (optional)</div>
+      <div class="em-section-title" data-i18n="section_pay"><span class="icon-money">&#36;</span> Pay (optional)</div>
       <div class="pay-row">
         <div class="em-field">
           <label data-i18n="pay_type">Pay Type</label>
@@ -697,7 +698,7 @@ $initials = substr($initials, 0, 2);
   <canvas id="cameraCanvas"></canvas>
   <div class="cam-actions">
     <button class="cam-btn cam-snap" id="snapPhoto" type="button" data-i18n="snap_photo">📸 Take photo</button>
-    <button class="cam-btn cam-cancel" id="closeCamera" type="button" data-i18n="close_camera">✕ Close</button>
+    <button class="cam-btn cam-cancel" id="closeCamera" type="button" data-i18n="close_camera">✗ Close</button>
   </div>
 </div>
 
@@ -706,7 +707,7 @@ $initials = substr($initials, 0, 2);
   <div class="em-modal-card" style="max-width:500px">
     <div class="em-modal-header">
       <h2 id="scheduleModalTitle">Work Schedule</h2>
-      <button type="button" onclick="closeScheduleModal()">✕</button>
+      <button type="button" onclick="closeScheduleModal()">✗</button>
     </div>
     <div style="padding:24px" id="scheduleModalBody">
       <p style="color:#94A3B8;text-align:center">Loading...</p>

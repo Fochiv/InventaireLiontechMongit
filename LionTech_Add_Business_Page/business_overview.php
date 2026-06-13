@@ -1,6 +1,6 @@
 <?php
 /* ============================================================
-   business_overview.php — LionTech Business Manager
+   business_overview.php — Tally Business Manager
    Shows business details after creation
    Role: super_admin only
    ============================================================ */
@@ -57,8 +57,9 @@ $status = $business['subscription_status'] ?? 'trial';
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Business cree — LionTech</title>
+<title>Business cree — Tally</title>
 <link rel="stylesheet" href="add_business.css"/>
+<link rel="stylesheet" href="<?= APP_URL ?>/icons.css">
 </head>
 <body>
 <div class="ab-layout">
@@ -66,17 +67,17 @@ $status = $business['subscription_status'] ?? 'trial';
   <aside class="ab-sidebar" id="ab-sidebar">
     <div class="ab-sidebar-header">
       <div class="ab-logo">
-        <div class="ab-logo-icon">🦁</div>
-        <div><div class="ab-logo-name">LionTech</div><div class="ab-logo-tag">Business Manager</div></div>
+        <div class="ab-logo-icon"><span class="icon-brand">T</span></div>
+        <div><div class="sb-logo-name">Tally</div><div class="ab-logo-tag">Business Manager</div></div>
       </div>
     </div>
     <nav class="ab-nav">
       <div class="ab-nav-section">Principal</div>
-      <a class="ab-nav-item" href="<?= APP_URL ?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon">📊</span><span>Dashboard</span></a>
-      <a class="ab-nav-item active" href="business_overview.php?id=<?= e($id) ?>"><span class="ab-nav-icon">🏢</span><span>Apercu business</span></a>
-      <a class="ab-nav-item" href="add_business.php"><span class="ab-nav-icon">➕</span><span>Ajouter business</span></a>
+      <a class="ab-nav-item" href="<?= APP_URL ?>/SuperAdmin/super_admin.php"><span class="ab-nav-icon"><span class="icon-chart">▦</span></span><span>Dashboard</span></a>
+      <a class="ab-nav-item active" href="business_overview.php?id=<?= e($id) ?>"><span class="ab-nav-icon"><span class="icon-biz">⌂</span></span><span>Apercu business</span></a>
+      <a class="ab-nav-item" href="add_business.php"><span class="ab-nav-icon"><span class="icon-add">+</span></span><span>Ajouter business</span></a>
       <div class="ab-nav-section">Systeme</div>
-      <a class="ab-nav-item" href="<?= APP_URL ?>/Logininventory/logout.php"><span class="ab-nav-icon">🚪</span><span>Deconnexion</span></a>
+      <a class="ab-nav-item" href="<?= APP_URL ?>/Logininventory/logout.php"><span class="ab-nav-icon"><span class="icon-door">▭</span></span><span>Deconnexion</span></a>
     </nav>
     <div class="ab-sidebar-footer">
       <div class="ab-avatar"><?= e($initials) ?></div>
@@ -102,7 +103,7 @@ $status = $business['subscription_status'] ?? 'trial';
 
       <?php if (isset($_GET['created'])): ?>
       <div class="ab-alert success">
-        <span>✅</span>
+        <span><span class="icon-ok">✓</span></span>
         <div>Business cree avec succes. Verifiez les informations ci-dessous.</div>
       </div>
       <?php endif; ?>
@@ -118,7 +119,7 @@ $status = $business['subscription_status'] ?? 'trial';
         </div>
         <div class="ab-actions">
           <a class="ab-btn ab-btn-outline" href="<?= APP_URL ?>/SuperAdmin/super_admin.php">← Dashboard</a>
-          <a class="ab-btn ab-btn-primary" href="add_business.php">➕ Ajouter un autre</a>
+          <a class="ab-btn ab-btn-primary" href="add_business.php"><span class="icon-add">+</span> Ajouter un autre</a>
         </div>
       </div>
 
@@ -200,8 +201,8 @@ $status = $business['subscription_status'] ?? 'trial';
             </div>
           </div>
           <div class="ab-card-body ab-side-list">
-            <a class="ab-btn ab-btn-outline" href="#">👥 Ajouter employes</a>
-            <a class="ab-btn ab-btn-outline" href="#">📦 Ajouter produits</a>
+            <a class="ab-btn ab-btn-outline" href="#"><span class="icon-users">◎</span> Ajouter employes</a>
+            <a class="ab-btn ab-btn-outline" href="#"><span class="icon-box">▣</span> Ajouter produits</a>
             <a class="ab-btn ab-btn-outline" href="#">🔄 Gerer abonnement</a>
             <a class="ab-btn ab-btn-outline" href="#">✏️ Modifier business</a>
           </div>
