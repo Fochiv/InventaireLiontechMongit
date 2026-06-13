@@ -477,6 +477,69 @@ function initLang() {
 }
 
 /* ══════════════════════════════════════════
+   USER TOGGLE STATUS (suspend / activate)
+   ══════════════════════════════════════════ */
+function initUserToggle() {
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.sa-user-toggle');
+    if (!btn) return;
+
+    const userId  = btn.dataset.userId;
+    const current = btn.dataset.current;
+    const action  = current === 'active' ? 'suspendre' : 'activer';
+    const name    = btn.closest('tr')?.querySelector('td span:last-child')?.textContent?.trim() || 'cet utilisateur';
+
+    if (!confirm(`Voulez-vous ${action} ${name} ?`)) return;
+
+    btn.classList.add('sa-tbl-btn-loading');
+    btn.textContent = '…';
+
+    const fd = new FormData();
+    fd.append('user_id', userId);
+
+    fetch('user_toggle_status.php', { method:'POST', body:fd, credentials:'same-origin' })
+      .then(r => r.json())
+      .then(d => {
+        if (!d.ok) {
+          showToast(d.error || 'Erreur lors de la mise à jour.', 'error');
+          btn.classList.remove('sa-tbl-btn-loading');
+          btn.textContent = current === 'active' ? '⏸ Suspendre' : '▶ Activer';
+          return;
+        }
+        /* Update button */
+        const newStatus = d.status;
+        btn.dataset.current = newStatus;
+        btn.classList.remove('sa-tbl-btn-loading', 'sa-tbl-btn-suspend', 'sa-tbl-btn-activate');
+        if (newStatus === 'active') {
+          btn.classList.add('sa-tbl-btn-suspend');
+          btn.textContent = '⏸ Suspendre';
+        } else {
+          btn.classList.add('sa-tbl-btn-activate');
+          btn.textContent = '▶ Activer';
+        }
+
+        /* Update status badge in same row */
+        const row = btn.closest('tr');
+        if (row) {
+          row.dataset.status = newStatus;
+          const badge = row.querySelector('td .sa-badge');
+          if (badge) {
+            badge.className = 'sa-badge sa-badge-' + (newStatus === 'active' ? 'active' : 'suspended');
+            badge.textContent = d.label;
+          }
+        }
+
+        showToast(d.label === 'Actif' ? 'Utilisateur activé ✓' : 'Utilisateur suspendu ✓', 'success');
+      })
+      .catch(() => {
+        showToast('Erreur réseau. Veuillez réessayer.', 'error');
+        btn.classList.remove('sa-tbl-btn-loading');
+        btn.textContent = current === 'active' ? '⏸ Suspendre' : '▶ Activer';
+      });
+  });
+}
+
+/* ══════════════════════════════════════════
    INIT
    ══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -487,6 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTables();
   initTopbarSearch();
   initAlertRenew();
+  initUserToggle();
   initLang();
 
   if (window.Chart) {

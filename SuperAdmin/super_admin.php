@@ -724,7 +724,7 @@ function saIcon(string $name, int $size=18): string {
           <table class="sa-table" id="users-table">
             <thead><tr>
               <th>Nom</th><th>Identifiant</th><th>Email</th>
-              <th>Rôle</th><th>Business</th><th>Statut</th><th>Créé le</th>
+              <th>Rôle</th><th>Business</th><th>Statut</th><th>Créé le</th><th>Action</th>
             </tr></thead>
             <tbody>
             <?php foreach($allUsers as $u): ?>
@@ -756,10 +756,18 @@ function saIcon(string $name, int $size=18): string {
               <td style="font-size:12.5px"><?= htmlspecialchars($u['business_name']??'—') ?></td>
               <td><span class="sa-badge sa-badge-<?= $u['status']==='active'?'active':'disabled' ?>"><?= $u['status']==='active'?'Actif':'Inactif' ?></span></td>
               <td style="font-size:12px;color:#94A3B8"><?= date('d/m/Y',strtotime($u['created_at'])) ?></td>
+              <td><?php if($u['role'] !== 'super_admin'): ?>
+                <?php $isSuspended = ($u['status'] === 'suspended'); ?>
+                <button class="sa-tbl-btn <?= $isSuspended ? 'sa-tbl-btn-activate' : 'sa-tbl-btn-suspend' ?> sa-user-toggle"
+                        data-user-id="<?= (int)$u['user_id'] ?>"
+                        data-current="<?= htmlspecialchars($u['status']) ?>">
+                  <?= $isSuspended ? '▶ Activer' : '⏸ Suspendre' ?>
+                </button>
+              <?php endif; ?></td>
             </tr>
             <?php endforeach; ?>
             <?php if(empty($allUsers)): ?>
-            <tr><td colspan="7" style="text-align:center;padding:28px;color:#6B7280">Aucun utilisateur trouvé.</td></tr>
+            <tr><td colspan="8" style="text-align:center;padding:28px;color:#6B7280">Aucun utilisateur trouvé.</td></tr>
             <?php endif; ?>
             </tbody>
           </table>

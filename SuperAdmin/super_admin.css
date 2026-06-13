@@ -484,6 +484,17 @@ svg { flex-shrink: 0; }
 .sa-tbl-btn-disable:hover { background: var(--amber-brd); }
 .sa-tbl-btn-renew   { background: var(--green-bg); color: var(--green); }
 .sa-tbl-btn-renew:hover   { background: var(--green-brd); }
+.sa-tbl-btn-suspend {
+  background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.sa-tbl-btn-suspend:hover { background: #FDE68A; }
+.sa-tbl-btn-activate {
+  background: #D1FAE5; color: #065F46; border: 1px solid #A7F3D0;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.sa-tbl-btn-activate:hover { background: #A7F3D0; }
+.sa-tbl-btn-loading { opacity: .55; pointer-events: none; cursor: default; }
 
 /* Pagination */
 .sa-pagination {
