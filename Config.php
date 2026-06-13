@@ -3,16 +3,26 @@
    Config.php — Tally Business Manager
    ============================================================ */
 
-/* ── Auto-detect APP_URL (works with any subfolder or root) ── */
+/* ── Auto-detect APP_URL (works with Replit proxy, WAMP subfolder, or root) ── */
 if (!defined('APP_URL')) {
-    $docRoot    = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT'] ?? ''), '/');
-    $configDir  = rtrim(str_replace('\\', '/', dirname(__FILE__)), '/');
-    $subPath    = ($docRoot !== '' && strpos($configDir, $docRoot) === 0)
-                  ? substr($configDir, strlen($docRoot))
-                  : '';
-    $scheme     = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $host       = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $docRoot   = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT'] ?? ''), '/');
+    $configDir = rtrim(str_replace('\\', '/', dirname(__FILE__)), '/');
+    $subPath   = ($docRoot !== '' && strpos($configDir, $docRoot) === 0)
+                 ? substr($configDir, strlen($docRoot))
+                 : '';
+
+    // On Replit: use REPLIT_DOMAINS env var (https, no port)
+    $replitDomain = getenv('REPLIT_DOMAINS');
+    if ($replitDomain) {
+        $host   = explode(',', $replitDomain)[0];
+        $scheme = 'https';
+    } else {
+        // WAMP / local: use HTTP_HOST with scheme detection
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host   = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    }
     define('APP_URL', $scheme . '://' . $host . rtrim($subPath, '/'));
+    define('IS_REPLIT', (bool)$replitDomain);
 }
 
 /* ── Database credentials ── */
@@ -96,10 +106,13 @@ function startSecureSession(): void {
     if (session_status() === PHP_SESSION_NONE) {
         ini_set('session.cookie_httponly', 1);
         ini_set('session.use_strict_mode', 1);
+        // On Replit (iframe), SameSite=None+Secure required; locally Lax is fine
+        $isReplit = defined('IS_REPLIT') ? IS_REPLIT : (bool)getenv('REPLIT_DOMAINS');
         session_set_cookie_params([
             'lifetime' => SESSION_LIFETIME,
             'httponly' => true,
-            'samesite' => 'Lax',
+            'secure'   => $isReplit,
+            'samesite' => $isReplit ? 'None' : 'Lax',
         ]);
         session_start();
     }
