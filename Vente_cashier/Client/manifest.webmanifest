@@ -1,0 +1,21 @@
+{
+  "name": "Tally Client",
+  "short_name": "Tally Client",
+  "description": "Consultez et sauvegardez vos reçus Tally facilement.",
+  "start_url": "./client.php",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B1F3A",
+  "theme_color": "#28744c",
+  "lang": "fr",
+  "icons": [
+    { "src": "../../Image/TALLYLOGO.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "../../Image/TALLYLOGO.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Voir mes reçus", "short_name": "Reçus", "url": "./client.php", "icons": [{ "src": "../../Image/TALLYLOGO.png", "sizes": "192x192" }] },
+    { "name": "Mon compte", "short_name": "Compte", "url": "./login.php", "icons": [{ "src": "../../Image/TALLYLOGO.png", "sizes": "192x192" }] }
+  ],
+  "categories": ["finance", "shopping", "utilities"]
+}

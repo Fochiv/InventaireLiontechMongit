@@ -79,7 +79,14 @@ try {
 
 /* ── Recent activity ── */
 try {
-    $stmt = $pdo->prepare("SELECT action, description, icon, created_at FROM activity_logs WHERE business_id = :bid ORDER BY created_at DESC LIMIT 6");
+    $stmt = $pdo->prepare("
+    SELECT action, description, icon, created_at
+    FROM activity_logs
+    WHERE business_id = :bid
+      AND action != 'business_created'
+    ORDER BY created_at DESC
+    LIMIT 6
+");
     $stmt->execute([':bid'=>$businessId]);
     $activities = $stmt->fetchAll();
 } catch (Throwable $e) {
@@ -118,9 +125,9 @@ function e($value): string { return htmlspecialchars((string)$value, ENT_QUOTES,
 /* ── URL shortcuts ── */
 $url = APP_URL;
 $products_url      = $url . '/Produit/products.php';
-$stock_in_url      = $url . '/LionTech_Stock_In_Page/liontech_stock_in_page/stock_in.php';
+ $stock_in_url  = $url . '/LionTech_Stock_In_Page/stock_in.php';
 $stock_out_url     = $url . '/stockout_stockfinis/stock_out.php';
-$employees_url     = $url . '/LionTech_Employee_Management/liontech_employee_management/employees.php';
+$employees_url = $url . '/LionTech_Employee_Management/employees.php';
 $employee_dash_url = $url . '/LionTech_Employee_Dashboard/employee_dashboard.php';
 $reports_url       = $url . '/LionTech_Complete_MVP_Remaining_Pages/reports.php';
 $notifications_url = $url . '/LionTech_Complete_MVP_Remaining_Pages/notifications.php';

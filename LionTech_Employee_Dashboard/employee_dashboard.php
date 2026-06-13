@@ -327,11 +327,11 @@ $initials = substr($initials ?: 'E',0,2);
       <div class="panel quick-panel">
         <div class="panel-head"><h3 data-i18n="quick_actions">Actions rapides</h3></div>
         <div class="quick-grid">
-          <a href="stock_in.php" class="quick-action">➕ <span data-i18n="add_stock_in">Ajouter stock entrant</span></a>
-          <a href="stock_out.php" class="quick-action">➖ <span data-i18n="add_stock_out">Ajouter stock sortant</span></a>
-          <a href="products.php" class="quick-action">📦 <span data-i18n="view_products">Voir produits</span></a>
-          <a href="#profile" class="quick-action">🔐 <span data-i18n="change_pin">Changer PIN</span></a>
-        </div>
+          <a href="<?= APP_URL ?>/LionTech_Stock_In_Page/stock_in.php" class="quick-action">➕ <span data-i18n="add_stock_in">Ajouter stock entrant</span></a>
+<a href="<?= APP_URL ?>/stockout_stockfinis/stock_out.php" class="quick-action">➖ <span data-i18n="add_stock_out">Ajouter stock sortant</span></a>
+<a href="<?= APP_URL ?>/Produit/products.php" class="quick-action">📦 <span data-i18n="view_products">Voir produits</span></a>
+<a href="<?= APP_URL ?>/change_pin.php" class="quick-action">🔐 <span data-i18n="change_pin">Changer PIN</span></a>
+      </div>
       </div>
     </section>
 

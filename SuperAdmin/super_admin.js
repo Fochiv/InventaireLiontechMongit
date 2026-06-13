@@ -407,6 +407,7 @@ const SA_LANG = {
     notif_title:'Notifications', validate_link:'→ Valider',
     pending_payments:'paiement(s) en attente',
     no_businesses:'Aucun business.', no_users:'Aucun utilisateur.', no_subscriptions:'Aucun abonnement.',
+    nav_business_requests:'Confirmer demandes business',
   },
   en: {
     nav_section_main:'Main', nav_section_payments:'Payments', nav_section_platform:'Platform', nav_section_system:'System',
@@ -439,6 +440,7 @@ const SA_LANG = {
     notif_title:'Notifications', validate_link:'→ Validate',
     pending_payments:'pending payment(s)',
     no_businesses:'No businesses yet.', no_users:'No users found.', no_subscriptions:'No subscriptions found.',
+    nav_business_requests:'Confirm Business Requests',
   },
 };
 

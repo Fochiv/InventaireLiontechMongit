@@ -57,7 +57,13 @@ try {
 /* ── Recent activity ── */
 $recentActivity = [];
 try {
-    $s = safeQ($pdo,"SELECT al.*, u.full_name AS user_name, b.business_name FROM activity_logs al LEFT JOIN users u ON u.user_id=al.user_id LEFT JOIN businesses b ON b.business_id=al.business_id WHERE DATE(al.created_at) BETWEEN ? AND ? ORDER BY al.created_at DESC LIMIT 30",[$from,$to]);
+   $s = safeQ($pdo,"SELECT al.*, u.full_name AS user_name, b.business_name 
+    FROM activity_logs al 
+    LEFT JOIN users u ON u.user_id=al.user_id 
+    LEFT JOIN businesses b ON b.business_id=al.business_id 
+    WHERE DATE(al.created_at) BETWEEN ? AND ?
+      AND (al.user_id IS NULL OR u.role IN ('super_admin','business_owner','manager'))
+    ORDER BY al.created_at DESC LIMIT 30",[$from,$to]);
     $recentActivity = $s ? $s->fetchAll() : [];
 } catch(Throwable $e){}
 
