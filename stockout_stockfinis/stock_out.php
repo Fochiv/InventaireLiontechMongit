@@ -126,15 +126,15 @@ $initials=substr($initials?:'U',0,2);
   </div>
 </header>
 
-<?php if($success): ?><div style="background:#F0FDF4;border:1px solid #86EFAC;padding:12px 24px;font-size:13px;color:#166534">&#9989; <?=e($success)?></div><?php endif; ?>
-<?php if($error):  ?><div style="background:#FEF2F2;border:1px solid #FECACA;padding:12px 24px;font-size:13px;color:#991B1B">&#9888; <?=e($error)?></div><?php endif; ?>
+<?php if($success): ?><div style="background:#F0FDF4;border:1px solid #86EFAC;padding:12px 24px;font-size:13px;color:#166534"><span class="icon-ok">✓</span> <?=e($success)?></div><?php endif; ?>
+<?php if($error):  ?><div style="background:#FEF2F2;border:1px solid #FECACA;padding:12px 24px;font-size:13px;color:#991B1B"><span class="icon-warn">⚠</span> <?=e($error)?></div><?php endif; ?>
 <?php if($isEmployee): ?><div style="background:#FEF3C7;border:1px solid #FDE68A;padding:12px 24px;font-size:13px;color:#92400E" data-i18n="employee_note">Stock out requests from employees require approval.</div><?php endif; ?>
 
 <section style="padding:20px 24px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px">
-  <div class="od-card stat"><span class="stat-icon amber">&#9201;</span><div><small data-i18n="stat_pending">Pending</small><strong><?=(int)$pendingCount?></strong></div></div>
-  <div class="od-card stat"><span class="stat-icon green">&#9989;</span><div><small data-i18n="stat_today">Approved today</small><strong><?=(int)$approvedToday?></strong></div></div>
-  <div class="od-card stat"><span class="stat-icon blue">&#128230;</span><div><small data-i18n="stat_products">Active products</small><strong><?=count($products??[])?></strong></div></div>
-  <div class="od-card stat"><span class="stat-icon" style="background:#EDE9FE">&#10134;</span><div><small data-i18n="stat_qty">Qty pending</small><strong><?=qf2($totalPendingQty)?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon amber"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><div><small data-i18n="stat_pending">Pending</small><strong><?=(int)$pendingCount?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon green"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><div><small data-i18n="stat_today">Approved today</small><strong><?=(int)$approvedToday?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon blue"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span><div><small data-i18n="stat_products">Active products</small><strong><?=count($products??[])?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon" style="background:#EDE9FE"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span><div><small data-i18n="stat_qty">Qty pending</small><strong><?=qf2($totalPendingQty)?></strong></div></div>
 </section>
 
 <div style="padding:20px 24px 40px;display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start">
@@ -249,7 +249,7 @@ $initials=substr($initials?:'U',0,2);
               <form method="POST"><input type="hidden" name="action" value="approve_stock_out"><input type="hidden" name="request_id" value="<?=(int)$h['request_id']?>"><button type="submit" style="padding:5px 10px;font-size:12px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;color:#166534;cursor:pointer" data-i18n="btn_approve">Approve</button></form>
               <form method="POST"><input type="hidden" name="action" value="reject_stock_out"><input type="hidden" name="request_id" value="<?=(int)$h['request_id']?>"><input type="hidden" name="rejection_reason" value="Rejected after review"><button type="submit" style="padding:5px 10px;font-size:12px;background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;color:#991B1B;cursor:pointer" data-i18n="btn_reject">Reject</button></form>
             </div>
-            <?php elseif($h['status']==='approved'): ?><small style="color:#166534">&#9989; <?=e($h['approved_by_name']??'OK')?></small>
+            <?php elseif($h['status']==='approved'): ?><small style="color:#166534"><span class="icon-ok">&#10003;</span> <?=e($h['approved_by_name']??'OK')?></small>
             <?php else: ?><small style="color:#991B1B"><?=e($h['rejection_reason']??'Rejected')?></small><?php endif; ?>
           </td>
         </tr>

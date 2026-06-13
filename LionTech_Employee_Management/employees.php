@@ -326,7 +326,7 @@ $initials = substr($initials, 0, 2);
 
 <main class="em-main">
   <header class="em-topbar">
-    <button class="em-hamburger" id="em-hamburger">☰</button>
+    <button class="em-hamburger" id="em-hamburger"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     <div>
       <h1 data-i18n="page_title">Employee Management</h1>
       <p><?= e($business['business_name'] ?? 'Business') ?> • <span data-i18n="page_subtitle">Manage employees, roles, attendance, and access.</span></p>
@@ -341,7 +341,7 @@ $initials = substr($initials, 0, 2);
 
   <?php if (!$featureEnabled): ?>
   <section class="em-lock-card">
-    <div class="em-lock-icon"><span class="icon-lock">🔒</span></div>
+    <div class="em-lock-icon"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></div>
     <h2 data-i18n="feature_locked_title">Employee feature not active</h2>
     <p data-i18n="feature_locked_text">This business does not have employee management enabled. Contact LionTech.</p>
   </section>
@@ -536,7 +536,7 @@ $initials = substr($initials, 0, 2);
         <strong><?= e($row['full_name']) ?></strong>
         <span>In: <?= e(date('H:i', strtotime($row['clock_in_at']))) ?></span>
         <span>Out: <?= !empty($row['clock_out_at']) ? e(date('H:i', strtotime($row['clock_out_at']))) : '—' ?></span>
-        <small><span class="icon-lock">🔒</span> Locked</small>
+        <small><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Locked</small>
       </div>
       <?php endforeach; endif; ?>
     </div>
@@ -558,7 +558,7 @@ $initials = substr($initials, 0, 2);
       <input type="hidden" name="photo_base64" id="photoBase64"/>
 
       <!-- PHOTO -->
-      <div class="em-section-title" data-i18n="section_photo">📷 Profile Photo</div>
+      <div class="em-section-title" data-i18n="section_photo"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Profile Photo</div>
       <div class="photo-upload-area" id="photoArea">
         <img id="photoPreview" class="photo-preview" src="" alt=""/>
         <div id="photoPlaceholder">
@@ -646,7 +646,7 @@ $initials = substr($initials, 0, 2);
       </div>
 
       <!-- PERMISSIONS -->
-      <div class="em-section-title" data-i18n="section_permissions"><span class="icon-lock"><span class="icon-lock">🔒</span></span> Access & Permissions</div>
+      <div class="em-section-title" data-i18n="section_permissions"><span class="icon-lock"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></span> Access & Permissions</div>
       <p style="font-size:13px;color:#64748B;margin-bottom:10px" data-i18n="permissions_hint">
         Choose what this employee can do in the system.
       </p>

@@ -305,7 +305,7 @@ body{
         </div>
 
         <div class="plan-card plan-standard">
-            <div class="plan-tag">🔵 STANDARD</div>
+            <div class="plan-tag"><span style="color:#2563EB">&#9679;</span> STANDARD</div>
             <h2>Standard</h2>
             <div class="plan-price">5,000 XAF <span data-en="/ month" data-fr="/ mois">/ month</span></div>
 
@@ -330,7 +330,7 @@ body{
         </div>
 
         <div class="plan-card plan-premium">
-            <div class="plan-tag">🟡 PREMIUM</div>
+            <div class="plan-tag"><span style="color:#FFCC00;font-size:16px">&#9679;</span> PREMIUM</div>
             <h2>Premium</h2>
             <div class="plan-price">10,000 XAF <span data-en="/ month" data-fr="/ mois">/ month</span></div>
 

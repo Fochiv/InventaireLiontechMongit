@@ -91,7 +91,7 @@ $status = $business['subscription_status'] ?? 'trial';
 
   <div class="ab-main">
     <header class="ab-topbar">
-      <button class="ab-hamburger" id="ab-hamburger">☰</button>
+      <button class="ab-hamburger" id="ab-hamburger"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
       <div class="ab-title-sm">Apercu du business</div>
       <div class="ab-user">
         <div class="ab-avatar" style="width:34px;height:34px"><?= e($initials) ?></div>

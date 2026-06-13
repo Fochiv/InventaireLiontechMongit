@@ -279,7 +279,7 @@ $initials = substr($initials ?: 'E',0,2);
       <div class="alert warning"><span class="icon-warn">⚠</span> <span data-i18n="sub_expired">L’abonnement du business est expiré. Les actions sont limitées.</span></div>
     <?php endif; ?>
     <?php if ($pinMustChange): ?>
-      <div class="alert info"><span class="icon-lock"><span class="icon-lock">🔒</span></span> <span data-i18n="pin_warning">Vous utilisez encore un PIN temporaire. Changez votre PIN dans le profil.</span></div>
+      <div class="alert info"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> <span data-i18n="pin_warning">Vous utilisez encore un PIN temporaire. Changez votre PIN dans le profil.</span></div>
     <?php endif; ?>
     <?php if ($success): ?><div class="alert success"><span class="icon-ok">✓</span> <?= e($success) ?></div><?php endif; ?>
     <?php if ($error): ?><div class="alert error"><span class="icon-warn">⚠</span> <?= e($error) ?></div><?php endif; ?>
@@ -297,10 +297,10 @@ $initials = substr($initials ?: 'E',0,2);
     </section>
 
     <section class="cards-grid">
-      <div class="stat-card"><span>🕒</span><strong><?= count($todayHistory) ?></strong><small data-i18n="today_records">Présences aujourd’hui</small></div>
+      <div class="stat-card"><span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><strong><?= count($todayHistory) ?></strong><small data-i18n="today_records">Présences aujourd’hui</small></div>
       <div class="stat-card"><span><span class="icon-box">▣</span></span><strong><?= count($products) ?></strong><small data-i18n="visible_products">Produits visibles</small></div>
       <div class="stat-card"><span><span class="icon-ok">✓</span></span><strong><?= count($tasks) ?></strong><small data-i18n="open_tasks">Tâches ouvertes</small></div>
-      <div class="stat-card"><span>⏳</span><strong><?= $pendingStockActions ?></strong><small data-i18n="pending_actions">Actions en attente</small></div>
+      <div class="stat-card"><span><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span><strong><?= $pendingStockActions ?></strong><small data-i18n="pending_actions">Actions en attente</small></div>
     </section>
 
     <section class="content-grid">
@@ -322,7 +322,7 @@ $initials = substr($initials ?: 'E',0,2);
             <input type="hidden" name="latitude" class="lat"/>
             <input type="hidden" name="longitude" class="lng"/>
             <input type="hidden" name="accuracy" class="acc"/>
-            <button class="danger-btn" type="submit" <?= $isExpired ? 'disabled' : '' ?>>🔴 <span data-i18n="clock_out">Clock Out</span></button>
+            <button class="danger-btn" type="submit" <?= $isExpired ? 'disabled' : '' ?>><span style="color:#DC2626;font-size:16px">&#9679;</span> <span data-i18n="clock_out">Clock Out</span></button>
           </form>
           <p class="clocked-since">Clock in: <?= e(date('H:i', strtotime($currentAttendance['clock_in_at']))) ?></p>
           <?php endif; ?>
@@ -334,9 +334,9 @@ $initials = substr($initials ?: 'E',0,2);
         <div class="panel-head"><h3 data-i18n="quick_actions">Actions rapides</h3></div>
         <div class="quick-grid">
           <a href="<?= APP_URL ?>/LionTech_Stock_In_Page/stock_in.php" class="quick-action"><span class="icon-add">+</span> <span data-i18n="add_stock_in">Ajouter stock entrant</span></a>
-<a href="<?= APP_URL ?>/stockout_stockfinis/stock_out.php" class="quick-action">➖ <span data-i18n="add_stock_out">Ajouter stock sortant</span></a>
+<a href="<?= APP_URL ?>/stockout_stockfinis/stock_out.php" class="quick-action"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg> <span data-i18n="add_stock_out">Ajouter stock sortant</span></a>
 <a href="<?= APP_URL ?>/Produit/products.php" class="quick-action"><span class="icon-box">▣</span> <span data-i18n="view_products">Voir produits</span></a>
-<a href="<?= APP_URL ?>/change_pin.php" class="quick-action"><span class="icon-lock"><span class="icon-lock">🔒</span></span> <span data-i18n="change_pin">Changer PIN</span></a>
+<a href="<?= APP_URL ?>/change_pin.php" class="quick-action"><span class="icon-lock"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></span> <span data-i18n="change_pin">Changer PIN</span></a>
       </div>
       </div>
     </section>
@@ -361,7 +361,7 @@ $initials = substr($initials ?: 'E',0,2);
         <?php foreach ($products as $p): ?>
           <?php $low = isset($p['low_stock_level']) && $p['low_stock_level'] !== null && (float)$p['quantity'] <= (float)$p['low_stock_level']; ?>
           <div class="product-card <?= $low ? 'low' : '' ?>">
-            <div class="product-img"><?php if (!empty($p['image_url'])): ?><img src="<?= e($p['image_url']) ?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?></div>
+            <div class="product-img"><?php if (!empty($p['image_url'])): ?><img src="<?= e(str_starts_with($p['image_url'],'http') ? $p['image_url'] : APP_URL.'/'.ltrim($p['image_url'],'/')) ?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?></div>
             <div><strong><?= e($p['name']) ?></strong><p><?= e($p['category'] ?? 'Autre') ?></p><span><?= e($p['quantity'] ?? 0) ?> <?= e($p['unit'] ?? '') ?></span></div>
           </div>
         <?php endforeach; ?>

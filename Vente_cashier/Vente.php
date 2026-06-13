@@ -350,8 +350,8 @@ try {
         <?php endif; ?>
     </div>
     <div class="control-actions">
-        <button class="btn secondary" onclick="window.print()">🖨️ <span data-i18n="print">Imprimer</span></button>
-        <button class="btn secondary" onclick="exportCurrentTable()">⬇️ CSV</button>
+        <button class="btn secondary" onclick="window.print()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg><span data-i18n="print">Imprimer</span></button>
+        <button class="btn secondary" onclick="exportCurrentTable()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> CSV</button>
         <?php if($isOwner): ?><button class="btn gold" onclick="openPermModal()"><span class="icon-gear">⚙</span> Manager</button><?php endif; ?>
     </div>
 </div>
@@ -361,7 +361,7 @@ try {
     <div class="kpi-card"><span><span class="icon-receipt">▤</span></span><small data-i18n="receipts">Reçus</small><strong><?= n0($kpi['sales_count']) ?></strong></div>
     <?php if(canSee('money',$isOwner,$managerPerms)): ?><div class="kpi-card"><span><span class="icon-box">▣</span></span><small data-i18n="stock_spent">Dépensé stock</small><strong><?= xaf($kpi['stock_spent']) ?></strong></div><?php endif; ?>
     <div class="kpi-card danger"><span><span class="icon-warn">⚠</span></span><small data-i18n="losses">Pertes</small><strong><?= xaf($kpi['loss_total']) ?></strong></div>
-    <?php if(canSee('money',$isOwner,$managerPerms)): ?><div class="kpi-card success"><span>📈</span><small data-i18n="profit">Bénéfice estimé</small><strong><?= xaf($kpi['profit_est']) ?></strong></div><?php endif; ?>
+    <?php if(canSee('money',$isOwner,$managerPerms)): ?><div class="kpi-card success"><span><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><small data-i18n="profit">Bénéfice estimé</small><strong><?= xaf($kpi['profit_est']) ?></strong></div><?php endif; ?>
 </div>
 
 <div class="chart-panel">
@@ -514,7 +514,7 @@ try {
             <?php if(empty($fraudRows)): ?><tr><td colspan="4" class="empty-cell">Aucune anomalie détectée.</td></tr><?php endif; ?>
             <?php foreach($fraudRows as $a): ?>
             <tr>
-                <td data-label="Niveau"><span class="badge <?= e($a['level']) ?>"><?= $a['level']==='red'?'🔴 Élevé':'🟠 Moyen' ?></span></td>
+                <td data-label="Niveau"><span class="badge <?= e($a['level']) ?>"><?= $a['level']==='red'?'<span style="color:#DC2626">●</span> Élevé':'<span style="color:#F97316">●</span> Moyen' ?></span></td>
                 <td data-label="Type"><?= e($a['type']) ?></td>
                 <td data-label="Cible"><strong><?= e($a['target']) ?></strong></td>
                 <td data-label="Description"><?= e($a['desc']) ?></td>

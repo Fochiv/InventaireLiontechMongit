@@ -84,14 +84,14 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                  value="<?=h($_POST['phone']??$prePhone)?>"/>
         </div>
         <div class="cl-field">
-          <label data-i="password_label"><span class="icon-lock">🔒</span> Mot de passe / PIN (min. 4 chiffres)</label>
+          <label data-i="password_label"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Mot de passe / PIN (min. 4 chiffres)</label>
           <div class="cl-input-wrap">
             <input type="password" id="p1" name="password" placeholder="••••••" required/>
             <button type="button" class="cl-eye-btn" onclick="togglePass('p1')">👁</button>
           </div>
         </div>
         <div class="cl-field">
-          <label data-i="confirm_label"><span class="icon-lock">🔒</span> Confirmer le mot de passe</label>
+          <label data-i="confirm_label"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span> Confirmer le mot de passe</label>
           <div class="cl-input-wrap">
             <input type="password" id="p2" name="password2" placeholder="••••••" required/>
             <button type="button" class="cl-eye-btn" onclick="togglePass('p2')">👁</button>

@@ -319,13 +319,18 @@ if (!function_exists('sbA')) {
 
   /* Move hamburger into existing od-topbar if present */
   const topbar = document.querySelector('.od-topbar');
+  const existingMenuBtn = document.getElementById('od-menu-btn');
   if (topbar && ham) {
-    topbar.insertBefore(ham, topbar.firstChild);
-    ham.style.display = ''; /* show only on mobile via CSS */
+    if (!existingMenuBtn) {
+      /* No page-specific button: inject the sidebar hamburger */
+      topbar.insertBefore(ham, topbar.firstChild);
+      ham.style.display = '';
+    }
+    /* If page already has od-menu-btn, hide our extra hamburger */
   }
 
-  /* Also hook od-menu-btn if page has its own */
-  document.getElementById('od-menu-btn')?.addEventListener('click', openSb);
+  /* Hook od-menu-btn if the page has its own */
+  existingMenuBtn?.addEventListener('click', openSb);
 
   /* ── Notification badge ── */
   const badge = document.getElementById('lt-notif-badge');

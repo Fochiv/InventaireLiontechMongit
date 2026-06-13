@@ -411,14 +411,14 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
         </div>
       </div>
       <div class="ca-stat">
-        <div class="ca-stat-icon green">🗓️</div>
+        <div class="ca-stat-icon green"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>️</div>
         <div>
           <small data-i18n="stat_sessions">Sessions aujourd'hui</small>
           <strong><?= (int)$todayCount ?></strong>
         </div>
       </div>
       <div class="ca-stat">
-        <div class="ca-stat-icon amber">⏳</div>
+        <div class="ca-stat-icon amber"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <div>
           <small data-i18n="stat_hours">Heures complétées</small>
           <strong><?= floor($totalMinutes/60) ?>h<?= str_pad((string)((int)$totalMinutes%60), 2, '0', STR_PAD_LEFT) ?>m</strong>
@@ -474,12 +474,12 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
             <input type="hidden" name="longitude" id="gpsLng">
             <input type="hidden" name="accuracy"  id="gpsAcc">
             <button type="submit" class="clock-btn out" id="clockBtn" disabled <?= $isExpired ? 'disabled' : '' ?>>
-              🔴 <span data-i18n="btn_clock_out">Clock Out</span>
+              <span style="color:#DC2626;font-size:16px">●</span> <span data-i18n="btn_clock_out">Clock Out</span>
             </button>
           </form>
           <?php else: ?>
           <div style="background:#F8FAFC;border:1.5px dashed #E2E8F0;border-radius:12px;padding:20px;text-align:center;margin-bottom:16px">
-            <div style="font-size:36px;margin-bottom:8px">⏰</div>
+            <div style="margin-bottom:8px"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
             <p style="font-size:13px;color:#94A3B8;margin:0" data-i18n="not_clocked_in">Vous n'êtes pas encore clocké in aujourd'hui.</p>
           </div>
           <form method="POST" id="clockForm">
@@ -511,8 +511,8 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
             ['icon'=>'<span class="icon-phone"><span class="icon-phone">☎</span></span>','fr'=>'Connectez-vous sur votre téléphone ou ordinateur.',      'en'=>'Log in on your phone or computer.'],
             ['icon'=>'<span class="icon-pin">●</span>','fr'=>'Cliquez sur "Activer GPS" et autorisez la localisation.', 'en'=>'Click "Activate GPS" and allow location access.'],
             ['icon'=>'<span class="dot-green">●</span>','fr'=>'Cliquez Clock In en arrivant au travail.',                'en'=>'Click Clock In when you arrive at work.'],
-            ['icon'=>'🔴','fr'=>'Cliquez Clock Out en quittant.',                          'en'=>'Click Clock Out when you leave.'],
-            ['icon'=>'👀','fr'=>'Le patron voit vos présences en temps réel.',             'en'=>'The owner sees your attendance in real time.'],
+            ['icon'=>'<span style="color:#DC2626;font-size:18px">●</span>','fr'=>'Cliquez Clock Out en quittant.',                          'en'=>'Click Clock Out when you leave.'],
+            ['icon'=>'<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>','fr'=>'Le patron voit vos présences en temps réel.',             'en'=>'The owner sees your attendance in real time.'],
           ];
           ?>
           <div style="display:flex;flex-direction:column;gap:14px">

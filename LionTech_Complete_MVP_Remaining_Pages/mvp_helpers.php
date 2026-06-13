@@ -58,7 +58,7 @@ function lt_subscription_expired(): bool {
 function lt_sidebar(string $active = 'dashboard'): void {
     $base  = APP_URL;
     $links = [
-        [$base . '/LionTech_Owner_Dashboard/owner_dashboard.php',               '🏠', 'Dashboard',     'dashboard'],
+        [$base . '/LionTech_Owner_Dashboard/owner_dashboard.php',               '<span class="icon-receipt">&#9962;</span>', 'Dashboard',     'dashboard'],
         [$base . '/LionTech_Employee_Management/liontech_employee_management/employees.php',              '<span class="icon-users">◎</span>', 'Employés',      'employees'],
         [$base . '/Produit/products.php',                                                                 '<span class="icon-box">▣</span>', 'Produits',      'products'],
         [$base . '/LionTech_Stock_In_Page/liontech_stock_in_page/stock_in.php',                          '📥', 'Stock entrant', 'stock_in'],
@@ -69,7 +69,7 @@ function lt_sidebar(string $active = 'dashboard'): void {
         [$base . '/LionTech_Complete_MVP_Remaining_Pages/notifications.php',        '🔔', 'Notifications', 'notifications'],
         [$base . '/LionTech_Complete_MVP_Remaining_Pages/activity_logs.php',        '<span class="icon-receipt">▤</span>', 'Activité',      'logs'],
         [$base . '/LionTech_Complete_MVP_Remaining_Pages/subscription_billing.php', '<span class="icon-card">▬</span>', 'Abonnement',    'subscription'],
-        [$base . '/LionTech_Complete_MVP_Remaining_Pages/settings.php',             '<span class="icon-gear">⚙</span>', 'Paramètres',    'settings'],
+        [$base . '/LionTech_Complete_MVP_Remaining_Pages/settings.php',             '<span class="icon-gear"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>', 'Paramètres',    'settings'],
     ];
 
     $u        = lt_user();
@@ -98,7 +98,7 @@ function lt_sidebar(string $active = 'dashboard'): void {
 
     echo '<div class="lt-nav-title">Compte</div>';
     echo '<a class="lt-nav-item" href="' . $base . '/change_pin.php">';
-    echo   '<span class="lt-nav-icon"><span class="icon-lock"><span class="icon-lock">🔒</span></span></span><span>Changer PIN</span>';
+    echo   '<span class="lt-nav-icon"><span class="icon-lock"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></span></span><span>Changer PIN</span>';
     echo '</a>';
     echo '<a class="lt-nav-item" href="' . $base . '/Logininventory/logout.php">';
     echo   '<span class="lt-nav-icon"><span class="icon-door">▭</span></span><span>Déconnexion</span>';
@@ -121,7 +121,7 @@ function lt_header(string $title, string $subtitle = ''): void {
     $u = lt_user();
     echo '<header class="lt-topbar">';
     echo   '<div style="display:flex;gap:12px;align-items:center">';
-    echo     '<button class="lt-menu" id="lt-menu" aria-label="Open menu">☰</button>';
+    echo     '<button class="lt-menu" id="lt-menu" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>';
     echo     '<div>';
     echo       '<strong>' . lt_e($title) . '</strong>';
     if ($subtitle) {

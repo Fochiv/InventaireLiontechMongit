@@ -93,7 +93,6 @@ $dashLink = match($role){
 
 <!-- ══ CAISSE CODE SCREEN (employees) ══ -->
 <div class="gate-screen lock-hidden" id="caisseCodeScreen">
-   <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <div class="gate-title">Accès Caisse</div>
   <div class="gate-sub">Entrez le code caisse pour continuer<br><em>Enter the caisse code to continue</em></div>
   <input class="gate-input" id="caisseCodeInput" type="password" inputmode="numeric" maxlength="6" placeholder="••••" onkeydown="if(event.key==='Enter') tryCode()"/>
@@ -103,7 +102,6 @@ $dashLink = match($role){
 
 <!-- ══ SESSION OPENING SCREEN ══ -->
 <div class="gate-screen lock-hidden" id="sessionScreen">
-  <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <div class="gate-title" id="sesTitle">Ouvrir la caisse</div>
   <div class="gate-sub" id="sesSub">Bonjour <?= h(explode(' ',$cashier)[0]) ?> — entrez le montant en caisse</div>
   <div class="gate-field-label">Fond de caisse (XAF)</div>
@@ -114,12 +112,12 @@ $dashLink = match($role){
 
 <!-- ══ LOCK SCREEN (inactivity) ══ -->
 <div class="gate-screen lock-hidden" id="lockScreen">
-  <div class="gate-logo"><span class="icon-lock">🔒</span></div>
+  <div class="gate-logo"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
   <div class="gate-title" id="lkTitle">Session verrouillée</div>
   <div class="gate-sub"   id="lkSub">Entrez votre PIN pour reprendre</div>
   <input class="gate-input" id="lockPin" type="password" inputmode="numeric" maxlength="10" placeholder="••••••" autocomplete="current-password"/>
   <div class="gate-error" id="lockErr"></div>
-  <button class="gate-btn" id="lockBtn" type="button">🔓 Déverrouiller</button>
+  <button class="gate-btn" id="lockBtn" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg> Déverrouiller</button>
 </div>
 
 <!-- ══ SIDEBAR ══ -->
@@ -135,7 +133,7 @@ $dashLink = match($role){
         <div class="sb-tag">Business Manager</div>
       </div>
     </div>
-    <button class="sb-close" id="sbClose" type="button">✗</button>
+    <button class="sb-close" id="sbClose" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div>
   <nav class="sb-nav">
     <a class="sb-link" href="<?= h($dashLink) ?>">
@@ -183,7 +181,7 @@ $dashLink = match($role){
 
 <!-- ══ TOP BAR ══ -->
 <header class="pos-bar">
-  <button class="bar-icon-btn" id="hamburger" type="button" aria-label="Menu">☰</button>
+  <button class="bar-icon-btn" id="hamburger" type="button" aria-label="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   <a class="bar-icon-btn" href="<?= h($dashLink) ?>" title="Retour">←</a>
   <div class="bar-center">
     <div class="bar-biz"><span class="icon-receipt">▤</span> <?= h($bizName) ?></div>
@@ -191,7 +189,7 @@ $dashLink = match($role){
   </div>
   <div class="bar-right">
     <div class="online-dot" id="onlineDot"></div>
-    <button class="pos-close-btn" id="closeSessionBtn" type="button" title="Fermer la caisse" style="display:none">⏏</button>
+    <button class="pos-close-btn" id="closeSessionBtn" type="button" title="Fermer la caisse" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <button class="lang-btn" id="langBtn" type="button">EN</button>
   </div>
 </header>
@@ -206,7 +204,7 @@ $dashLink = match($role){
         <span class="s-ico"><span class="icon-search">⌕</span></span>
         <input type="search" id="searchInput" placeholder="Chercher un produit..." autocomplete="off" spellcheck="false"/>
       </div>
-      <button class="scan-btn" id="scanBtn" type="button" title="Scanner">📷</button>
+      <button class="scan-btn" id="scanBtn" type="button" title="Scanner"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></button>
     </div>
     <div class="products-wrap">
       <div class="prod-empty-state" id="prodEmptyState">
@@ -236,8 +234,8 @@ $dashLink = match($role){
 <div class="cp-panel" id="cpPanel">
   <div class="cp-handle"></div>
   <div class="cp-head">
-    <div class="cp-title">🛒 <span id="cpTtl">Panier</span></div>
-    <button class="cp-close" id="cpClose" type="button">✗</button>
+    <div class="cp-title"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> <span id="cpTtl">Panier</span></div>
+    <button class="cp-close" id="cpClose" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div>
   <div id="cpBody" class="cp-body-scroll">
 
@@ -271,7 +269,7 @@ $dashLink = match($role){
       <div class="pay-modes">
         <button class="pay-mode-btn" onclick="selectPayMode('especes')"><span class="icon-money">&#36;</span><br>Espèces</button>
         <button class="pay-mode-btn" onclick="selectPayMode('mtn_momo')"><span class="icon-phone"><span class="icon-phone">☎</span></span><br>MTN MoMo</button>
-        <button class="pay-mode-btn" onclick="selectPayMode('orange_money')">🟠<br>Orange</button>
+        <button class="pay-mode-btn" onclick="selectPayMode('orange_money')"><span style="color:#FF6600;font-size:16px">&#9679;</span><br>Orange</button>
       </div>
       <div id="payInputRow" class="co-row-2" style="display:none;margin-top:8px">
         <input class="co-input" id="payAmount" type="number" min="0" placeholder="Montant (XAF)"/>
@@ -315,7 +313,7 @@ $dashLink = match($role){
 <!-- ══ SCANNER ══ -->
 <div class="scan-modal" id="scanModal">
   <div class="scan-frame"><div id="reader"></div></div>
-  <div class="scan-hint" id="scanHint">📷 Pointez la caméra vers le code-barres</div>
+  <div class="scan-hint" id="scanHint"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Pointez la caméra vers le code-barres</div>
   <button class="scan-close" id="scanClose" type="button">✗ Fermer</button>
 </div>
 
@@ -339,8 +337,8 @@ $dashLink = match($role){
     <div id="recContent"></div>
     <div class="rec-actions">
       <button class="rec-wa"  id="recWa"  type="button"><span class="icon-msg">▷</span> Envoyer sur WhatsApp</button>
-      <button class="rec-print" id="recPrint" type="button">🖨️ Imprimer la facture</button>
-      <button class="rec-new" id="recNew" type="button">🛒 Nouvelle vente</button>
+      <button class="rec-print" id="recPrint" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>️ Imprimer la facture</button>
+      <button class="rec-new" id="recNew" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Nouvelle vente</button>
     </div>
   </div>
 </div>

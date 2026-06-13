@@ -107,14 +107,14 @@ $initials=substr($initials?:'U',0,2);
 
 <?php if($message): ?>
 <div style="background:<?=$messageType==='success'?'#F0FDF4':'#FEF2F2'?>;border:1px solid <?=$messageType==='success'?'#86EFAC':'#FECACA'?>;padding:12px 24px;font-size:13px;color:<?=$messageType==='success'?'#166534':'#991B1B'?>">
-  <?=$messageType==='success'?'&#9989;':'&#9888;'?> <?=e($message)?></div>
+  <?=$messageType==='success'?'<span class="icon-ok">✓</span>':'<span class="icon-warn">⚠</span>'?> <?=e($message)?></div>
 <?php endif; ?>
 
 <div style="padding:20px 24px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px">
-  <div class="od-card stat"><span class="stat-icon amber">&#9201;</span><div><small data-i18n="stat_pending">Pending</small><strong><?=(int)$pendingCount?></strong></div></div>
-  <div class="od-card stat"><span class="stat-icon green">&#9989;</span><div><small data-i18n="stat_today">Approved today</small><strong><?=(int)$approvedToday?></strong></div></div>
-  <div class="od-card stat"><span class="stat-icon blue">&#128230;</span><div><small data-i18n="stat_products">Products</small><strong><?=count($products)?></strong></div></div>
-  <div class="od-card stat"><span class="stat-icon" style="background:#EDE9FE">&#10133;</span><div><small data-i18n="stat_qty">Qty pending</small><strong><?=qf($pendingQty)?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon amber"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><div><small data-i18n="stat_pending">Pending</small><strong><?=(int)$pendingCount?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon green"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><div><small data-i18n="stat_today">Approved today</small><strong><?=(int)$approvedToday?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon blue"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span><div><small data-i18n="stat_products">Products</small><strong><?=count($products)?></strong></div></div>
+  <div class="od-card stat"><span class="stat-icon" style="background:#EDE9FE"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span><div><small data-i18n="stat_qty">Qty pending</small><strong><?=qf($pendingQty)?></strong></div></div>
 </div>
 
 <div style="padding:16px 24px 40px">

@@ -279,7 +279,7 @@ $brandName  = $business['brand_name'] ?? 'Mon Business';
 $modeLabels = [
     'especes'      => '<span class="icon-money">&#36;</span> Espèces',
     'mtn_momo'     => '<span class="icon-phone"><span class="icon-phone">☎</span></span> MTN MoMo',
-    'orange_money' => '🟠 Orange Money',
+    'orange_money' => '<span style="color:#FF6600;font-size:16px">&#9679;</span> Orange Money',
 ];
 
 $typeOperation = $transaction['type_operation'] ?? 'vente';
@@ -591,7 +591,7 @@ body {
         <?php if ($token === ''): ?>
         <a href="<?= APP_URL ?>/Vente_cashier/Vente.php#receiptsTable" class="action-btn btn-back">← Retour</a>
         <?php endif; ?>
-        <button onclick="window.print()" class="action-btn btn-print">🖨️ Imprimer / PDF</button>
+        <button onclick="window.print()" class="action-btn btn-print"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>️ Imprimer / PDF</button>
     </div>
 </div>
 

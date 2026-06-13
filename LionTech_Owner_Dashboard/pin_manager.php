@@ -58,7 +58,7 @@ $bizName = $biz['business_name'] ?? 'LionTech';
 <main class="od-main">
   <div class="od-topbar">
     <div>
-      <h1 style="font-size:20px;font-weight:800;color:#0B1F3A;margin:0"><span class="icon-lock"><span class="icon-lock">🔒</span></span> Gestion des PINs</h1>
+      <h1 style="font-size:20px;font-weight:800;color:#0B1F3A;margin:0"><span class="icon-lock"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></span> Gestion des PINs</h1>
       <p style="font-size:13px;color:#6B7280;margin:2px 0 0">Générez les PINs d'accès à la caisse pour vos employés</p>
     </div>
     <div class="od-avatar"><?= htmlspecialchars($initials) ?></div>
@@ -83,7 +83,7 @@ $bizName = $biz['business_name'] ?? 'LionTech';
 <!-- PIN Modal -->
 <div class="pin-modal-bg" id="pinModal">
   <div class="pin-modal">
-    <div style="font-size:24px;margin-bottom:8px"><span class="icon-lock"><span class="icon-lock">🔒</span></span></div>
+    <div style="font-size:24px;margin-bottom:8px"><span class="icon-lock"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></span></div>
     <div style="font-size:16px;font-weight:800;color:#0B1F3A" id="pinModalTitle">PIN généré</div>
     <div style="font-size:13px;color:#6B7280;margin:4px 0 12px" id="pinModalSub"></div>
     <div class="pin-display" id="pinDisplay">----</div>
@@ -136,7 +136,7 @@ async function loadEmployees(){
       </div>
       ${e.has_pin?`<div style="font-size:11px;color:#9CA3AF;margin-bottom:10px">Mis à jour: ${e.pin_updated_at?e.pin_updated_at.slice(0,10):'—'}</div>`:''}
       <button class="pm-btn" onclick="generatePin(${e.user_id},'${e.full_name.replace(/'/g,"\\'")}',${e.has_pin?1:0})">
-        ${e.has_pin?'🔄 Réinitialiser PIN':'<span class="icon-lock"><span class="icon-lock">🔒</span></span> Générer PIN'}
+        ${e.has_pin?'🔄 Réinitialiser PIN':'<span class="icon-lock"><span class="icon-lock"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></span> Générer PIN'}
       </button>
     </div>`).join('');
 }

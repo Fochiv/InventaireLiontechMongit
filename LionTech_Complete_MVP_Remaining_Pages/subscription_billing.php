@@ -156,9 +156,9 @@ foreach (explode(' ', trim($user['full_name'] ?? 'O')) as $w) $initials .= strto
 $initials = substr($initials ?: 'O', 0, 2);
 
 $methodLabels = [
-    'orange_money'  => '🟠 Orange Money',
-    'mtn_momo'      => '🟡 MTN MoMo',
-    'bank_transfer' => '🏦 Virement Bancaire',
+    'orange_money'  => '<span style="color:#FF6600;font-size:16px">&#9679;</span> Orange Money',
+    'mtn_momo'      => '<span style="color:#FFCC00;font-size:16px">&#9679;</span> MTN MoMo',
+    'bank_transfer' => '<span class="icon-receipt">&#9636;</span> Virement Bancaire',
     'cash'          => '<span class="icon-money">&#36;</span> Espèces',
 ];
 ?>
@@ -170,6 +170,8 @@ $methodLabels = [
   <title>Abonnement — LionTech</title>
   <link rel="icon" type="image/png" href="<?= APP_URL ?>/Image/TALLYLOGO.png"/>
   <link rel="manifest" href="<?= APP_URL ?>/manifest.json"/>
+  <link rel="stylesheet" href="<?= APP_URL ?>/LionTech_Owner_Dashboard/owner_dashboard.css"/>
+  <link rel="stylesheet" href="<?= APP_URL ?>/icons.css"/>
 </head>
 <body>
 <div class="od-layout">
@@ -214,14 +216,14 @@ $methodLabels = [
       </div>
       <a href="<?= $waUrl ?>" target="_blank" rel="noopener noreferrer"
         style="background:#25D366;color:#fff;padding:11px 20px;border-radius:10px;text-decoration:none;font-size:13.5px;font-weight:700;white-space:nowrap">
-        📲 Envoyer WhatsApp
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17.27z"/></svg> Envoyer WhatsApp
       </a>
     </div>
     <?php endif; ?>
 
     <?php if ($hasPending): ?>
     <div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:14px 20px;margin:16px 24px;font-size:13.5px;color:#92400E;display:flex;align-items:center;gap:12px">
-      <span style="font-size:20px">⏳</span>
+      <span style="font-size:20px"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
       <div>
         <strong>Paiement en attente de validation</strong>
         <p style="margin:3px 0 0;font-size:13px">LionTech est en train de vérifier votre paiement. Vous serez notifié(e) sur WhatsApp dès validation.</p>
@@ -307,9 +309,9 @@ $methodLabels = [
 
               <?php
               $methods = [
-                'orange_money'  => ['icon'=>'🟠','label'=>'Orange Money',   'color'=>'#FF6600'],
-                'mtn_momo'      => ['icon'=>'🟡','label'=>'MTN MoMo',       'color'=>'#FFCC00'],
-                'bank_transfer' => ['icon'=>'🏦','label'=>'Virement Bancaire','color'=>'#1E40AF'],
+                'orange_money'  => ['icon'=>'<span style="color:#FF6600;font-size:16px">&#9679;</span>','label'=>'Orange Money',   'color'=>'#FF6600'],
+                'mtn_momo'      => ['icon'=>'<span style="color:#FFCC00;font-size:16px">&#9679;</span>','label'=>'MTN MoMo',       'color'=>'#FFCC00'],
+                'bank_transfer' => ['icon'=>'<span class="icon-receipt">&#9636;</span>','label'=>'Virement Bancaire','color'=>'#1E40AF'],
                 'cash'          => ['icon'=>'<span class="icon-money">&#36;</span>','label'=>'Espèces',         'color'=>'#166534'],
               ];
               foreach ($methods as $val => $m):
@@ -424,7 +426,7 @@ $methodLabels = [
               <td>
                 <span class="od-badge <?= $p['status']==='approved'?'success':($p['status']==='pending'?'':'danger') ?>"
                   style="<?= $p['status']==='pending'?'background:#FEF3C7;color:#92400E':'' ?>">
-                  <?= $p['status']==='approved'?'<span class="icon-ok">✓</span> Approuvé':($p['status']==='pending'?'⏳ En attente':'<span class="icon-err">✗</span> Rejeté') ?>
+                  <?= $p['status']==='approved'?'<span class="icon-ok">✓</span> Approuvé':($p['status']==='pending'?'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> En attente':'<span class="icon-err">✗</span> Rejeté') ?>
                 </span>
               </td>
               <td style="font-size:12px;color:#6B7280"><?= e($p['rejection_reason'] ?? '') ?></td>

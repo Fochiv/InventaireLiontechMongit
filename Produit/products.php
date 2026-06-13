@@ -275,7 +275,7 @@ $initials = substr($initials?:'U',0,2);
                 <td>
                   <div class="product-cell">
                     <div class="product-img">
-                      <?php if(!empty($p['image_url'])): ?><img src="<?=e($p['image_url'])?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?>
+                      <?php if(!empty($p['image_url'])): ?><img src="<?=e(str_starts_with($p['image_url'],'http')?$p['image_url']:APP_URL.'/'.ltrim($p['image_url'],'/'))?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?>
                     </div>
                     <div><strong><?=e($p['name'])?></strong><small><?=e($p['sku']??'')?></small></div>
                   </div>

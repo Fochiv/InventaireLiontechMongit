@@ -78,13 +78,13 @@ $color  = $biz['brand_color'] ?? '#0B1F3A';
 $bizName= $biz['brand_name'] ?? 'Business';
 $typeOp = $tx['type_operation'] ?? 'vente';
 $invoice= $tx['numero_facture'] ?? ($receipt['receipt_number'] ?? '');
-$payLabels = ['especes'=>'<span class="icon-money">&#36;</span> Espèces','mtn_momo'=>'<span class="icon-phone"><span class="icon-phone">☎</span></span> MTN MoMo','orange_money'=>'🟠 Orange Money'];
+$payLabels = ['especes'=>'<span class="icon-money">&#36;</span> Espèces','mtn_momo'=>'<span class="icon-phone"><span class="icon-phone">☎</span></span> MTN MoMo','orange_money'=>'<span style="color:#FF6600;font-size:16px">&#9679;</span> Orange Money'];
 ?>
 
 <div class="rc-wrap">
   <!-- Action bar (non-print) -->
   <div class="rc-actions no-print">
-    <button onclick="window.print()" class="rc-btn-print">🖨️ <span data-i="print">Imprimer</span></button>
+    <button onclick="window.print()" class="rc-btn-print"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>️ <span data-i="print">Imprimer</span></button>
 
     <?php if($loggedIn): ?>
     <button class="rc-btn-save" id="saveBtn" onclick="doSave()"><span class="icon-star">★</span> <span data-i="save_receipt">Sauvegarder</span></button>

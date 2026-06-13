@@ -262,7 +262,7 @@ $initials = substr($initials ?: 'U', 0, 2);
               <td>
                 <?php if ($a['photo_url']): ?>
                 <a href="<?= APP_URL . '/' . e($a['photo_url']) ?>" target="_blank"
-                   style="color:#0B1F3A;font-weight:700;font-size:11px">📷 Voir</a>
+                   style="color:#0B1F3A;font-weight:700;font-size:11px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Voir</a>
                 <?php else: ?>
                 <span style="font-size:11px;color:#9CA3AF">—</span>
                 <?php endif; ?>
