@@ -30,6 +30,8 @@ if (!function_exists('saIcon')) {
             'logout' => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'/><polyline points='16 17 21 12 16 7'/><line x1='21' y1='12' x2='9' y2='12'/></svg>",
 
             'close' => "<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><line x1='18' y1='6' x2='6' y2='18'/><line x1='6' y1='6' x2='18' y2='18'/></svg>",
+
+            'bell' => "<svg width='$s' height='$s' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/><path d='M13.73 21a2 2 0 0 1-3.46 0'/></svg>",
         ];
 
         return $icons[$name] ?? $icons['dashboard'];
@@ -93,9 +95,17 @@ try {
       </div>
     </div>
 
-    <button class="sa-sidebar-close" id="sa-sidebar-close">
-      <?= saIcon('close') ?>
-    </button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="sa-notif-btn" id="sa-notif-bell"
+              onclick="window.location='<?= $saUrl ?>/LionTech_Complete_MVP_Remaining_Pages/notifications.php'"
+              title="Notifications">
+        <?= saIcon('bell', 17) ?>
+        <span class="sa-notif-dot" id="sa-notif-dot"></span>
+      </button>
+      <button class="sa-sidebar-close" id="sa-sidebar-close">
+        <?= saIcon('close') ?>
+      </button>
+    </div>
   </div>
 
   <nav class="sa-nav">
@@ -189,6 +199,13 @@ try {
       <span data-i18n="nav_settings">Settings</span>
     </a>
 
+    <a class="sa-nav-item" id="sa-notif-nav"
+       href="<?= $saUrl ?>/LionTech_Complete_MVP_Remaining_Pages/notifications.php">
+      <span class="sa-nav-icon"><?= saIcon('bell') ?></span>
+      <span data-i18n="nav_notifications">Notifications</span>
+      <span class="sa-nav-badge-live" id="sa-notif-nav-badge"></span>
+    </a>
+
     <a class="sa-nav-item sa-nav-logout" href="<?= $saUrl ?>/Logininventory/logout.php">
       <span class="sa-nav-icon"><?= saIcon('logout') ?></span>
       <span data-i18n="nav_logout">Sign Out</span>
@@ -229,6 +246,7 @@ try {
       nav_users:'Users',
       nav_reports:'Reports',
       nav_settings:'Settings',
+      nav_notifications:'Notifications',
       nav_logout:'Sign Out'
     },
     fr:{
@@ -246,6 +264,7 @@ try {
       nav_users:'Utilisateurs',
       nav_reports:'Rapports',
       nav_settings:'Paramètres',
+      nav_notifications:'Notifications',
       nav_logout:'Déconnexion'
     }
   };
@@ -263,6 +282,40 @@ try {
 
   document.addEventListener('DOMContentLoaded', function(){
     applyLang(lang);
+    startNotifPolling();
   });
+
+  /* ── Real-time notification badge ── */
+  function startNotifPolling(){
+    var bell    = document.getElementById('sa-notif-bell');
+    var dot     = document.getElementById('sa-notif-dot');
+    var navBadge= document.getElementById('sa-notif-nav-badge');
+    if (!bell && !dot) return;
+
+    var api = '<?= $saUrl ?>/LionTech_Complete_MVP_Remaining_Pages/notifications_api.php';
+
+    function update(){
+      fetch(api, {credentials:'same-origin'})
+        .then(function(r){ return r.ok ? r.json() : {unread:0}; })
+        .then(function(d){
+          var n = d.unread || 0;
+          if (n > 0) {
+            var label = n > 99 ? '99+' : n;
+            if (dot)      { dot.textContent = label;  dot.style.display = 'inline-block'; }
+            if (navBadge) { navBadge.textContent = label; navBadge.style.display = 'inline-block'; }
+            if (bell)     { bell.classList.add('has-unread'); }
+          } else {
+            if (dot)      { dot.style.display = 'none'; }
+            if (navBadge) { navBadge.style.display = 'none'; }
+            if (bell)     { bell.classList.remove('has-unread'); }
+          }
+        })
+        .catch(function(){});
+    }
+
+    update();
+    setInterval(update, 30000);
+  }
+
 })();
 </script>
