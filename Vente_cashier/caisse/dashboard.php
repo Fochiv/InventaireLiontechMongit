@@ -270,7 +270,7 @@ $dashLink = match($role){
       <div class="co-label">Paiement</div>
       <div class="pay-modes">
         <button class="pay-mode-btn" onclick="selectPayMode('especes')"><span class="icon-money">&#36;</span><br>Espèces</button>
-        <button class="pay-mode-btn" onclick="selectPayMode('mtn_momo')"><span class="icon-phone"><span class="icon-phone">☎</span></span><br>MTN MoMo</button>
+        <button class="pay-mode-btn" onclick="selectPayMode('mtn_momo')"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg><br>MTN MoMo</button>
         <button class="pay-mode-btn" onclick="selectPayMode('orange_money')"><span style="color:#FF6600;font-size:16px">&#9679;</span><br>Orange</button>
       </div>
       <div id="payInputRow" class="co-row-2" style="display:none;margin-top:8px">
@@ -305,8 +305,8 @@ $dashLink = match($role){
 
     <!-- Actions -->
     <div class="co-btns">
-      <button class="btn-clear" onclick="clearCart()">🗑 Vider</button>
-      <button class="btn-sale"  onclick="doSale()"><span class="icon-ok">✓</span> Valider la vente</button>
+      <button class="btn-clear" onclick="clearCart()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Vider</button>
+      <button class="btn-sale"  onclick="doSale()"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Valider la vente</button>
     </div>
 
   </div><!-- /#cpBody -->
@@ -316,7 +316,7 @@ $dashLink = match($role){
 <div class="scan-modal" id="scanModal">
   <div class="scan-frame"><div id="reader"></div></div>
   <div class="scan-hint" id="scanHint"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Pointez la caméra vers le code-barres</div>
-  <button class="scan-close" id="scanClose" type="button">✗ Fermer</button>
+  <button class="scan-close" id="scanClose" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Fermer</button>
 </div>
 
 <!-- ══ CLOSE SESSION MODAL ══ -->

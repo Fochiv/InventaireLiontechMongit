@@ -533,6 +533,8 @@ input,textarea{font-family:inherit}
 /* Desktop: override to show cpPanel as right column
    (cart-side removed; cpPanel handles both mobile + desktop) */
 @media(min-width:600px){
+  /* Hide mobile cart-bar when cp-panel takes over as right column */
+  .cart-bar,.cp-overlay{ display:none !important; }
   .cp-panel{
     position:fixed !important;
     right:0;top:56px;bottom:0;

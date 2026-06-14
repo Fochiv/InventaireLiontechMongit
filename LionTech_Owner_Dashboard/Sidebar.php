@@ -87,7 +87,7 @@ if (!function_exists('sbA')) {
 .sb-foot-role{color:rgba(255,255,255,.4);font-size:11px;text-transform:capitalize}
 /* Desktop: sidebar always visible */
 @media(min-width:769px){
-  .od-sidebar{left:0 !important}
+  .od-sidebar{left:0 !important;transform:none !important}
   .sb-overlay{display:none !important}
   .od-main{margin-left:260px}
   .od-sidebar-close{display:none}
@@ -320,13 +320,17 @@ if (!function_exists('sbA')) {
   /* Move hamburger into existing od-topbar if present */
   const topbar = document.querySelector('.od-topbar');
   const existingMenuBtn = document.getElementById('od-menu-btn');
-  if (topbar && ham) {
-    if (!existingMenuBtn) {
+  if (ham) {
+    if (topbar && !existingMenuBtn) {
       /* No page-specific button: inject the sidebar hamburger */
       topbar.insertBefore(ham, topbar.firstChild);
       ham.style.display = '';
+    } else {
+      /* Page already has od-menu-btn: permanently hide sbHamburger */
+      ham.hidden = true;
+      ham.style.setProperty('display', 'none', 'important');
+      ham.setAttribute('aria-hidden', 'true');
     }
-    /* If page already has od-menu-btn, hide our extra hamburger */
   }
 
   /* Hook od-menu-btn if the page has its own */

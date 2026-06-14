@@ -372,6 +372,27 @@ $dayNamesEn = ['monday'=>'Monday','tuesday'=>'Tuesday','wednesday'=>'Wednesday',
 <div class="od-layout">
 
 <?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
+<style>
+/* clock_attendance mobile responsive */
+@media(max-width:768px){
+  .ca-wrap{padding:0!important}
+  .ca-stats{flex-wrap:wrap!important;gap:10px!important}
+  .ca-stat{min-width:calc(50% - 10px);flex:1 1 140px!important}
+  .cards-grid{grid-template-columns:1fr!important}
+  .content-grid{grid-template-columns:1fr!important}
+  .hero-card{flex-direction:column!important;align-items:flex-start!important;padding:18px!important}
+  .hero-card h2{font-size:22px!important}
+  .clock-form{flex-direction:column!important}
+  .primary-btn,.danger-btn{width:100%!important}
+  .steps div{grid-template-columns:auto 1fr!important}
+  .od-topbar{padding:12px 16px!important;flex-wrap:wrap!important;gap:10px!important}
+  .od-top-actions{gap:8px!important}
+}
+@media(max-width:420px){
+  .ca-stat{min-width:100%!important;flex:1 1 100%!important}
+  .od-business-title h1{font-size:18px!important}
+}
+</style>
 
 <main class="od-main">
   <header class="od-topbar">
@@ -786,7 +807,7 @@ function applyLang() {
   });
   localStorage.setItem('lt_lang', lang);
 }
-langBtn.addEventListener('click', () => { lang = lang === 'fr' ? 'en' : 'fr'; applyLang(); });
+langBtn?.addEventListener('click', () => { lang = lang === 'fr' ? 'en' : 'fr'; applyLang(); });
 applyLang();
 
 /* Sidebar */

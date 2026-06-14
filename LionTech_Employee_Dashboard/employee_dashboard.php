@@ -260,6 +260,30 @@ $initials = substr($initials ?: 'E',0,2);
 <div class="ed-layout">
 
   <?php include __DIR__ . '/../LionTech_Owner_Dashboard/Sidebar.php'; ?>
+  <style>
+  /* Sync ed-main with Sidebar.php's sidebar (260px, visible at 769px+) */
+  @media(min-width:769px){
+    .ed-main{margin-left:260px!important;width:calc(100% - 260px)!important}
+  }
+  @media(max-width:768px){
+    .ed-main{margin-left:0!important;width:100%!important;padding:14px!important}
+    .cards-grid{grid-template-columns:1fr!important}
+    .content-grid{grid-template-columns:1fr!important}
+    .product-grid{grid-template-columns:repeat(2,1fr)!important}
+    .hero-card{flex-direction:column!important;align-items:flex-start!important;padding:18px!important}
+    .pin-form{grid-template-columns:1fr!important}
+    .quick-grid{grid-template-columns:1fr!important}
+    .task-item{grid-template-columns:auto 1fr!important}
+    .clock-actions{flex-direction:column!important}
+    .ed-topbar h1{font-size:22px!important}
+    .table-wrap{overflow-x:auto!important}
+    table{min-width:600px!important}
+  }
+  @media(max-width:420px){
+    .product-grid{grid-template-columns:1fr!important}
+    .hero-card h2{font-size:22px!important}
+  }
+  </style>
 
   <main class="ed-main">
     <header class="ed-topbar">

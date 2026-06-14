@@ -51,6 +51,7 @@ img {
   display: flex;
   min-height: 100vh;
   background: var(--bg);
+  overflow-x: hidden;
 }
 
 .od-main {

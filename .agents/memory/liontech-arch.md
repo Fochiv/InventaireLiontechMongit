@@ -39,6 +39,27 @@ Files are directly in their module folder — no subdirectory inside a module fo
 **Include path from root-level file (e.g. change_pin.php):**
 `__DIR__ . '/LionTech_Owner_Dashboard/Sidebar.php'`
 
+## BUGS CRITIQUES RÉSOLUS (à ne pas recasser)
+
+### 1. Double hamburger — RÉSOLU dans Sidebar.php JS
+- Cause : `sbHamburger` (od-hamburger) restait dans le DOM et visible via CSS `@media(max-width:768px){.od-hamburger{display:inline-flex}}` même quand la page avait son propre `od-menu-btn`.
+- Fix : Quand `existingMenuBtn` existe → `ham.hidden=true; ham.style.setProperty('display','none','important')`.
+- Ce fix couvre : clock_attendance, notifications, change_pin, products, employee_dashboard, toutes les pages avec od-menu-btn.
+
+### 2. Sidebar invisible à 769-1050px — RÉSOLU dans Sidebar.php CSS
+- Cause : `owner_dashboard.css` ajoute `transform:translateX(-105%)` à max-width:1050px. Sidebar.php écrit `left:0!important` mais pas `transform:none`. CSS = left:0 ET transform(-105%) → sidebar hors écran.
+- Fix : Ajout de `transform:none !important` dans Sidebar.php `@media(min-width:769px){ .od-sidebar{left:0!important;transform:none!important} }`.
+- Affecte toutes les pages qui chargent owner_dashboard.css : owner_dashboard, notifications, validations, reports, change_pin, Vente, activity_logs, approval_center, subscription_billing, settings.
+
+### 3. employee_dashboard.php — breakpoint mismatch
+- Cause : employee_dashboard.css utilisait ed-main (pas od-main) avec margin-left:280px et breakpoint 850px. Sidebar.php forçait sidebar visible à 769px+. Gap 769-850px = sidebar visible + ed-main{margin-left:0} → overlap.
+- Fix : `<style>` injecté APRÈS l'include Sidebar.php dans le body → override de Sidebar.php pour ed-main.
+- Règle : les pages avec classes CSS personnalisées (ed-main, ca-main) doivent avoir un `<style>` APRÈS l'include Sidebar.php pour synchroniser les breakpoints.
+
+### 4. Caisse.css — cart-bar visible sur desktop
+- Cause : `@media(min-width:600px)` (ligne 535) venait APRÈS `@media(min-width:768px)` (ligne 412) qui cachait .cart-bar. Le rule 600px réaffichait cp-panel MAIS n'cachait pas .cart-bar → deux UI panier visibles.
+- Fix : Ajout de `.cart-bar,.cp-overlay{display:none!important}` dans le bloc min-width:600px.
+
 ## Sidebar — architecture (CRITICAL)
 - Shared sidebar is at `LionTech_Owner_Dashboard/Sidebar.php`.
 - It generates `<aside class="od-sidebar" id="od-sidebar">` with INLINE CSS in a `<style>` block.
