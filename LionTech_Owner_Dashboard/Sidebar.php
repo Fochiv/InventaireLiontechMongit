@@ -317,24 +317,25 @@ if (!function_exists('sbA')) {
   ov?.addEventListener('click',  closeSb);
   document.addEventListener('keydown', e => { if(e.key==='Escape') closeSb(); });
 
-  /* Move hamburger into existing od-topbar if present */
-  const topbar = document.querySelector('.od-topbar');
-  const existingMenuBtn = document.getElementById('od-menu-btn');
-  if (ham) {
-    if (topbar && !existingMenuBtn) {
-      /* No page-specific button: inject the sidebar hamburger */
-      topbar.insertBefore(ham, topbar.firstChild);
-      ham.style.display = '';
-    } else {
-      /* Page already has od-menu-btn: permanently hide sbHamburger */
-      ham.hidden = true;
-      ham.style.setProperty('display', 'none', 'important');
-      ham.setAttribute('aria-hidden', 'true');
+  /* Move hamburger into existing od-topbar if present — run after DOM is ready */
+  document.addEventListener('DOMContentLoaded', function () {
+    const topbar = document.querySelector('.od-topbar, .ed-topbar');
+    const existingMenuBtn = document.getElementById('od-menu-btn');
+    if (ham) {
+      if (topbar && !existingMenuBtn) {
+        /* No page-specific button: inject the sidebar hamburger */
+        topbar.insertBefore(ham, topbar.firstChild);
+        ham.style.display = '';
+      } else {
+        /* Page already has od-menu-btn: hide sbHamburger */
+        ham.hidden = true;
+        ham.style.setProperty('display', 'none', 'important');
+        ham.setAttribute('aria-hidden', 'true');
+      }
     }
-  }
-
-  /* Hook od-menu-btn if the page has its own */
-  existingMenuBtn?.addEventListener('click', openSb);
+    /* Hook od-menu-btn if the page has its own */
+    existingMenuBtn?.addEventListener('click', openSb);
+  });
 
   /* ── Notification badge ── */
   const badge = document.getElementById('lt-notif-badge');

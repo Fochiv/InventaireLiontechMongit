@@ -386,7 +386,14 @@ $initials = substr($initials ?: 'E',0,2);
         <?php foreach ($products as $p): ?>
           <?php $low = isset($p['low_stock_level']) && $p['low_stock_level'] !== null && (float)$p['quantity'] <= (float)$p['low_stock_level']; ?>
           <div class="product-card <?= $low ? 'low' : '' ?>">
-            <div class="product-img"><?php if (!empty($p['image_url'])): ?><img src="<?= e(str_starts_with($p['image_url'],'http') ? $p['image_url'] : APP_URL.'/'.ltrim($p['image_url'],'/')) ?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?></div>
+            <div class="product-img"><?php if (!empty($p['image_url'])): ?><?php
+                $imgSrc = $p['image_url'];
+                if (!str_starts_with($imgSrc,'http')) {
+                    if (str_starts_with($imgSrc,'uploads/products/')) $imgSrc = APP_URL.'/Produit/'.$imgSrc;
+                    elseif (str_starts_with($imgSrc,'uploads/')) $imgSrc = APP_URL.'/Produit/'.$imgSrc;
+                    else $imgSrc = APP_URL.'/'.ltrim($imgSrc,'/');
+                }
+            ?><img src="<?= e($imgSrc) ?>" alt=""/><?php else: ?><span class="icon-box">▣</span><?php endif; ?></div>
             <div><strong><?= e($p['name']) ?></strong><p><?= e($p['category'] ?? 'Autre') ?></p><span><?= e($p['quantity'] ?? 0) ?> <?= e($p['unit'] ?? '') ?></span></div>
           </div>
         <?php endforeach; ?>

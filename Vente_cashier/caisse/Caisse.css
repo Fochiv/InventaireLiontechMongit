@@ -537,18 +537,22 @@ input,textarea{font-family:inherit}
   .cart-bar,.cp-overlay{ display:none !important; }
   .cp-panel{
     position:fixed !important;
-    right:0;top:56px;bottom:0;
+    right:0;top:58px;bottom:0;
     width:320px;
     display:flex !important;          /* override display:none!important */
     flex-direction:column;
     transform:none !important;        /* override translateY(100%) */
     border-radius:0 !important;
     border-left:1px solid var(--border);
-    z-index:10;
+    z-index:50;
+    pointer-events:auto;
   }
   .products-col{ margin-right:320px; }
   .cart-side   { display:none !important; } /* removed from HTML anyway */
 }
+/* Ensure cp-panel inputs are always interactive on mobile */
+.cp-panel{ pointer-events:auto; }
+.cp-body-scroll{ -webkit-overflow-scrolling:touch; }
 
 /* Checkout section wrapper */
 .cp-body-scroll{flex:1;overflow-y:auto;padding:0}

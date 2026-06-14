@@ -15,7 +15,7 @@ a{text-decoration:none;color:inherit}
 
 /* ── Layout ── */
 .od-layout{display:flex;min-height:100vh}
-.od-main{flex:1;min-width:0;overflow-x:hidden}
+.od-main{flex:1;min-width:0;overflow-x:hidden;max-width:100%}
 
 /* ── Top bar ── */
 .od-topbar{

@@ -23,14 +23,14 @@ document.addEventListener('click',e=>{ if(window.innerWidth<850 && !e.target.clo
 const gpsStatus = document.getElementById('gps-status');
 function setGPSStatus(text, ok=false){ if(gpsStatus){ gpsStatus.textContent = text; gpsStatus.style.color = ok ? '#166534' : '#92400e'; } }
 function captureGeo(){
-  if(!navigator.geolocation){ setGPSStatus('📍 GPS not supported on this device'); return; }
+  if(!navigator.geolocation){ setGPSStatus('GPS non supporté sur cet appareil'); return; }
   navigator.geolocation.getCurrentPosition(pos=>{
     document.querySelectorAll('.lat').forEach(i=>i.value=pos.coords.latitude);
     document.querySelectorAll('.lng').forEach(i=>i.value=pos.coords.longitude);
     document.querySelectorAll('.acc').forEach(i=>i.value=pos.coords.accuracy);
-    setGPSStatus(`📍 GPS ready · accuracy ${Math.round(pos.coords.accuracy)}m`, true);
+    setGPSStatus(`GPS prêt · précision ${Math.round(pos.coords.accuracy)}m`, true);
   }, err=>{
-    setGPSStatus('📍 GPS permission denied or unavailable. Action may require approval.');
+    setGPSStatus('GPS refusé ou indisponible. L\'action peut nécessiter une validation.');
   }, {enableHighAccuracy:true, timeout:12000, maximumAge:60000});
 }
 captureGeo();
