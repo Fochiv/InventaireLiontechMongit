@@ -18,20 +18,20 @@ const i18n = {
     ref_ph:'Référence transaction',
     client:'CLIENT', opt:'Optionnel',
     name_ph:'Nom du client', phone_ph:'+237 6XX XXX XXX',
-    recognized:'✅ Client reconnu',
+    recognized:'Client reconnu',
     note_ph:'Note (optionnel)...',
-    validate:'✅ Valider la vente',
+    validate:'Valider la vente',
     invoice:'N° Facture', cashier:'Caissier',
-    wa_btn:'💬 Envoyer sur WhatsApp',
-    print_btn:'🖨️ Imprimer la facture',
-    new_sale:'🛒 Nouvelle vente',
-    offline:'📴 Hors ligne — ventes en attente',
-    syncing:'🔄 Synchronisation...', synced:'✅ Synchronisé',
+    wa_btn:'Envoyer sur WhatsApp',
+    print_btn:'Imprimer la facture',
+    new_sale:'Nouvelle vente',
+    offline:'Hors ligne — ventes en attente',
+    syncing:'Synchronisation...', synced:'Synchronisé',
     lock_title:'Session verrouillée', lock_sub:'Entrez votre PIN',
-    lock_btn:'🔓 Déverrouiller', lock_err:'PIN incorrect',
+    lock_btn:'Déverrouiller', lock_err:'PIN incorrect',
     clear:'Vider le panier', thanks:'Merci pour votre achat !',
     powered:'LionTech Business Manager',
-    saved:'Vente enregistrée ✅', sale_err:'Erreur vente',
+    saved:'Vente enregistrée', sale_err:'Erreur vente',
     no_stock:'Stock insuffisant', sel_pay:'Sélectionnez un mode de paiement',
     pay_short:'Montant insuffisant', empty_warn:'Panier vide',
     articles:'article(s)', session_label:'Session',
@@ -52,20 +52,20 @@ const i18n = {
     ref_ph:'Transaction reference',
     client:'CLIENT', opt:'Optional',
     name_ph:'Client name', phone_ph:'+237 6XX XXX XXX',
-    recognized:'✅ Client recognized',
+    recognized:'Client recognized',
     note_ph:'Note (optional)...',
-    validate:'✅ Complete sale',
+    validate:'Complete sale',
     invoice:'Invoice', cashier:'Cashier',
-    wa_btn:'💬 Send receipt on WhatsApp',
-    print_btn:'🖨️ Print invoice',
-    new_sale:'🛒 New sale',
-    offline:'📴 Offline — pending sales',
-    syncing:'🔄 Syncing...', synced:'✅ Synced',
+    wa_btn:'Send receipt on WhatsApp',
+    print_btn:'Print invoice',
+    new_sale:'New sale',
+    offline:'Offline — pending sales',
+    syncing:'Syncing...', synced:'Synced',
     lock_title:'Session locked', lock_sub:'Enter your PIN',
-    lock_btn:'🔓 Unlock', lock_err:'Wrong PIN',
+    lock_btn:'Unlock', lock_err:'Wrong PIN',
     clear:'Clear cart', thanks:'Thank you for your purchase!',
     powered:'LionTech Business Manager',
-    saved:'Sale saved ✅', sale_err:'Sale error',
+    saved:'Sale saved', sale_err:'Sale error',
     no_stock:'Insufficient stock', sel_pay:'Select a payment method',
     pay_short:'Insufficient amount', empty_warn:'Cart is empty',
     articles:'item(s)', session_label:'Session',
@@ -210,9 +210,10 @@ async function tryOpenSession(){
 function updateBarSub(){
   const sub = $('barSub');
   if(!sub) return;
-  sub.textContent = sessionId
-    ? `👤 ${POS.cashier} · Session ouverte`
-    : `👤 ${POS.cashier}`;
+  const ico = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+  sub.innerHTML = sessionId
+    ? `${ico} ${POS.cashier} · Session ouverte`
+    : `${ico} ${POS.cashier}`;
 }
 
 /* ── Close session ── */
@@ -244,7 +245,7 @@ async function confirmCloseSession(){
       closeModal('closeSessionModal');
       sessionId=null;
       $('closeSessionBtn').style.display='none';
-      toast('Caisse fermée ✅','ok');
+      toast('Caisse fermée','ok');
       updateBarSub();
     }else{ $('closeSessionErr').textContent=j.message||'Erreur'; btn.disabled=false; btn.textContent='Fermer la caisse'; }
   }catch(e){ $('closeSessionErr').textContent='Erreur réseau'; btn.disabled=false; btn.textContent='Fermer la caisse'; }
@@ -293,7 +294,7 @@ function renderProducts(list, query=''){
     const out = qty<=0, lo=!out&&qty<=low;
     const img = p.image_url
       ? `<img src="../${p.image_url}" alt="${p.name}" loading="lazy"/>`
-      : `<div class="prod-emoji">📦</div>`;
+      : `<div class="prod-emoji"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>`;
     return `<div class="prod-card${out?' no-stock':''}${ic?' in-cart':''}"
       data-id="${p.product_id}" onclick="addToCart(${p.product_id},${JSON.stringify(p).replace(/"/g,'&quot;')})"
       role="button" tabindex="0">
@@ -301,7 +302,7 @@ function renderProducts(list, query=''){
       <div class="prod-img-box">${img}</div>
       <div class="prod-name">${p.name}</div>
       <div class="prod-price">${fmt(p.unit_price)}</div>
-      <div class="prod-stock ${out?'out':lo?'low':'ok'}">${out?t('out'):lo?'⚠️ '+t('low'):qty+' '+(p.unit||'')}</div>
+      <div class="prod-stock ${out?'out':lo?'low':'ok'}">${out?t('out'):lo?'! '+t('low'):qty+' '+(p.unit||'')}</div>
     </div>`;
   }).join('');
 }
@@ -388,7 +389,7 @@ function cartItemsHTML(){
         <button class="ci-qbtn" onclick="chgQty(${it.product_id},1)">+</button>
       </div>
       <div class="ci-total">${fmt(it.total)}</div>
-      <button class="ci-del" onclick="delItem(${it.product_id})">🗑</button>
+      <button class="ci-del" onclick="delItem(${it.product_id})"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>
     </div>`).join('')+`</div>`;
 }
 
@@ -426,9 +427,15 @@ function totalsHTML(){
 function paymentHTML(){
   const {total,paid,remaining,change}=totals();
   const modes=[
-    {id:'especes',    icon:'💵', label:t('cash')},
-    {id:'mtn_momo',   icon:'🟡', label:t('mtn')},
-    {id:'orange_money',icon:'🟠', label:t('orange')},
+    {id:'especes',
+     icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A9E7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+     label:t('cash')},
+    {id:'mtn_momo',
+     icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="#B45309"/><line x1="9" y1="6" x2="15" y2="6"/></svg>',
+     label:t('mtn')},
+    {id:'orange_money',
+     icon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="#FF6600"/><line x1="9" y1="6" x2="15" y2="6"/></svg>',
+     label:t('orange')},
   ];
   const canValidate = cart.length>0 && Object.keys(activePays).length>0 && remaining<=0;
 
@@ -462,11 +469,11 @@ function paymentHTML(){
       </div>`).join('')}
     ${Object.keys(activePays).length>0?`
       <div class="pay-remaining ${remaining<=0?'ok':''}">
-        <span>${remaining<=0?'✅ Complet':t('pay_remaining')}</span>
+        <span>${remaining<=0?'Complet':t('pay_remaining')}</span>
         <span>${remaining<=0?'':fmt(remaining)}</span>
       </div>`:''}
     <div class="client-box">
-      <div class="client-ttl">👤 ${t('client')} <span class="client-opt">${t('opt')}</span></div>
+      <div class="client-ttl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ${t('client')} <span class="client-opt">${t('opt')}</span></div>
       <input class="client-inp" type="text" id="cliName" placeholder="${t('name_ph')}"/>
       <input class="client-inp" type="tel"  id="cliPhone" placeholder="${t('phone_ph')}" oninput="chkClient(this.value)"/>
       <div class="client-found" id="clFound"></div>
@@ -589,7 +596,7 @@ async function doSale(){
 
 /* ── Receipt ── */
 function showReceipt(s,transId){
-  const payLbl={especes:'💵 Espèces',mtn_momo:'🟡 MTN MoMo',orange_money:'🟠 Orange Money'};
+  const payLbl={especes:'Espèces',mtn_momo:'MTN MoMo',orange_money:'Orange Money'};
   const now=new Date();
   const ds=now.toLocaleDateString('fr-FR')+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   const items=s.items.map(i=>`
@@ -609,12 +616,12 @@ function showReceipt(s,transId){
 
   $('recContent').innerHTML=`
     <div class="rec-top">
-      <div class="rec-top-icon">🦁</div>
+      <div class="rec-top-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
       <div class="rec-biz">${s.business_name||POS.bizName}</div>
       <div class="rec-sub">LionTech Business Manager</div>
       <div class="rec-num">${t('invoice')}: ${s.facture_numero}</div>
     </div>
-    <div class="rec-meta"><span>📅 ${ds}</span><span>${t('cashier')}: ${s.cashier_name}</span></div>
+    <div class="rec-meta"><span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${ds}</span><span>${t('cashier')}: ${s.cashier_name}</span></div>
     <hr class="rec-dash"/>
     ${items}
     <hr class="rec-dash"/>
@@ -639,7 +646,7 @@ function sendWA(){
   if(!lastSale)return;
   const items=lastSale.items.map(i=>`• ${i.product_name} ×${i.quantity} = ${i.total} XAF`).join('\n');
   const pays=(lastSale.paiements||[]).map(p=>`${p.mode}: ${p.montant} XAF`).join(' + ');
-  const msg=`🦁 *${lastSale.business_name||POS.bizName}*\n📄 ${lastSale.facture_numero}\n\n${items}\n\n`
+  const msg=`*${lastSale.business_name||POS.bizName}*\nFacture: ${lastSale.facture_numero}\n\n${items}\n\n`
     +(lastSale.remise_montant>0?`Remise: -${lastSale.remise_montant} XAF\n`:'')
     +(lastSale.tva_enabled&&lastSale.tva_amount>0?`TVA: ${lastSale.tva_amount} XAF\n`:'')
     +`*TOTAL: ${lastSale.total_ttc} XAF*\n${pays}\n\n${t('thanks')}\n_${t('powered')}_`;
@@ -676,7 +683,7 @@ function openScan(){
       const j=await r.json();
       if(j.success&&j.product){
         addToCart(j.product.product_id,j.product);
-        toast('✅ '+j.product.name,'ok');
+        toast(j.product.name+' ajouté','ok');
       }else{
         const si=$('searchInput'); if(si){si.value=code;onSearch(code);}
         toast('Produit non trouvé: '+code,'err');
